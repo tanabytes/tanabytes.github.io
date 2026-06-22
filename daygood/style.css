@@ -1,0 +1,372 @@
+/* ========================================
+   CSS VARIABLES (COLOR PALETTE)
+   Change these hex codes to tweak the theme
+   ========================================
+*/
+:root {
+    --bg-dark: #18051d;       /* Very dark purple (Background) */
+    --text-white: #ffffff;    /* Main text */
+    --text-gray: #c4c4c4;     /* Subtitles */
+    
+    /* Purple Shades for Cards */
+    --purple-accent: #8b5cf6; /* Primary CTA color */
+    --card-dark: #885c91;     /* Dark card background */
+    --card-light: #c888d4;    /* Light lilac card background */
+    --card-lime: #c888d4;     /* Pop color (like the reference yellow) - adjusted to lime/green for contrast */
+    
+    --border-radius: 30px;    /* Soft rounded corners */
+    --transition: all 0.3s ease;
+}
+
+/* ========================================
+   RESET & GLOBAL STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    line-height: 1.5;
+    overflow-x: hidden;
+    padding-top: 70px; /* Compensate for fixed nav height */
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; object-fit: cover; }
+
+/* ========================================
+   NAVIGATION (Sticky Header)
+   ======================================== */
+.nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(24, 5, 29, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-btn {
+    background: rgba(255,255,255,0.1);
+    padding: 12px 26px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: var(--transition);
+}
+
+.nav-btn:hover {
+    background:#a3ffe1;
+    color: var(--bg-dark);
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+.hero {
+    text-align: center;
+    padding: 80px 20px 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3.5rem; /* 56px */
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #c888d4, #a3ffe1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+    font-size: 1.25rem;
+    color: var(--text-gray);
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+/* Store Buttons Container */
+.store-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.store-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid #a3ffe1;
+    color:#def7f7;
+    padding: 22px 30px;
+    border-radius: 16px;
+    font-weight: 700;
+    transition: var(--transition);
+    width: 210px;
+    box-shadow: none;
+}
+
+.store-btn:hover {
+    background:#a3ffe1;
+    color: var(--bg-dark);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(163, 255, 225, 0.2);
+}
+
+/* ========================================
+   BENTO GRID SECTION (The Reference Look)
+   ======================================== */
+.grid-section {
+    max-width: 1200px;
+    margin: 60px auto 100px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* Mobile default */
+    gap: 24px;
+}
+
+/* ========================================
+   CARD STYLES — Informational cards with 
+   hover-reveal extra content
+   ======================================== */
+.card {
+    border-radius: var(--border-radius);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+    cursor: default;
+}
+
+/* Text styles inside cards */
+.card h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    z-index: 2;
+}
+
+.card p {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.8;
+    z-index: 2;
+}
+
+/* ---- Card Extra: hidden info revealed on hover ---- */
+.card-extra {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 30px;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.4s ease;
+    z-index: 5;
+    pointer-events: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.card:hover .card-extra {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Extra styling per card type */
+.card-dark .card-extra {
+    background: linear-gradient(to top, rgba(24, 5, 29, 0.92) 60%, transparent);
+    color: #e0d0e6;
+}
+
+.card-lilac .card-extra {
+    background: linear-gradient(to top, rgba(24, 5, 29, 0.85) 60%, transparent);
+    color: #e8d4f0;
+}
+
+.card-pop .card-extra {
+    background: linear-gradient(to top, rgba(24, 5, 29, 0.88) 60%, transparent);
+    color: #a3ffe1;
+}
+
+.card-image .card-extra {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 60%, transparent);
+    color: #e0e0e0;
+}
+
+/* Specific Card Variations */
+
+/* 1. Deep Purple Card */
+.card-dark {
+    background: var(--card-dark);
+    color: #fff;
+}
+
+/* 2. Lilac Card */
+.card-lilac {
+    background: var(--card-light);
+    color: var(--bg-dark);
+}
+
+/* 3. Lime/Pop Card */
+.card-pop {
+    background: #a3ffe1;
+    color: var(--bg-dark);
+}
+
+/* 4. Image container cards */
+.card-image {
+    padding: 0;
+    background: #2a2a2a;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mockup Phone Container CSS (For within cards) */
+.phone-mockup {
+    width: 80%;
+    height: auto;
+    margin: 20px auto -50px auto; /* Pulls image down */
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 8px solid #000;
+    background: #fff;
+    z-index: 1;
+}
+
+/* ========================================
+   RESPONSIVE GRID LAYOUT (Desktop)
+   ======================================== */
+@media (min-width: 768px) {
+    h1 { font-size: 4.5rem; }
+    
+    .grid-section {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 350px);
+    }
+
+    /* Layout inspired by reference */
+    /* Top Row */
+    .grid-item-1 { grid-column: span 2; } /* Wide Feature */
+    .grid-item-2 { grid-column: span 1; } /* Tall or standard */
+    .grid-item-3 { grid-column: span 1; grid-row: span 2; } /* Tall Sidebar */
+
+    /* Bottom Row */
+    .grid-item-4 { grid-column: span 1; } 
+    .grid-item-5 { grid-column: span 2; } 
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+footer {
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-text {
+    color: var(--text-gray);
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+/* Utility for image placeholders */
+.placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   LANGUAGE SWITCHER
+   ======================================== */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 4px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.lang-btn {
+    padding: 8px 14px;
+    border-radius: 9px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.lang-btn:hover {
+    color: rgba(255,255,255,0.8);
+}
+
+.lang-btn.active {
+    background: #a3ffe1;
+    color: var(--bg-dark);
+    box-shadow: 0 2px 12px rgba(163, 255, 225, 0.3);
+}

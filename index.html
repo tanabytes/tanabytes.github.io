@@ -3,360 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daygood - One phrase can change your day.</title>
+    <title>Tanabytes - Creative Digital Studio</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    <style>
-        /* ========================================
-           CSS VARIABLES (COLOR PALETTE)
-           Change these hex codes to tweak the theme
-           ========================================
-        */
-        :root {
-            --bg-dark: #18051d;       /* Very dark purple (Background) */
-            --text-white: #ffffff;    /* Main text */
-            --text-gray: #c4c4c4;     /* Subtitles */
-            
-            /* Purple Shades for Cards */
-            --purple-accent: #8b5cf6; /* Primary CTA color */
-            --card-dark: #885c91;     /* Dark card background */
-            --card-light: #c888d4;    /* Light lilac card background */
-            --card-lime: #c888d4;     /* Pop color (like the reference yellow) - adjusted to lime/green for contrast */
-            
-            --border-radius: 30px;    /* Soft rounded corners */
-            --transition: all 0.3s ease;
-        }
-
-        /* ========================================
-           RESET & GLOBAL STYLES
-           ======================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Lato", sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            line-height: 1.5;
-            overflow-x: hidden;
-        }
-
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; object-fit: cover; }
-
-        /* ========================================
-           NAVIGATION
-           ======================================== */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px 20px 20px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-weight: 900;
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-btn {
-            background: rgba(255,255,255,0.1);
-            padding: 12px 26px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: var(--transition);
-        }
-
-        .nav-btn:hover {
-            background:#a3ffe1;
-            color: var(--bg-dark);
-        }
-
-        /* ========================================
-           HERO SECTION
-           ======================================== */
-        .hero {
-            text-align: center;
-            padding: 80px 20px 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 3.5rem; /* 56px */
-            line-height: 1.1;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            background: linear-gradient(to right, #c888d4, #a3ffe1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-sub {
-            font-size: 1.25rem;
-            color: var(--text-gray);
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-
-        /* Store Buttons Container */
-        .store-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .store-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: 1px solid #a3ffe1;
-            color:#def7f7;
-            padding: 22px 30px;
-            border-radius: 16px;
-            font-weight: 700;
-            transition: var(--transition);
-            width: 210px;
-            box-shadow: none;
-        }
-
-        .store-btn:hover {
-            background:#a3ffe1;
-            color: var(--bg-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(163, 255, 225, 0.2);
-        }
-
-
-        /* ========================================
-           BENTO GRID SECTION (The Reference Look)
-           ======================================== */
-        .grid-section {
-            max-width: 1200px;
-            margin: 60px auto 100px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: repeat(1, 1fr); /* Mobile default */
-            gap: 24px;
-        }
-
-        /* Card Base Styles */
-        .card {
-            border-radius: var(--border-radius);
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 300px;
-            transition: var(--transition);
-            cursor: default;
-        }
-
-        .card:hover {
-            transform: scale(1.02);
-        }
-
-        /* Text styles inside cards */
-        .card h3 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 10px;
-            z-index: 2;
-        }
-        
-        .card p {
-            font-size: 1rem;
-            font-weight: 600;
-            opacity: 0.8;
-            z-index: 2;
-        }
-
-        /* Specific Card Variations */
-        
-        /* 1. Deep Purple Card */
-        .card-dark {
-            background: var(--card-dark);
-            color: #fff;
-        }
-
-        /* 2. Lilac Card */
-        .card-lilac {
-            background: var(--card-light);
-            color: var(--bg-dark);
-        }
-
-        /* 3. Lime/Pop Card */
-        .card-pop {
-            background: #a3ffe1; /* Soft Pink/Purple mix */
-            color: var(--bg-dark);
-        }
-
-        /* 4. Image container cards */
-        .card-image {
-            padding: 0;
-            background: #2a2a2a; /* Placeholder bg */
-        }
-        
-        .card-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Mockup Phone Container CSS (For within cards) */
-        .phone-mockup {
-            width: 80%;
-            height: auto;
-            margin: 20px auto -50px auto; /* Pulls image down */
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border: 8px solid #000;
-            background: #fff;
-            z-index: 1;
-        }
-
-        /* ========================================
-           RESPONSIVE GRID LAYOUT (Desktop)
-           ======================================== */
-        @media (min-width: 768px) {
-            h1 { font-size: 4.5rem; }
-            
-            .grid-section {
-                grid-template-columns: repeat(4, 1fr);
-                grid-template-rows: repeat(2, 350px);
-            }
-
-            /* Layout inspired by reference */
-            /* Top Row */
-            .grid-item-1 { grid-column: span 2; } /* Wide Feature */
-            .grid-item-2 { grid-column: span 1; } /* Tall or standard */
-            .grid-item-3 { grid-column: span 1; grid-row: span 2; } /* Tall Sidebar */
-
-            /* Bottom Row */
-            .grid-item-4 { grid-column: span 1; } 
-            .grid-item-5 { grid-column: span 2; } 
-        }
-
-        /* ========================================
-           FOOTER
-           ======================================== */
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .footer-text {
-            color: var(--text-gray);
-            margin-bottom: 30px;
-            font-size: 0.9rem;
-        }
-
-        /* Utility for image placeholders */
-        .placeholder-img {
-            width: 100%;
-            height: 100%;
-            background: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #777;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <nav>
-        <div class="logo">
-            <img src="img/logo.png" alt="Daygood" style="height: 38px; display:inline-block; vertical-align:middle;" onerror="this.style.display='none';">
-        </div>
-        <a href="#download" class="nav-btn">Get the App</a>
-    </nav>
+    <div class="nav-wrapper">
+        <nav>
+            <div class="logo">
+                <span>Tana</span><span class="highlight">bytes</span>
+            </div>
+            <div class="nav-links">
+                <a href="#projects">Projects</a>
+                <a href="#about">About</a>
+                <a href="daygood/" class="nav-btn">Launch Daygood</a>
+            </div>
+        </nav>
+    </div>
 
     <header class="hero">
-        <h1>One phrase can<br>change your day.</h1>
-        <p class="hero-sub">Swipe away the bad vibes. Get your daily dose of dopamine, tailored just for you.</p>
-        
-        <div class="store-buttons" id="download">
-            <a href="#" class="store-btn">
-                <span class="store-icon" style="background: url('https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg') no-repeat center/contain; background-color:transparent; filter: invert(1);"></span>
-                Download on iOS
-            </a>
-            
-            <a href="#" class="store-btn">
-                <span class="store-icon" style="background: url('https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg') no-repeat center/contain; background-color:transparent;"></span>
-                Get on Android
-            </a>
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <span class="badge">Creative Tech Studio</span>
+            <h1>We craft next-gen <br><span class="gradient-text">digital experiences</span></h1>
+            <p class="hero-sub">Beautiful, high-performance web and mobile applications designed to inspire and connect.</p>
+            <div class="cta-group">
+                <a href="#projects" class="btn btn-primary">Explore Our Work</a>
+                <a href="#about" class="btn btn-secondary">Learn More</a>
+            </div>
         </div>
     </header>
 
-    <section class="grid-section">
+    <section id="projects" class="projects-section">
+        <h2 class="section-title">Our Projects</h2>
+        <p class="section-sub">A curated selection of our latest creations.</p>
 
-        <div class="card card-dark grid-item-1">
-            <div>
-                <h3>Infinite Motivation.</h3>
-                <p>Just keep swiping. Endless quotes to light up your brain.</p>
+        <div class="projects-grid">
+            <!-- Daygood App Card -->
+            <div class="project-card featured">
+                <div class="project-info">
+                    <span class="project-category">Mobile & Web App</span>
+                    <h3>Daygood</h3>
+                    <p class="project-desc">One phrase can change your day. Swipe away the bad vibes and get your daily dose of tailored positivity in a stunning, distraction-free interface.</p>
+                    <div class="project-tags">
+                        <span>i18n</span>
+                        <span>UX/UI</span>
+                        <span>Product Design</span>
+                    </div>
+                    <a href="daygood/" class="project-link">
+                        <span>View Project</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+                <div class="project-preview">
+                    <!-- Showing a preview or mockup -->
+                    <div class="mockup-container">
+                        <img src="img/screen1.png" alt="Daygood App Mockup" class="mockup-img" onerror="this.style.display='none';">
+                        <div class="mockup-fallback">Daygood App</div>
+                    </div>
+                </div>
             </div>
-            <div style="margin-top: 20px; display: flex; gap: 10px; opacity: 0.5;">
-                <div style="height: 100px; width: 60px; background: #6c5ce7; border-radius: 10px;"></div>
-                <div style="height: 100px; width: 60px; background: #8b5cf6; border-radius: 10px;"></div>
-                <div style="height: 100px; width: 60px; background: #a78bfa; border-radius: 10px;"></div>
+
+            <!-- Future Placeholder Card -->
+            <div class="project-card placeholder">
+                <div class="project-info">
+                    <span class="project-category">Coming Soon</span>
+                    <h3>Project Nova</h3>
+                    <p class="project-desc">An immersive data visualization platform for creative thinkers. Stay tuned for the release.</p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="card card-pop grid-item-2">
-            <h3>Your Vibe. Your Rules.</h3>
-            <p style="margin-top:10px">Customize themes & quotes.</p>
+    <section id="about" class="about-section">
+        <div class="about-content">
+            <h2>About Tanabytes</h2>
+            <p>We are a boutique design and engineering studio. We believe that software should not only work flawlessly but also be a joy to look at and interact with. Our approach combines state-of-the-art technologies with premium visual aesthetics.</p>
         </div>
-
-        <div class="card card-image grid-item-3">
-            <img src="img/screen1.png" alt="App Screenshot" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder-img\'>Add Screen 1 (Tall)</div>'">
-        </div>
-
-        <div class="card card-lilac grid-item-4">
-            <h3>Bad day?<br>Not anymore.</h3>
-        </div>
-
-        <div class="card card-image grid-item-5">
-            <img src="img/screen2.png" alt="Lifestyle Shot" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'placeholder-img\'>Add Screen 2 (Wide)</div>'">
-            
-            <div style="position:absolute; bottom:20px; left:20px; background:rgba(0,0,0,0.6); padding:10px 20px; border-radius:20px;">
-                <p style="color:white; margin:0;">100% Free. 100% Uplifting.</p>
-            </div>
-        </div>
-
     </section>
 
     <footer>
-        <h2>Ready to smile?</h2>
-        <p class="footer-text">Join thousands of users changing their mindset.</p>
-        
-        <div class="store-buttons">
-            <a href="#" class="store-btn">Download Now</a>
-        </div>
-
-        <p style="margin-top: 60px; color: #555; font-size: 0.8rem;">&copy; 2023 Daygood App. All rights reserved.</p>
+        <p>&copy; 2026 Tanabytes. All rights reserved.</p>
     </footer>
 
 </body>

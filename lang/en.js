@@ -1,0 +1,23 @@
+const en = {
+    page_title: "Daygood - One phrase can change your day.",
+    nav_cta: "Get the App",
+    hero_title: "One phrase can<br>change your day.",
+    hero_sub: "Swipe away the bad vibes. Get your daily dose of dopamine, tailored just for you.",
+    btn_ios: "Download on iOS",
+    btn_android: "Get on Android",
+    card1_title: "Infinite Motivation.",
+    card1_desc: "Just keep swiping. Endless quotes to light up your brain.",
+    card1_extra: "✨ Over 10,000 curated quotes from philosophers, artists, and thought leaders — refreshed daily.",
+    card2_title: "Your Vibe. Your Rules.",
+    card2_desc: "Customize themes & quotes.",
+    card2_extra: "🎨 Choose from 12 themes, custom fonts, and dark/light modes to match your style.",
+    card3_extra: "📱 Swipe through a beautiful, distraction-free interface designed for your daily ritual.",
+    card4_title: "Bad day?<br>Not anymore.",
+    card4_extra: "💜 Smart algorithm learns what lifts you up and delivers the right words at the right time.",
+    card5_badge: "100% Free. 100% Uplifting.",
+    card5_extra: "🌟 No ads, no subscriptions, no hidden costs. Just pure positivity in your pocket.",
+    footer_title: "Ready to smile?",
+    footer_sub: "Join thousands of users changing their mindset.",
+    footer_cta: "Download Now",
+    footer_copy: "&copy; 2025 Daygood App. All rights reserved."
+};

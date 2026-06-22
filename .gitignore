@@ -1,0 +1,9 @@
+# Regole Gitignore per Tanabytes WebSite
+
+# Cartelle e file delle regole degli agenti
+.agents/rules/
+
+# File di sistema e temporanei
+.DS_Store
+Thumbs.db
+*.log
