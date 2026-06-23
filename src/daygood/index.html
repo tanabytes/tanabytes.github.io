@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title" data-i18n="page_title">Daygood - One phrase can change your day.</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style_daygood.css">
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <header class="hero">
+        <h1 data-i18n="hero_title">One phrase can<br>change your day.</h1>
+        <p class="hero-sub" data-i18n="hero_sub">Swipe away the bad vibes. Get your daily dose of dopamine, tailored just for you.</p>
+        
+        <div class="store-buttons" id="download">
+            <a href="#" class="store-btn" id="btn-hero-ios">
+                <span class="store-icon" style="background: url('https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg') no-repeat center/contain; background-color:transparent; filter: invert(1);"></span>
+                <span data-i18n="btn_ios">Download on iOS</span>
+            </a>
+            
+            <a href="#" class="store-btn" id="btn-hero-android">
+                <span class="store-icon" style="background: url('https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg') no-repeat center/contain; background-color:transparent;"></span>
+                <span data-i18n="btn_android">Get on Android</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="grid-section">
+
+        <div class="card card-dark grid-item-1">
+            <div>
+                <h3 data-i18n="card1_title">Infinite Motivation.</h3>
+                <p data-i18n="card1_desc">Just keep swiping. Endless quotes to light up your brain.</p>
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 10px; opacity: 0.5;">
+                <div style="height: 100px; width: 60px; background: #6c5ce7; border-radius: 10px;"></div>
+                <div style="height: 100px; width: 60px; background: #8b5cf6; border-radius: 10px;"></div>
+                <div style="height: 100px; width: 60px; background: #a78bfa; border-radius: 10px;"></div>
+            </div>
+            <div class="card-extra" data-i18n="card1_extra">✨ Over 10,000 curated quotes from philosophers, artists, and thought leaders — refreshed daily.</div>
+        </div>
+
+        <div class="card card-pop grid-item-2">
+            <h3 data-i18n="card2_title">Your Vibe. Your Rules.</h3>
+            <p style="margin-top:10px" data-i18n="card2_desc">Customize themes & quotes.</p>
+            <div class="card-extra" data-i18n="card2_extra">🎨 Choose from 12 themes, custom fonts, and dark/light modes to match your style.</div>
+        </div>
+
+        <div class="card card-image grid-item-3">
+            <img src="../../img/screen1.png" alt="App Screenshot" onerror="this.style.display='none'; this.parentElement.querySelector('.card-extra').style.display='none';">
+            <div class="card-extra" data-i18n="card3_extra">📱 Swipe through a beautiful, distraction-free interface designed for your daily ritual.</div>
+        </div>
+
+        <div class="card card-lilac grid-item-4">
+            <h3 data-i18n="card4_title">Bad day?<br>Not anymore.</h3>
+            <div class="card-extra" data-i18n="card4_extra">💜 Smart algorithm learns what lifts you up and delivers the right words at the right time.</div>
+        </div>
+
+        <div class="card card-image grid-item-5">
+            <img src="../../img/screen2.png" alt="Lifestyle Shot" onerror="this.style.display='none'; this.parentElement.querySelector('.card-extra').style.display='none';">
+            
+            <div style="position:absolute; bottom:20px; left:20px; background:rgba(0,0,0,0.6); padding:10px 20px; border-radius:20px;">
+                <p style="color:white; margin:0;" data-i18n="card5_badge">100% Free. 100% Uplifting.</p>
+            </div>
+            <div class="card-extra" data-i18n="card5_extra">🌟 No ads, no subscriptions, no hidden costs. Just pure positivity in your pocket.</div>
+        </div>
+
+    </section>
+
+    <div id="footer-container"></div>
+    <script src="js/constants.js"></script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script>
+        if (document.getElementById('btn-hero-ios')) {
+            document.getElementById('btn-hero-ios').href = DAYGOOD_CONSTANTS.iosLink;
+        }
+        if (document.getElementById('btn-hero-android')) {
+            document.getElementById('btn-hero-android').href = DAYGOOD_CONSTANTS.androidLink;
+        }
+    </script>
+
+    <!-- ========================================
+         i18n TRANSLATION ENGINE
+         ======================================== -->
+    <script src="../../lang/engine.js"></script>
+
+</body>
+</html>

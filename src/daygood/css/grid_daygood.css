@@ -1,0 +1,153 @@
+/* ========================================
+   BENTO GRID SECTION (The Reference Look)
+   ======================================== */
+.grid-section {
+    max-width: 1200px;
+    margin: 60px auto 100px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr); /* Mobile default */
+    gap: 24px;
+}
+
+/* ========================================
+   CARD STYLES — Informational cards with 
+   hover-reveal extra content
+   ======================================== */
+.card {
+    border-radius: var(--border-radius);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+    cursor: default;
+}
+
+/* Text styles inside cards */
+.card h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    z-index: 2;
+}
+
+.card p {
+    font-size: 1rem;
+    font-weight: 600;
+    opacity: 0.8;
+    z-index: 2;
+}
+
+/* ---- Card Extra: hidden info revealed on hover ---- */
+.card-extra {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 30px;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.4s ease;
+    z-index: 5;
+    pointer-events: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.card:hover .card-extra {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Extra styling per card type */
+.card-dark .card-extra {
+    background: linear-gradient(to top, rgba(24, 5, 29, 0.92) 60%, transparent);
+    color: #e0d0e6;
+}
+
+.card-lilac .card-extra {
+    background: linear-gradient(to top, rgba(24, 5, 29, 0.85) 60%, transparent);
+    color: #e8d4f0;
+}
+
+.card-pop .card-extra {
+    background: linear-gradient(to top, rgba(24, 5, 29, 0.88) 60%, transparent);
+    color: #a3ffe1;
+}
+
+.card-image .card-extra {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 60%, transparent);
+    color: #e0e0e0;
+}
+
+/* Specific Card Variations */
+
+/* 1. Deep Purple Card */
+.card-dark {
+    background: var(--card-dark);
+    color: #fff;
+}
+
+/* 2. Lilac Card */
+.card-lilac {
+    background: var(--card-light);
+    color: var(--bg-dark);
+}
+
+/* 3. Lime/Pop Card */
+.card-pop {
+    background: #a3ffe1;
+    color: var(--bg-dark);
+}
+
+/* 4. Image container cards */
+.card-image {
+    padding: 0;
+    background: #2a2a2a;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Mockup Phone Container CSS (For within cards) */
+.phone-mockup {
+    width: 80%;
+    height: auto;
+    margin: 20px auto -50px auto; /* Pulls image down */
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 8px solid #000;
+    background: #fff;
+    z-index: 1;
+}
+
+/* ========================================
+   RESPONSIVE GRID LAYOUT (Desktop)
+   ======================================== */
+@media (min-width: 768px) {
+    h1 { font-size: 4.5rem; }
+    
+    .grid-section {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 350px);
+    }
+
+    /* Layout inspired by reference */
+    /* Top Row */
+    .grid-item-1 { grid-column: span 2; } /* Wide Feature */
+    .grid-item-2 { grid-column: span 1; } /* Tall or standard */
+    .grid-item-3 { grid-column: span 1; grid-row: span 2; } /* Tall Sidebar */
+
+    /* Bottom Row */
+    .grid-item-4 { grid-column: span 1; } 
+    .grid-item-5 { grid-column: span 2; } 
+}

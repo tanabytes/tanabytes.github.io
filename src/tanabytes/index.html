@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title" data-i18n="tana_page_title">Tanabytes - Creative Digital Studio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style_tanabytes.css">
+</head>
+<body>
+
+    <div id="header-container"></div>
+
+    <header class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <span class="badge" data-i18n="tana_badge">Creative Tech Studio</span>
+            <h1 data-i18n="tana_hero_title_html">We craft next-gen <br><span class="gradient-text">digital experiences</span></h1>
+            <p class="hero-sub" data-i18n="tana_hero_sub">Beautiful, high-performance web and mobile applications designed to inspire and connect.</p>
+            <div class="cta-group">
+                <a href="#projects" class="btn btn-primary" data-i18n="tana_btn_explore">Explore Our Work</a>
+                <a href="#about" class="btn btn-secondary" data-i18n="tana_btn_learn">Learn More</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="projects" class="projects-section">
+        <h2 class="section-title" data-i18n="tana_sec_projects">Our Projects</h2>
+        <p class="section-sub" data-i18n="tana_sec_projects_sub">A curated selection of our latest creations.</p>
+
+        <div class="projects-grid">
+            <!-- Daygood App Card -->
+            <div class="project-card featured">
+                <div class="project-info">
+                    <span class="project-category" data-i18n="tana_daygood_cat">Mobile & Web App</span>
+                    <h3>Daygood</h3>
+                    <p class="project-desc" data-i18n="tana_daygood_desc">One phrase can change your day. Swipe away the bad vibes and get your daily dose of tailored positivity in a stunning, distraction-free interface.</p>
+                    <div class="project-tags">
+                        <span>i18n</span>
+                        <span>UX/UI</span>
+                        <span>Product Design</span>
+                    </div>
+                    <a href="../daygood/index.html" class="project-link">
+                        <span data-i18n="tana_view_project">View Project</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+                <div class="project-preview">
+                    <!-- Showing a preview or mockup -->
+                    <div class="mockup-container">
+                        <img src="../../img/screen1.png" alt="Daygood App Mockup" class="mockup-img" onerror="this.style.display='none';">
+                        <div class="mockup-fallback">Daygood App</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Future Placeholder Card -->
+            <div class="project-card placeholder">
+                <div class="project-info">
+                    <span class="project-category" data-i18n="tana_nova_cat">Coming Soon</span>
+                    <h3 data-i18n="tana_nova_title">Project Nova</h3>
+                    <p class="project-desc" data-i18n="tana_nova_desc">An immersive data visualization platform for creative thinkers. Stay tuned for the release.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="about-content">
+            <h2 data-i18n="tana_sec_about">About Tanabytes</h2>
+            <p data-i18n="tana_sec_about_desc">We are a boutique design and engineering studio. We believe that software should not only work flawlessly but also be a joy to look at and interact with. Our approach combines state-of-the-art technologies with premium visual aesthetics.</p>
+        </div>
+    </section>
+
+    <div id="footer-container"></div>
+
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="../../lang/engine.js"></script>
+
+</body>
+</html>
