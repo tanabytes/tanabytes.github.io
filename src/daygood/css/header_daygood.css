@@ -1,0 +1,90 @@
+/* ========================================
+   NAVIGATION (Sticky Header)
+   ======================================== */
+.nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(24, 5, 29, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-btn {
+    background: rgba(255,255,255,0.1);
+    padding: 12px 26px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: var(--transition);
+}
+
+.nav-btn:hover {
+    background:#a3ffe1;
+    color: var(--bg-dark);
+}
+
+/* ========================================
+   LANGUAGE SWITCHER
+   ======================================== */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 4px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.lang-btn {
+    padding: 8px 14px;
+    border-radius: 9px;
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.5);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.lang-btn:hover {
+    color: rgba(255,255,255,0.8);
+}
+
+.lang-btn.active {
+    background: #a3ffe1;
+    color: var(--bg-dark);
+    box-shadow: 0 2px 12px rgba(163, 255, 225, 0.3);
+}

@@ -1,0 +1,27 @@
+/* ========================================
+   FOOTER
+   ======================================== */
+footer {
+    text-align: center;
+    padding: 60px 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-text {
+    color: var(--text-gray);
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+}
+
+/* Utility for image placeholders */
+.placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-weight: 700;
+    text-transform: uppercase;
+}

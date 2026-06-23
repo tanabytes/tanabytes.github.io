@@ -1,0 +1,57 @@
+/* ========================================
+   HERO SECTION
+   ======================================== */
+.hero {
+    text-align: center;
+    padding: 80px 20px 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3.5rem; /* 56px */
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #c888d4, #a3ffe1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-sub {
+    font-size: 1.25rem;
+    color: var(--text-gray);
+    margin-bottom: 40px;
+    font-weight: 400;
+}
+
+/* Store Buttons Container */
+.store-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.store-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid #a3ffe1;
+    color:#def7f7;
+    padding: 22px 30px;
+    border-radius: 16px;
+    font-weight: 700;
+    transition: var(--transition);
+    width: 210px;
+    box-shadow: none;
+}
+
+.store-btn:hover {
+    background:#a3ffe1;
+    color: var(--bg-dark);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(163, 255, 225, 0.2);
+}

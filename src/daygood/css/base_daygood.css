@@ -1,0 +1,41 @@
+/* ========================================
+   CSS VARIABLES (COLOR PALETTE)
+   Change these hex codes to tweak the theme
+   ========================================
+*/
+:root {
+    --bg-dark: #18051d;       /* Very dark purple (Background) */
+    --text-white: #ffffff;    /* Main text */
+    --text-gray: #c4c4c4;     /* Subtitles */
+    
+    /* Purple Shades for Cards */
+    --purple-accent: #8b5cf6; /* Primary CTA color */
+    --card-dark: #885c91;     /* Dark card background */
+    --card-light: #c888d4;    /* Light lilac card background */
+    --card-lime: #c888d4;     /* Pop color (like the reference yellow) - adjusted to lime/green for contrast */
+    
+    --border-radius: 30px;    /* Soft rounded corners */
+    --transition: all 0.3s ease;
+}
+
+/* ========================================
+   RESET & GLOBAL STYLES
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Lato", sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    line-height: 1.5;
+    overflow-x: hidden;
+    padding-top: 70px; /* Compensate for fixed nav height */
+}
+
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; object-fit: cover; }

@@ -1,0 +1,61 @@
+/* ========================================
+   PRIVACY POLICY PAGE STYLES
+   ======================================== */
+.privacy-container {
+    max-width: 900px;
+    margin: 40px auto 100px auto;
+    padding: 0 20px;
+}
+
+.privacy-content {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.privacy-content h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #c888d4, #a3ffe1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.privacy-date {
+    color: var(--text-gray);
+    font-size: 0.95rem;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.privacy-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 35px;
+    margin-bottom: 15px;
+    color: #a3ffe1;
+}
+
+.privacy-content p {
+    font-size: 1rem;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+    line-height: 1.7;
+}
+
+.privacy-content ul {
+    margin-left: 25px;
+    margin-bottom: 20px;
+    list-style-type: disc;
+}
+
+.privacy-content li {
+    color: var(--text-gray);
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
