@@ -8,7 +8,7 @@ At Tanabytes, we believe that software should not only work flawlessly but also 
 
 ## 🌟 Our Projects
 
-### [Daygood](https://tanabytes.github.io/src/daygood/index.html)
+### [Daygood](https://tanabytes.github.io/daygood/)
 *One phrase can change your day.*
 
 Daygood is a beautifully designed, distraction-free app that delivers your daily dose of tailored positivity. Swipe away the bad vibes and explore thousands of curated quotes from philosophers, artists, and thought leaders. 
