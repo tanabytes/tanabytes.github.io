@@ -1,0 +1,134 @@
+/*
+  Daygood: gli stessi token dell'app (lib/core/constants.dart e classes/theme.dart).
+  Fraunces per titoli e numeri, DM Sans per l'interfaccia.
+  Le variabili --t-* sono il tema attivo: la pagina intera prende i colori della card in cima al mazzo.
+*/
+@property --t-primary { syntax: "<color>"; inherits: true; initial-value: #9B71A1; }
+@property --t-light   { syntax: "<color>"; inherits: true; initial-value: #E4BDEA; }
+@property --t-bg      { syntax: "<color>"; inherits: true; initial-value: #E0F7F8; }
+
+:root {
+  --ink: #1C1C1E;
+  --ink-2: rgba(60, 60, 67, 0.68);
+  --ink-3: rgba(60, 60, 67, 0.32);
+  --sep: rgba(60, 60, 67, 0.16);
+  --card: #FFFFFF;
+  --plum: #9B71A1;
+  --lilac: #E4BDEA;
+  --aqua: #E0F7F8;
+  --cream: #F7F4EA;
+  --paper: #FAF7F1;
+
+  --t-primary: #9B71A1;
+  --t-light: #E4BDEA;
+  --t-bg: #E0F7F8;
+  --t-wash: color-mix(in srgb, var(--t-light) 45%, var(--t-bg));
+
+  --display: "Fraunces", Georgia, serif;
+  --ui: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --r-s: 10px; --r-m: 14px; --r-l: 20px; --r-xl: 28px;
+  --curve: cubic-bezier(0.2, 0, 0, 1);
+  --decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1120px;
+
+  transition: --t-primary 0.6s var(--curve), --t-light 0.6s var(--curve), --t-bg 0.6s var(--curve);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--ui);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+h1, h2, h3, p, ul { margin: 0; padding: 0; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--t-primary); outline-offset: 3px; border-radius: 12px; }
+
+.wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ---------- Barra in alto ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--t-wash) 72%, transparent);
+  backdrop-filter: saturate(1.6) blur(16px);
+  -webkit-backdrop-filter: saturate(1.6) blur(16px);
+}
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 68px; }
+.brand { display: block; width: 128px; height: 30px; text-decoration: none; }
+.brand-logo {
+  display: block; width: 100%; height: 100%;
+  background: var(--t-primary);
+  -webkit-mask: url(logo.png) left center / contain no-repeat;
+  mask: url(logo.png) left center / contain no-repeat;
+}
+.topbar-actions { display: flex; align-items: center; gap: 12px; }
+
+.lang { display: inline-flex; padding: 3px; border-radius: 999px; background: rgba(118, 118, 128, 0.12); }
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  min-width: 40px; height: 32px; padding: 0 10px; border-radius: 999px;
+  font-size: 14px; font-weight: 600; color: var(--ink-2);
+  transition: background 0.25s var(--curve), color 0.25s var(--curve);
+}
+.lang button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+
+.pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 20px; border-radius: 999px; border: 0;
+  background: var(--t-primary); color: #fff;
+  font-size: 16px; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: transform 0.12s var(--curve), filter 0.2s var(--curve);
+}
+.pill:active { transform: scale(0.96); }
+.pill:hover { filter: brightness(1.08); }
+
+/* ---------- Store ---------- */
+.stores { display: flex; flex-wrap: wrap; gap: 12px; }
+.store {
+  display: inline-flex; align-items: center; gap: 12px;
+  height: 60px; padding: 0 22px 0 18px; border-radius: 18px;
+  background: var(--ink); color: #fff; text-decoration: none;
+  transition: transform 0.12s var(--curve);
+}
+.store:active { transform: scale(0.97); }
+.store svg { width: 26px; height: 26px; flex: none; }
+.store span { display: flex; flex-direction: column; line-height: 1.15; }
+.store small { font-size: 12px; opacity: 0.75; }
+.store strong { font-size: 18px; font-weight: 600; }
+.store--soon { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--sep); pointer-events: none; }
+.store--soon small { opacity: 1; color: var(--ink-2); }
+
+/* ---------- Footer ---------- */
+.footer { padding: 56px 0 40px; }
+.footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
+.footer-inner::before { content: ""; flex-basis: 100%; height: 1px; background: var(--sep); margin-bottom: 8px; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px; }
+.footer-links a { color: var(--ink-2); text-decoration: none; }
+.footer-links a:hover { color: var(--ink); }
+.footer-by { font-size: 15px; color: var(--ink-2); }
+.footer-by a { color: var(--t-primary); font-weight: 600; text-decoration: none; }
+
+@media (max-width: 560px) {
+  .brand { width: 104px; }
+  .topbar-actions .pill { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { transition: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Etichette di sezione come nell'app ("GENERALI", "I TUOI CONTENUTI") */
+.kicker { font-size: 13px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--t-primary); }

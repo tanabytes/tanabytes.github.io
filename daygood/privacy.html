@@ -1,60 +1,83 @@
-<!DOCTYPE html>
-<html lang="en" id="html-root">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title" data-i18n="privacy_page_title">Daygood - Privacy Policy</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style_daygood.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Daygood – Privacy Policy</title>
+  <link rel="canonical" href="https://tanabytes.github.io/daygood/privacy.html">
+  <meta name="theme-color" content="#FAF7F1">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/daygood.css">
+  <style>
+    .topbar { background: color-mix(in srgb, var(--paper) 82%, transparent); }
+    .doc { padding: 40px 0 24px; }
+    .doc .wrap { max-width: 760px; }
+    .back {
+      display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;
+      background: var(--card); color: var(--t-primary); box-shadow: 0 6px 18px rgba(28,28,30,0.08);
+      margin-bottom: 28px; text-decoration: none;
+    }
+    .back svg { width: 22px; height: 22px; }
+    .doc h1 { font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1.05; letter-spacing: -0.01em; }
+    .doc .kicker { display: block; margin-top: 14px; }
+    .sheet { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+    .block { background: var(--card); border-radius: 26px; padding: 26px 28px; box-shadow: 0 10px 30px -14px rgba(28, 28, 30, 0.12); }
+    .block h2 { font-family: var(--display); font-variation-settings: "opsz" 24; font-weight: 600; font-size: 1.3rem; line-height: 1.2; margin-bottom: 10px; }
+    .block .txt { color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+    .block .txt:empty, .block h2:empty { display: none; }
+    .block ul { margin: 10px 0; padding-left: 1.2em; }
+    .block li { margin: 6px 0; }
+    .block a { color: var(--t-primary); font-weight: 600; }
+    .block strong { color: var(--ink); }
+    @media (max-width: 560px) { .block { padding: 22px 20px; } }
+  </style>
 </head>
 <body>
-
-    <div id="header-container"></div>
-
-    <div class="privacy-container">
-        <div class="privacy-content">
-            <h1 data-i18n="privacy_title">Privacy Policy</h1>
-            <div class="privacy-date" data-i18n="privacy_subtitle">Last updated: June 22, 2026</div>
-
-            <h2 data-i18n="privacy_sec1_title">1. Information We Collect</h2>
-            <p data-i18n="privacy_sec1_desc">Daygood is designed to run entirely locally on your device...</p>
-
-            <h2 data-i18n="privacy_sec2_title">2. Data Handling & Storage</h2>
-            <p data-i18n="privacy_sec2_desc">All application data...</p>
-
-            <h2 data-i18n="privacy_sec3_title">3. Third-Party Services</h2>
-            <p data-i18n="privacy_sec3_desc">The app does not feature...</p>
-
-            <h2 data-i18n="privacy_sec4_title">4. Changes to This Policy</h2>
-            <p data-i18n="privacy_sec4_desc">We may update this...</p>
-
-            <h2 data-i18n="privacy_sec5_title">5. Contact Us</h2>
-            <p data-i18n="privacy_sec5_desc">If you have any questions...</p>
-
-            <h2 data-i18n="privacy_sec6_title">6. Your Rights and Data Control</h2>
-            <p data-i18n="privacy_sec6_desc"></p>
-
-            <h2 data-i18n="privacy_sec7_title">7. Changes to This Policy</h2>
-            <p data-i18n="privacy_sec7_desc"></p>
-
-            <h2 data-i18n="privacy_sec8_title">8. Contact Us</h2>
-            <p data-i18n="privacy_sec8_desc"></p>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./" aria-label="Daygood"><span class="brand-logo"></span></a>
+      <div class="topbar-actions">
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" data-lang-set="it">IT</button>
+          <button type="button" data-lang-set="en">EN</button>
         </div>
+      </div>
     </div>
+  </header>
 
-    <div id="footer-container"></div>
-    <script src="js/constants.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/footer.js"></script>
+  <main class="doc">
+    <div class="wrap">
+      <a class="back" href="./" aria-label="Daygood"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
+      <h1 data-i18n="privacy_title">Privacy Policy</h1>
+      <span class="kicker" data-i18n="privacy_subtitle">Last updated: June 23, 2026</span>
 
-    <!-- ========================================
-         i18n TRANSLATION ENGINE
-         ======================================== -->
-    <script src="../lang/engine.js"></script>
+      <div class="sheet">
+        <section class="block"><h2 data-i18n="privacy_sec1_title"></h2><div class="txt" data-i18n="privacy_sec1_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec2_title"></h2><div class="txt" data-i18n="privacy_sec2_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec3_title"></h2><div class="txt" data-i18n="privacy_sec3_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec4_title"></h2><div class="txt" data-i18n="privacy_sec4_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec5_title"></h2><div class="txt" data-i18n="privacy_sec5_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec6_title"></h2><div class="txt" data-i18n="privacy_sec6_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec7_title"></h2><div class="txt" data-i18n="privacy_sec7_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec8_title"></h2><div class="txt" data-i18n="privacy_sec8_desc"></div></section>
+      </div>
+    </div>
+  </main>
 
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p class="footer-by" data-i18n="footer_by">An app by <a href="../">Tanabytes</a></p>
+      <nav class="footer-links">
+        <a href="./">Daygood</a>
+        <a href="mailto:tanabytes@gmail.com" data-i18n="contact">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="assets/privacy-text.js"></script>
+  <script src="../lang/i18n.js"></script>
 </body>
 </html>

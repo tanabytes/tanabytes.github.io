@@ -1,11 +1,548 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta http-equiv="refresh" content="0; url=home/index.html" />
-    <script>window.location.replace("home/index.html");</script>
-    <title>Redirecting to Tanabytes...</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tanabytes</title>
+  <meta name="description" content="App studio crafting seamless mobile experiences that speak volumes.">
+  <meta name="robots" content="max-image-preview:large">
+
+  <link rel="canonical" href="https://tanabytes.github.io/">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/favicon-light.png" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="images/favicon-dark.png" media="(prefers-color-scheme: dark)">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tanabytes.github.io/">
+  <meta property="og:title" content="Tanabytes">
+  <meta property="og:description" content="App studio crafting seamless mobile experiences that speak volumes.">
+
+  <!-- X / Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Tanabytes">
+  <meta name="twitter:description" content="App studio crafting seamless mobile experiences that speak volumes.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --white: #fff;
+      --text-muted: #d6d6d6;
+      --bg: #0d0d0d;
+      --card: #0f0f0f;
+      --accent: #ff520e;
+      --border: rgba(255, 255, 255, 0.1);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: "Inter", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, p, ul { margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
+    img { display: block; max-width: 100%; }
+
+    .site {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ---------- Buttons / links with text roll ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.2;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn--primary { background: var(--accent); }
+    .btn--secondary { border: 1px solid var(--accent); background: transparent; }
+    .btn--link { padding: 0; border-radius: 0; }
+
+    .roll {
+      display: block;
+      height: 17px;
+      overflow: hidden;
+      user-select: none;
+    }
+    .roll-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.4s var(--ease);
+    }
+    .roll-inner span { display: block; height: 17px; }
+    .roll-inner span:last-child { color: var(--accent); }
+    .btn--primary .roll-inner span:last-child { color: var(--white); }
+    .btn:hover .roll-inner, .btn:focus-visible .roll-inner { transform: translateY(-27px); }
+
+    /* ---------- Header ---------- */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      padding: 20px 100px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .header-inner {
+      position: relative;
+      flex: 1;
+      max-width: 1000px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo { width: 30px; height: 30px; }
+    .header-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .header-links {
+      position: absolute;
+      top: 49%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      z-index: 1;
+    }
+
+    /* ---------- Background glow ---------- */
+    .glow {
+      position: absolute;
+      background: var(--accent);
+      filter: blur(100px);
+      -webkit-filter: blur(100px);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .glow--top { top: 0; right: 0; width: 1047px; height: 212px; z-index: 1; }
+
+    .page { position: relative; width: 100%; z-index: 1; background: var(--bg); }
+
+    /* ---------- Sections ---------- */
+    .section {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 100px;
+      background: var(--bg);
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .h2 {
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 1.2;
+      text-align: center;
+      color: var(--white);
+    }
+    .body-text {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.6;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* Hero */
+    .hero { padding: 160px 100px 32px; }
+    .hero-text { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 400;
+      line-height: 1.1;
+      text-align: left;
+      color: var(--white);
+    }
+    .hero h1 em {
+      font-family: "Libre Baskerville", "Times New Roman", serif;
+      font-style: italic;
+    }
+    .hero .body-text { text-align: left; }
+    .hero-buttons { display: flex; align-items: center; gap: 16px; width: 100%; }
+
+    /* Logo ticker */
+    .ticker {
+      width: 100%;
+      height: 155px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12.5%, #000 87.5%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 12.5%, #000 87.5%, transparent 100%);
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 14s linear infinite;
+    }
+    .ticker-group { display: flex; align-items: center; gap: 70px; padding-right: 70px; }
+    .ticker-logo-1 { width: 110px; height: 25px; display: flex; align-items: center; flex-shrink: 0; }
+    .ticker-logo-1 img { width: 110px; aspect-ratio: 4.33333; object-fit: cover; }
+    .ticker-logo-2 { width: 90px; height: 25px; flex-shrink: 0; }
+    .ticker-logo-2 img { width: 100%; height: 100%; object-fit: contain; }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+
+    /* Intro */
+    .intro { padding: 80px 100px 100px; }
+    .intro-text { display: flex; flex-direction: column; align-items: center; gap: 32px; width: 100%; }
+
+    .section-head { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+
+    /* Process */
+    .grid { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+    .grid-row { display: flex; align-items: stretch; gap: 20px; width: 100%; }
+    .grid-row > * { flex: 1 0 0; min-width: 0; }
+
+    .card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .process-card { padding: 36px; display: flex; flex-direction: column; gap: 28px; }
+    .process-card h4 { font-size: 16px; font-weight: 400; line-height: 1.2; color: var(--accent); }
+    .process-card .card-text { display: flex; flex-direction: column; gap: 16px; }
+    .process-card h3 { font-size: 20px; font-weight: 400; line-height: 1.4; color: var(--white); }
+    .process-card ul { list-style: none; }
+    .process-card li {
+      position: relative;
+      padding-left: 2ch;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+    .process-card li::before { content: "•"; position: absolute; left: 0; }
+
+    /* Work */
+    .project-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 372px;
+      padding: 100px;
+      cursor: pointer;
+    }
+    .project-card .glow {
+      bottom: 0; left: 0;
+      width: 315px; height: 212px;
+      opacity: 0;
+      transition: opacity 0.5s var(--ease);
+    }
+    .project-card:hover .glow { opacity: 0.5; }
+    .project-card img { position: relative; }
+    .daygood-logo { width: 220px; aspect-ratio: 4.31466; object-fit: cover; }
+    .project-logo-2 { width: 200px; height: 44px; object-fit: contain; }
+
+    /* Footer */
+    .footer { position: relative; width: 100%; display: flex; justify-content: center; padding: 100px; background: var(--bg); }
+    .footer-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 1000px;
+    }
+    .footer-left { display: flex; flex-direction: column; align-items: flex-start; gap: 28px; }
+    .footer-logo { width: 161px; aspect-ratio: 5.03371; object-fit: cover; }
+    .footer-nav { display: flex; gap: 60px; }
+    .footer-col { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .glow--footer { bottom: 0; right: 0; width: 1047px; height: 212px; }
+
+    /* ---------- Animations ---------- */
+    .appear {
+      opacity: 0.001;
+      transform: translateY(20px);
+      animation: appear 1.2s var(--ease) forwards;
+      animation-delay: var(--delay, 0.4s);
+    }
+    .appear--fade { transform: none; }
+    @keyframes appear { to { opacity: 1; transform: none; } }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+    .reveal--zoom { transform: translateY(80px) scale(0.5); }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .appear, .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+      .ticker-track { animation: none; }
+    }
+
+    /* ---------- Tablet ---------- */
+    @media (min-width: 810px) and (max-width: 1199.98px) {
+      .header { padding: 20px 40px; }
+      .glow--top { width: 620px; }
+      .hero { padding: 160px 40px 80px; }
+      .hero h1 { line-height: 1.2; }
+      .intro, .section { padding: 80px 40px; }
+      .intro-text { gap: 24px; }
+      .h2 { font-size: 32px; }
+      .footer { padding: 80px 40px; }
+      .footer-nav { gap: 40px; }
+      .glow--footer { width: 620px; }
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 809.98px) {
+      .header { padding: 20px; }
+      .header-links { display: none; }
+      .glow--top { width: 280px; height: 460px; }
+      .hero { padding: 120px 20px 60px; }
+      .hero h1 { font-size: 40px; line-height: 1.2; text-align: center; }
+      .hero .body-text { text-align: center; }
+      .hero-buttons { flex-direction: column; }
+      .hero-buttons .btn { width: 100%; }
+      .ticker { height: 129px; }
+      .intro, .section { padding: 60px 20px; }
+      .intro-text { gap: 20px; }
+      .h2 { font-size: 28px; }
+      .grid-row { flex-direction: column; }
+      .grid-row > * { flex: none; width: 100%; }
+      .process-card h3 { font-size: 16px; }
+      .footer { padding: 60px 20px; }
+      .footer-inner { flex-direction: column; align-items: center; gap: 27px; }
+      .footer-left { align-items: center; width: 100%; }
+      .footer-left .btn { width: 100%; }
+      .footer-nav { flex-direction: column; align-items: center; gap: 40px; }
+      .footer-col { align-items: center; }
+      .glow--footer { width: 320px; height: 360px; }
+    }
+  </style>
 </head>
-<body style="background: #111; color: #fff; font-family: sans-serif; text-align: center; padding-top: 20%;">
-    <p>Redirecting to <a href="home/index.html" style="color: #a3ffe1;">Tanabytes Studio</a>...</p>
+<body>
+  <div class="site">
+
+    <!-- ===== Header ===== -->
+    <header class="header">
+      <nav class="header-inner">
+        <a href="#hero" class="header-logo" aria-label="Tanabytes">
+          <img src="images/logo-icon.png" alt="Tanabytes" width="30" height="30">
+        </a>
+        <div class="header-links">
+          <a class="btn btn--link" href="#process"><span class="roll"><span class="roll-inner"><span>Process</span><span aria-hidden="true">Process</span></span></span></a>
+          <a class="btn btn--link" href="#work"><span class="roll"><span class="roll-inner"><span>Work</span><span aria-hidden="true">Work</span></span></span></a>
+        </div>
+        <a class="btn btn--secondary" href="mailto:tanabytes@gmail.com?subject=Discovery%20call"><span class="roll"><span class="roll-inner"><span>Book a call</span><span aria-hidden="true">Book a call</span></span></span></a>
+      </nav>
+    </header>
+
+    <main class="page">
+      <div class="glow glow--top"></div>
+
+      <!-- ===== Hero ===== -->
+      <section class="section hero" id="hero">
+        <div class="container">
+          <div class="hero-text appear">
+            <h1>Coded at the speed of AI. Crafted with <em>tana</em> obsession.</h1>
+            <p class="body-text">App studio crafting seamless mobile experiences that speak volumes.</p>
+          </div>
+
+          <div class="hero-buttons appear">
+            <a class="btn btn--primary" href="mailto:tanabytes@gmail.com?subject=Discovery%20call"><span class="roll"><span class="roll-inner"><span>Book a Call</span><span aria-hidden="true">Book a Call</span></span></span></a>
+            <a class="btn btn--secondary" href="#process"><span class="roll"><span class="roll-inner"><span>Learn more</span><span aria-hidden="true">Learn more</span></span></span></a>
+          </div>
+
+          <div class="ticker appear appear--fade" style="--delay:1.2s" aria-hidden="true">
+            <div class="ticker-track">
+              <div class="ticker-group">
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+              </div>
+              <div class="ticker-group">
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+                <div class="ticker-logo-1"><img src="images/client-logo-1.png" alt=""></div>
+                <div class="ticker-logo-2"><img src="images/client-logo-2.png" alt=""></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Intro ===== -->
+      <section class="section intro" id="intro">
+        <div class="container">
+          <div class="intro-text reveal reveal--zoom">
+            <h2 class="h2">We blend AI, and advanced engineering to build unforgettable applications.</h2>
+            <p class="body-text">First impressions matter. That's why our mission is to build clean, intuitive applications that elevate your business with seamless functionality and elegant UI. Captivate your users from the very first tap.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Process ===== -->
+      <section class="section" id="process">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2 class="h2">Our process.</h2>
+            <p class="body-text">Reliable process for achieving distinctiveness.</p>
+          </div>
+
+          <div class="grid">
+            <div class="grid-row">
+              <article class="card process-card">
+                <h4>01</h4>
+                <div class="card-text">
+                  <h3>Discovery and Strategy.</h3>
+                  <ul><li>Understand business goals and target users.</li></ul>
+                  <ul><li>Analyze market and technical requirements.</li></ul>
+                  <ul><li>Define the app's core features and architecture.</li></ul>
+                </div>
+              </article>
+              <article class="card process-card">
+                <h4>02</h4>
+                <div class="card-text">
+                  <h3>UX/UI Design.</h3>
+                  <ul><li>Map out user journeys and wireframe layouts.</li></ul>
+                  <ul><li>Craft clean, intuitive, and modern interfaces.</li></ul>
+                  <ul><li>Create interactive prototypes for early validation.</li></ul>
+                </div>
+              </article>
+            </div>
+            <div class="grid-row">
+              <article class="card process-card">
+                <h4>03</h4>
+                <div class="card-text">
+                  <h3>Development and Testing.</h3>
+                  <ul><li>Write clean, scalable, and pixel-perfect code.</li></ul>
+                  <ul><li>Conduct performance and usability testing.</li></ul>
+                  <ul><li>Incorporate feedback to ensure a flawless experience.</li></ul>
+                </div>
+              </article>
+              <article class="card process-card">
+                <h4>04</h4>
+                <div class="card-text">
+                  <h3>Launch and Support.</h3>
+                  <ul><li>Deploy to the App Store and Google Play.</li></ul>
+                  <ul><li>Provide documentation and hand-off.</li></ul>
+                  <ul><li>Deliver ongoing maintenance and technical support.</li></ul>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Work ===== -->
+      <section class="section" id="work">
+        <div class="container">
+          <div class="section-head reveal">
+            <h2 class="h2">Our work.</h2>
+            <p class="body-text">View our expertly crafted mobile apps, designed to deliver seamless user experiences and intuitive interfaces.</p>
+          </div>
+
+          <div class="grid">
+            <div class="grid-row">
+              <a class="card project-card" href="daygood/" aria-label="Daygood">
+                <div class="glow"></div>
+                <img class="daygood-logo" src="images/daygood-logo.png" alt="Daygood" loading="lazy">
+              </a>
+              <a class="card project-card" href="dotted/" aria-label="Dotted">
+                <div class="glow"></div>
+                <img class="project-logo-2" src="images/client-logo-2.png" alt="Dotted" loading="lazy">
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Footer ===== -->
+      <footer class="footer">
+        <div class="footer-inner">
+          <div class="footer-left">
+            <img class="footer-logo" src="images/footer-logo.png" alt="Tanabytes" loading="lazy">
+            <a class="btn btn--primary" href="mailto:tanabytes@gmail.com?subject=Discovery%20call"><span class="roll"><span class="roll-inner"><span>Book FREE discovery call</span><span aria-hidden="true">Book FREE discovery call</span></span></span></a>
+          </div>
+          <nav class="footer-nav">
+            <div class="footer-col">
+              <a class="btn btn--link" href="#process"><span class="roll"><span class="roll-inner"><span>Process</span><span aria-hidden="true">Process</span></span></span></a>
+              <a class="btn btn--link" href="#work"><span class="roll"><span class="roll-inner"><span>Work</span><span aria-hidden="true">Work</span></span></span></a>
+            </div>
+            <div class="footer-col">
+              <a class="btn btn--link" href="daygood/"><span class="roll"><span class="roll-inner"><span>Daygood</span><span aria-hidden="true">Daygood</span></span></span></a>
+              <a class="btn btn--link" href="dotted/"><span class="roll"><span class="roll-inner"><span>Dotted</span><span aria-hidden="true">Dotted</span></span></span></a>
+            </div>
+            <div class="footer-col">
+              <a class="btn btn--link" href="mailto:tanabytes@gmail.com"><span class="roll"><span class="roll-inner"><span>E-Mail</span><span aria-hidden="true">E-Mail</span></span></span></a>
+            </div>
+          </nav>
+        </div>
+        <div class="glow glow--footer"></div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Reveal sections on scroll
+    (function () {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      els.forEach(function (el) { io.observe(el); });
+    })();
+  </script>
 </body>
 </html>

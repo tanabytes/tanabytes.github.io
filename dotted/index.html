@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dotted – A dot for every place you love</title>
+  <meta name="description" content="Dotted turns your photos or a Google Maps list into a map with a dot for every place, ready to share as a story, sticker or poster. Plus a passport with every place you've been.">
+  <link rel="canonical" href="https://tanabytes.github.io/dotted/">
+  <meta name="theme-color" content="#F3E9D8">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tanabytes.github.io/dotted/">
+  <meta property="og:title" content="Dotted – A dot for every place you love">
+  <meta property="og:description" content="From your photos or a Google Maps list to a story to share.">
+  <meta property="og:image" content="https://tanabytes.github.io/dotted/assets/og.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Gli stessi colori dell'app (mobile/lib/ui/style.dart): carta crema, inchiostro, terracotta, senape, lavanda, verde bosco */
+    :root {
+      --paper: #F3E9D8;
+      --surface: #FBF6EC;
+      --band: #E2D0B2;
+      --ink: #2A1E17;
+      --ink-2: #6E5E52;
+      --line: rgba(42, 30, 23, 0.14);
+      --terracotta: #C04A26;
+      --mustard: #F0B13F;
+      --lavender: #B9BBEE;
+      --forest: #1F3527;
+      --forest-2: #34523E;
+      /* la copertina bordeaux del passaporto e la mappa lavanda (passport_screen.dart, palette.dart) */
+      --bordeaux: #5A1D2A;
+      --bordeaux-2: #4A1722;
+      --sea: #A2A5E2;
+      --visited: #7B3B41;
+      --cream: #F3E9D8;
+
+      --display: "Caprasimo", Georgia, serif;
+      --ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: ui-monospace, "DejaVu Sans Mono", Consolas, monospace;
+      --gutter: clamp(16px, 4vw, 40px);
+      --max: 1160px;
+      --ease: cubic-bezier(0.2, 0, 0, 1);
+      --pop: cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--ui);
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, p, ul { margin: 0; padding: 0; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; }
+    :focus-visible { outline: 3px solid var(--terracotta); outline-offset: 3px; border-radius: 10px; }
+
+    .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+    /* ---------- Marchio "● dotted" ---------- */
+    .logo { display: inline-flex; align-items: center; gap: 0.42em; font-family: var(--display); font-size: 30px; line-height: 1; text-decoration: none; color: var(--ink); }
+    .logo-dot { width: 0.47em; height: 0.47em; border-radius: 50%; background: var(--terracotta); box-shadow: 0 0 0 0.17em rgba(192, 74, 38, 0.22); }
+
+    /* ---------- Barra in alto ---------- */
+    .topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
+    .topbar-actions { display: flex; align-items: center; gap: 12px; }
+    .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(42, 30, 23, 0.08); }
+    .seg button {
+      border: 0; background: transparent; cursor: pointer;
+      min-width: 42px; height: 34px; padding: 0 12px; border-radius: 999px;
+      font-size: 14px; font-weight: 600; color: var(--ink-2);
+      transition: background 0.25s var(--ease), color 0.25s var(--ease);
+    }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 52px; padding: 0 24px; border-radius: 999px;
+      font-size: 17px; font-weight: 700; text-decoration: none; cursor: pointer;
+      border: 0; transition: transform 0.12s var(--ease), filter 0.2s var(--ease);
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn--primary { background: var(--terracotta); color: var(--surface); }
+    .btn--primary:hover { filter: brightness(1.06); }
+    .btn--ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px rgba(42, 30, 23, 0.8); }
+    .btn--small { min-height: 44px; padding: 0 18px; font-size: 15px; }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; padding: 48px 0 96px; overflow: hidden; }
+    .guilloche { position: absolute; pointer-events: none; color: var(--ink); opacity: 0.08; }
+    .guilloche--a { width: 560px; right: -160px; top: -140px; }
+    .guilloche--b { width: 420px; left: -180px; bottom: -160px; }
+    .hero-grid { position: relative; display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 56px; align-items: center; }
+    .hero-copy { display: flex; flex-direction: column; gap: 26px; }
+    .hero h1 {
+      font-family: var(--display); font-weight: 400;
+      font-size: clamp(3rem, 6.6vw, 5.8rem); line-height: 0.98; letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+    .hero-lead { font-size: clamp(1.1rem, 1.5vw, 1.28rem); color: var(--ink-2); max-width: 34ch; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .hero-note { font-size: 15px; color: var(--ink-2); }
+
+    /* Il passaporto: la copertina bordeaux di "Il mio passaporto" */
+    .passport {
+      --pad: clamp(18px, 3vw, 30px);
+      position: relative; border-radius: clamp(26px, 3.4vw, 40px); padding: 10px;
+      background: var(--bordeaux);
+      box-shadow: 0 2px 0 rgba(255,255,255,0.06) inset, 0 40px 60px -30px rgba(90, 29, 42, 0.6), 0 14px 0 -6px rgba(42, 30, 23, 0.12);
+      transform: rotate(-1.6deg);
+      color: var(--cream);
+    }
+    .passport-inner {
+      border-radius: clamp(18px, 2.6vw, 30px); padding: var(--pad);
+      box-shadow: inset 0 0 0 1.5px rgba(214, 150, 82, 0.55);
+      display: flex; flex-direction: column; gap: clamp(14px, 2vw, 22px);
+    }
+    .passport-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .passport-kicker { font-size: clamp(12px, 1.2vw, 15px); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mustard); }
+    .passport-title { font-family: var(--display); font-size: clamp(1.8rem, 3.6vw, 2.9rem); line-height: 1.05; margin-top: 6px; }
+    .globe { width: clamp(44px, 5vw, 64px); flex: none; color: var(--mustard); }
+    .map {
+      position: relative; border-radius: clamp(12px, 1.6vw, 18px); overflow: hidden;
+      background: var(--sea);
+      aspect-ratio: 1080 / 423;
+    }
+    .map img { position: absolute; inset: 0; width: 100%; height: 100%; }
+    /* Le pieghe della mappa di carta */
+    .map::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(to right, transparent 33.1%, rgba(42,30,23,0.10) 33.3%, rgba(255,255,255,0.18) 33.6%, transparent 34%,
+                                  transparent 66.4%, rgba(42,30,23,0.10) 66.6%, rgba(255,255,255,0.18) 66.9%, transparent 67.3%),
+        linear-gradient(to bottom, transparent 49.4%, rgba(42,30,23,0.09) 49.8%, rgba(255,255,255,0.16) 50.3%, transparent 51%);
+    }
+    .map svg.dots { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .dot { transform-box: fill-box; transform-origin: center; }
+    /* i puntini dell'app: inchiostro con l'anello color carta */
+    .dot .halo { fill: rgba(42, 30, 23, 0.22); }
+    .dot .core { fill: var(--ink); stroke: var(--surface); stroke-width: 3.2; }
+    .dot.is-new { animation: drop 0.5s var(--pop) both; }
+    .dot.is-new .halo { animation: ring 0.9s var(--ease) both; transform-box: fill-box; transform-origin: center; }
+    @keyframes drop { from { transform: scale(0); } to { transform: scale(1); } }
+    @keyframes ring { 0% { transform: scale(0.6); opacity: 1; } 60% { transform: scale(2.2); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+    .dot-label {
+      position: absolute; left: 0; top: 0; transform: translate(-50%, calc(-100% - 12px));
+      padding: 4px 10px; border-radius: 999px; background: var(--cream); color: var(--ink);
+      font-size: clamp(11px, 1.1vw, 13px); font-weight: 600; white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      opacity: 0; transition: opacity 0.2s var(--ease);
+      pointer-events: none;
+    }
+    .dot-label.is-on { opacity: 1; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 12px; align-items: end; }
+    .stat small { display: block; font-size: clamp(10px, 1.05vw, 13px); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(243, 233, 216, 0.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .stat b { display: block; font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1; color: var(--mustard); margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .chip-icon { width: clamp(44px, 5vw, 62px); color: var(--mustard); }
+    .mrz { font-family: var(--mono); font-size: clamp(9px, 1.05vw, 13px); line-height: 1.45; color: rgba(243, 233, 216, 0.42); white-space: pre; overflow: hidden; }
+
+    /* ---------- Sezioni ---------- */
+    .section { padding: 96px 0; }
+    .section-head { display: flex; flex-direction: column; gap: 16px; max-width: 680px; margin-bottom: 48px; }
+    .h2 { font-family: var(--display); font-weight: 400; font-size: clamp(2.1rem, 4.4vw, 3.6rem); line-height: 1.02; text-wrap: balance; }
+    .lead { font-size: clamp(1.06rem, 1.4vw, 1.2rem); color: var(--ink-2); max-width: 58ch; }
+
+    /* tre schermate dell'app */
+    .phone {
+      border-radius: 34px; padding: 7px; background: var(--ink);
+      box-shadow: 0 30px 50px -28px rgba(42, 30, 23, 0.55);
+    }
+    .phone img { border-radius: 28px; width: 100%; aspect-ratio: 720 / 1469; object-fit: cover; object-position: top; background: var(--surface); }
+    .ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(20px, 3vw, 40px); }
+    .way { display: flex; flex-direction: column; gap: 22px; }
+    .way:nth-child(2) { margin-top: 56px; }
+    .way h3 { font-family: var(--display); font-weight: 400; font-size: 1.6rem; line-height: 1.1; }
+    .way p { color: var(--ink-2); margin-top: 8px; font-size: 16px; }
+
+    /* storie dei giorni: stampe sparse sul tavolo */
+    .stories { background: var(--band); }
+    .stories-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+    .prints { position: relative; height: clamp(440px, 46vw, 560px); }
+    .print {
+      position: absolute; width: 46%; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 0 rgba(255,255,255,0.6) inset, 0 24px 40px -20px rgba(42, 30, 23, 0.55), 0 2px 6px rgba(42,30,23,0.15);
+      background: var(--surface);
+    }
+    .print img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; }
+    .print--1 { left: 0; top: 6%; transform: rotate(-7deg); }
+    .print--2 { left: 27%; top: 0; transform: rotate(2deg); z-index: 2; }
+    .print--3 { right: 0; top: 10%; transform: rotate(8deg); }
+    .ticks { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+    .ticks li { display: flex; gap: 14px; align-items: baseline; font-size: 16px; }
+    .ticks li::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--terracotta); box-shadow: 0 0 0 4px rgba(192, 74, 38, 0.2); transform: translateY(-1px); }
+
+    /* la home è la mappa, il viaggio si legge giorno per giorno */
+    .world-grid { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 56px; align-items: center; }
+    .duo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.4vw, 28px); align-items: start; }
+    .duo .phone:last-child { margin-top: 72px; }
+    .shot-cap { font-size: 14px; color: var(--ink-2); margin-top: 12px; text-align: center; }
+    .ticks--plain { margin-top: 28px; }
+    .ticks b { font-weight: 700; color: var(--ink); }
+
+    /* passaporto e timbri, sulla copertina bordeaux */
+    .stamps { background: var(--bordeaux); color: var(--cream); position: relative; overflow: hidden; }
+    .stamps .lead { color: rgba(243, 233, 216, 0.74); }
+    .stamps .guilloche { color: var(--mustard); opacity: 0.12; }
+    .stamps-head { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px 56px; align-items: end; margin-bottom: 56px; }
+    .stamps-phones { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.6vw, 36px); align-items: start; }
+    .stamps-phones figure { margin: 0; }
+    .stamps-phones figure:nth-child(2) { margin-top: 56px; }
+    .stamps-phones .phone { background: var(--bordeaux-2); box-shadow: 0 0 0 1.5px rgba(214, 150, 82, 0.4), 0 30px 50px -24px rgba(0,0,0,0.6); }
+    .stamps-phones .shot-cap { color: rgba(243, 233, 216, 0.7); }
+    .stamp-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .stamp-tag { display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 999px; font-size: 15px; font-weight: 600; box-shadow: inset 0 0 0 1.5px rgba(240, 177, 63, 0.55); color: var(--mustard); white-space: nowrap; }
+
+    /* formati */
+    .formats-grid { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: auto auto; gap: 20px; }
+    .shot { border-radius: 18px; overflow: hidden; box-shadow: 0 24px 40px -26px rgba(42, 30, 23, 0.6); background: var(--surface); }
+    .shot img { width: 100%; height: 100%; object-fit: cover; }
+    .shot--wide { grid-column: 1; }
+    .shot--tall { grid-column: 2; grid-row: span 2; align-self: start; }
+    .shot--tall .shot img { aspect-ratio: 9 / 16; height: auto; }
+    .shot-pair { grid-column: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .shot--sticker { background: radial-gradient(circle at 30% 20%, #6B5546, #2A1E17 70%); }
+    .caption { font-size: 15px; color: var(--ink-2); margin-top: 10px; }
+    .fig { display: flex; flex-direction: column; }
+    .fig .shot { flex: 1; }
+
+    /* privacy */
+    .private { display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center; padding: 36px 40px; border-radius: 32px; background: var(--surface); box-shadow: inset 0 0 0 2px var(--line); }
+    .private-mark { width: 64px; height: 64px; border-radius: 50%; background: var(--lavender); display: grid; place-items: center; }
+    .private h2 { font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.08; }
+    .private p { color: var(--ink-2); margin-top: 8px; max-width: 60ch; }
+
+    /* chiusura */
+    .closing { padding: 104px 0 56px; text-align: center; }
+    .closing .h2 { font-size: clamp(2.6rem, 6vw, 5rem); max-width: 14ch; margin: 0 auto; }
+    .closing p { color: var(--ink-2); margin: 20px auto 32px; font-size: 1.15rem; max-width: 42ch; }
+    .closing .hero-actions { justify-content: center; }
+
+    .footer { padding: 32px 0 44px; }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; justify-content: space-between; border-top: 2px solid var(--line); padding-top: 28px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px; }
+    .footer-links a { color: var(--ink-2); text-decoration: none; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-by { font-size: 15px; color: var(--ink-2); }
+    .footer-by a { color: var(--terracotta); font-weight: 700; text-decoration: none; }
+
+    /* ---------- Tablet ---------- */
+    @media (max-width: 980px) {
+      .hero-grid, .stories-grid, .world-grid, .stamps-head { grid-template-columns: 1fr; gap: 48px; }
+      .stamps-head { gap: 28px; }
+      .hero-copy { max-width: 640px; }
+      .ways { grid-template-columns: repeat(3, 1fr); }
+      .duo { max-width: 600px; }
+    }
+
+    /* ---------- Telefono ---------- */
+    @media (max-width: 680px) {
+      .topbar-inner { height: 64px; }
+      .logo { font-size: 26px; }
+      .topbar-actions .btn { display: none; }
+      .hero { padding: 24px 0 64px; }
+      .passport { transform: rotate(-1deg); padding: 7px; }
+      .stats { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+      .stat small { font-size: 9.5px; letter-spacing: 0.06em; }
+      .chip-icon { display: none; }
+      .section { padding: 72px 0; }
+      .section-head { margin-bottom: 32px; }
+      .ways { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter) 8px; scrollbar-width: none; }
+      .ways::-webkit-scrollbar { display: none; }
+      .way { flex: 0 0 74%; scroll-snap-align: center; }
+      .way:nth-child(2) { margin-top: 0; }
+      .prints { height: 128vw; }
+      .print { width: 52%; }
+      .print--2 { left: 24%; }
+      .duo .phone:last-child { margin-top: 40px; }
+      .stamps-head { margin-bottom: 36px; }
+      .stamps-phones { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter) 8px; scrollbar-width: none; }
+      .stamps-phones::-webkit-scrollbar { display: none; }
+      .stamps-phones figure { flex: 0 0 70%; scroll-snap-align: center; }
+      .stamps-phones figure:nth-child(2) { margin-top: 0; }
+      .formats-grid { grid-template-columns: 1fr; }
+      .shot--wide, .shot--tall, .shot-pair { grid-column: 1; grid-row: auto; }
+      .shot--tall { max-width: 360px; }
+      .private { grid-template-columns: 1fr; padding: 28px 24px; }
+      .hero-actions .btn { flex: 1 1 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo" href="./" aria-label="Dotted"><span class="logo-dot" aria-hidden="true"></span>dotted</a>
+      <div class="topbar-actions">
+        <div class="seg" role="group" aria-label="Language">
+          <button type="button" data-lang-set="it">IT</button>
+          <button type="button" data-lang-set="en">EN</button>
+        </div>
+        <a class="btn btn--primary btn--small" href="#download" data-i18n="nav_cta">Get Dotted</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <svg class="guilloche guilloche--a" data-guilloche viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+      <svg class="guilloche guilloche--b" data-guilloche viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1 data-i18n="hero_title">A dot for every place you love.</h1>
+          <p class="hero-lead" data-i18n="hero_lead">A trip, a road trip or every place you've been: from your photos or a Google Maps list to a story to share.</p>
+          <div class="hero-actions" data-stores></div>
+          <p class="hero-note" data-i18n="hero_note">For Android and iPhone, in Italian and English.</p>
+        </div>
+
+        <div class="passport" role="img" data-i18n-attr="aria-label:passport_alt" aria-label="Dotted passport card: a world map with a dot on every place visited">
+          <div class="passport-inner">
+            <div class="passport-head">
+              <div>
+                <div class="passport-kicker" data-i18n="passport_kicker">Passport</div>
+                <div class="passport-title" data-i18n="passport_title">All my places</div>
+              </div>
+              <svg class="globe" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><circle cx="32" cy="32" r="26"/><ellipse cx="32" cy="32" rx="11" ry="26"/><path d="M6 32h52M10 19h44M10 45h44"/><circle cx="32" cy="32" r="6" fill="#C04A26" stroke="none" opacity=".9"/></svg>
+            </div>
+            <div class="map" data-map>
+              <img src="assets/world-passport.svg" alt="" width="1080" height="423">
+              <svg class="dots" data-dots viewBox="0 0 1080 423" aria-hidden="true"></svg>
+              <span class="dot-label" data-dot-label></span>
+            </div>
+            <div class="stats">
+              <div class="stat"><small data-i18n="stat_countries">Countries</small><b data-count="countries">0</b></div>
+              <div class="stat"><small data-i18n="stat_continents">Continents</small><b data-count="continents">0</b></div>
+              <div class="stat"><small data-i18n="stat_regions">Regions</small><b data-count="regions">0</b></div>
+              <div class="stat"><small data-i18n="stat_stamps">Stamps</small><b data-count="stamps">0</b></div>
+              <svg class="chip-icon" viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="2" y="2" width="60" height="36" rx="7"/><path d="M2 20h18M44 20h18M2 12h20M42 12h20M2 28h20M42 28h20"/><circle cx="32" cy="20" r="8"/></svg>
+            </div>
+            <div class="mrz" data-mrz aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Da dove arrivano i posti ===== -->
+    <section class="section" style="padding-top: 24px" aria-labelledby="ways-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="h2" id="ways-title" data-i18n="ways_title">Your trips are already in your phone.</h2>
+          <p class="lead" data-i18n="ways_lead">Start from your photos, from a Google Maps list or from scratch. Dotted makes the map with one tap.</p>
+        </div>
+        <div class="ways">
+          <article class="way">
+            <div class="phone"><img src="assets/screens/photos-intro-en.webp" data-i18n-attr="src:img_photos;alt:alt_photos" alt="Dotted screen: Your trips, from your photos" width="720" height="1520" loading="lazy"></div>
+            <div>
+              <h3 data-i18n="way1_title">From your photos</h3>
+              <p data-i18n="way1_desc">Dotted only looks at where and when your photos were taken. It finds home, your trips and the stops, and a trip in progress picks up new photos on its own.</p>
+            </div>
+          </article>
+          <article class="way">
+            <div class="phone"><img src="assets/screens/v2-trips.webp" data-i18n-attr="alt:alt_trips" alt="My trips: a thumbnail map for every trip" width="720" height="1469" loading="lazy"></div>
+            <div>
+              <h3 data-i18n="way2_title">From Google Maps</h3>
+              <p data-i18n="way2_desc">Share a list to Dotted. When you update the map, new places come in and removed ones leave, while your own edits stay.</p>
+            </div>
+          </article>
+          <article class="way">
+            <div class="phone"><img src="assets/screens/v2-trip.webp" data-i18n-attr="alt:alt_trip" alt="A trip in Dotted: the map, the dates and the image to share" width="720" height="1469" loading="lazy"></div>
+            <div>
+              <h3 data-i18n="way3_title">Then make it yours</h3>
+              <p data-i18n="way3_desc">Pick the format, the style and the framing. Show countries and regions you visited, place names, UNESCO sites, parks and peaks.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== La home è la mappa, il viaggio giorno per giorno ===== -->
+    <section class="section" style="padding-top: 24px" aria-labelledby="world-title">
+      <div class="wrap world-grid">
+        <div>
+          <div class="section-head" style="margin-bottom: 0">
+            <h2 class="h2" id="world-title" data-i18n="world_title">Open the app, and there's your world.</h2>
+            <p class="lead" data-i18n="world_lead">The home is a paper map with a dot on every place and the countries you've been to colored in. Pull up the sheet for your passport and your trips.</p>
+          </div>
+          <ul class="ticks ticks--plain">
+            <li data-i18n="wtick1">Every trip counts its countries, regions and places.</li>
+            <li data-i18n="wtick2">The stamps it earned you, and the ones it brought closer.</li>
+            <li data-i18n="wtick3">Day by day: the places of each day, each with its own story.</li>
+          </ul>
+        </div>
+        <div class="duo">
+          <figure style="margin:0">
+            <div class="phone"><img src="assets/screens/v2-home.webp" data-i18n-attr="alt:alt_home" alt="Dotted home: the world map with the dots, the passport and my trips" width="720" height="1469" loading="lazy"></div>
+            <figcaption class="shot-cap" data-i18n="cap_home">The home</figcaption>
+          </figure>
+          <figure style="margin:0">
+            <div class="phone"><img src="assets/screens/v2-days.webp" data-i18n-attr="alt:alt_days" alt="A trip: countries, regions and places, the stamps from this trip and the day by day list" width="720" height="1469" loading="lazy"></div>
+            <figcaption class="shot-cap" data-i18n="cap_days">A trip, day by day</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Storie dei giorni ===== -->
+    <section class="section stories" aria-labelledby="stories-title">
+      <div class="wrap stories-grid">
+        <div class="prints" aria-hidden="true">
+          <figure class="print print--1" style="margin:0"><img src="assets/shots/story-lavanda-country.webp" alt="" width="720" height="1280" loading="lazy"></figure>
+          <figure class="print print--2" style="margin:0"><img src="assets/shots/day1-photo-it.webp" alt="" width="720" height="1280" loading="lazy"></figure>
+          <figure class="print print--3" style="margin:0"><img src="assets/shots/story-trip-en.webp" alt="" width="720" height="1280" loading="lazy"></figure>
+        </div>
+        <div>
+          <div class="section-head" style="margin-bottom: 0">
+            <h2 class="h2" id="stories-title" data-i18n="stories_title">A story for every day of the trip.</h2>
+            <p class="lead" data-i18n="stories_lead">Each day gets its own 9:16 story, ready for Instagram: the places of the day, the times, and one of your photos as a polaroid.</p>
+          </div>
+          <ul class="ticks">
+            <li data-i18n="tick1">Times are local, wherever you are.</li>
+            <li data-i18n="tick2">Pick the photo from the ones of that day.</li>
+            <li data-i18n="tick3">Rename the day, then share it in a tap.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Passaporto ===== -->
+    <section class="section stamps" aria-labelledby="stamps-title">
+      <svg class="guilloche guilloche--a" data-guilloche viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+      <div class="wrap">
+        <div class="stamps-head">
+          <div class="section-head" style="margin-bottom: 0">
+            <h2 class="h2" id="stamps-title" data-i18n="stamps_title">Every place you've been, in one passport.</h2>
+            <p class="lead" data-i18n="stamps_lead">It fills up from your trips, your Google Maps lists and the places you add by hand. Choose the cover, open the map full screen and collect stamps along the way.</p>
+          </div>
+          <div class="stamp-list" aria-hidden="true">
+            <span class="stamp-tag" data-i18n="st1">Chichén Itzá</span>
+            <span class="stamp-tag" data-i18n="st2">15 UNESCO sites</span>
+            <span class="stamp-tag" data-i18n="st3">Both hemispheres</span>
+            <span class="stamp-tag" data-i18n="st4">Dead Sea</span>
+            <span class="stamp-tag" data-i18n="st5">5 US national parks</span>
+            <span class="stamp-tag" data-i18n="st6">Half of Sri Lanka</span>
+            <span class="stamp-tag" data-i18n="st7">3 capitals</span>
+            <span class="stamp-tag" data-i18n="st8">Two weeks away</span>
+          </div>
+        </div>
+        <div class="stamps-phones">
+          <figure>
+            <div class="phone"><img src="assets/screens/v2-passport.webp" data-i18n-attr="alt:alt_passport" alt="My passport: the cover with the map, countries, continents, regions and stamps, and the next stamp" width="720" height="1469" loading="lazy"></div>
+            <figcaption class="shot-cap" data-i18n="cap_passport">The cover and your next stamp</figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="assets/screens/v2-stamps-2.webp" data-i18n-attr="alt:alt_stamps" alt="Stamps earned: countries, UNESCO sites, Dead Sea, national parks" width="720" height="1469" loading="lazy"></div>
+            <figcaption class="shot-cap" data-i18n="cap_stamps">One stamp for every country, and many more</figcaption>
+          </figure>
+          <figure>
+            <div class="phone"><img src="assets/screens/v2-countries.webp" data-i18n-attr="alt:alt_countries" alt="Countries: the continents and, for every country, places, since when and regions visited" width="720" height="1469" loading="lazy"></div>
+            <figcaption class="shot-cap" data-i18n="cap_countries">Every country, region by region</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Formati ===== -->
+    <section class="section" aria-labelledby="formats-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="h2" id="formats-title" data-i18n="formats_title">Story, sticker, poster.</h2>
+          <p class="lead" data-i18n="formats_lead">The same map in every shape you need, in four colorways: paper, mustard, lavender and forest.</p>
+        </div>
+        <div class="formats-grid">
+          <figure class="fig shot--wide" style="margin:0">
+            <div class="shot"><img src="assets/shots/landscape-senape.webp" alt="" width="1400" height="700" loading="lazy" data-i18n-attr="alt:alt_landscape"></div>
+            <figcaption class="caption" data-i18n="cap_landscape">Landscape, mustard</figcaption>
+          </figure>
+          <figure class="fig shot--tall" style="margin:0">
+            <div class="shot"><img src="assets/shots/story.webp" alt="" width="720" height="1280" loading="lazy" data-i18n-attr="alt:alt_story"></div>
+            <figcaption class="caption" data-i18n="cap_story">Story 9:16, paper</figcaption>
+          </figure>
+          <div class="shot-pair">
+            <figure class="fig" style="margin:0">
+              <div class="shot"><img src="assets/shots/square-foresta-continent.webp" alt="" width="900" height="900" loading="lazy" data-i18n-attr="alt:alt_square"></div>
+              <figcaption class="caption" data-i18n="cap_square">Square, forest</figcaption>
+            </figure>
+            <figure class="fig" style="margin:0">
+              <div class="shot shot--sticker"><img src="assets/shots/sticker.webp" alt="" width="646" height="828" loading="lazy" data-i18n-attr="alt:alt_sticker" style="aspect-ratio:1;object-fit:contain;padding:8%"></div>
+              <figcaption class="caption" data-i18n="cap_sticker">Sticker, transparent</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Privacy ===== -->
+    <section class="section" style="padding-top: 0">
+      <div class="wrap">
+        <div class="private">
+          <div class="private-mark" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2A1E17" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="12" cy="12" r="3.4"/><path d="M8 5l1.4-2h5.2L16 5"/></svg>
+          </div>
+          <div>
+            <h2 data-i18n="private_title">Your photos stay on your phone.</h2>
+            <p data-i18n="private_desc">Dotted reads only where and when they were taken. Nothing is uploaded, and there's no account to create.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Chiusura ===== -->
+    <section class="closing" id="download">
+      <div class="wrap">
+        <h2 class="h2" data-i18n="closing_title">Where have you been?</h2>
+        <p data-i18n="closing_sub">Put a dot on every place and see your world fill up.</p>
+        <div class="hero-actions" data-stores></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-inner">
+        <p class="footer-by" data-i18n="footer_by">An app by <a href="../">Tanabytes</a></p>
+        <nav class="footer-links">
+          <a href="mailto:tanabytes@gmail.com" data-i18n="contact">Contact</a>
+          <a href="../daygood/">Daygood</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Link agli store: quando l'app è pubblicata, incolla qui l'indirizzo e il pulsante diventa attivo.
+    var STORES = { android: '', ios: '' };
+
+    window.TB_I18N = {
+      en: {
+        page_title: 'Dotted – A dot for every place you love',
+        nav_cta: 'Get Dotted',
+        hero_title: 'A dot for every place you love.',
+        hero_lead: "A trip, a road trip or every place you've been: from your photos or a Google Maps list to a story to share.",
+        hero_note: 'For Android and iPhone, in Italian and English.',
+        passport_alt: 'Dotted passport card: a world map with a dot on every place visited',
+        passport_kicker: 'Passport', passport_title: 'All my places',
+        stat_countries: 'Countries', stat_continents: 'Continents', stat_regions: 'Regions', stat_stamps: 'Stamps',
+        mrz_name: 'ALL<MY<PLACES',
+        ways_title: 'Your trips are already in your phone.',
+        ways_lead: 'Start from your photos, from a Google Maps list or from scratch. Dotted makes the map with one tap.',
+        way1_title: 'From your photos',
+        way1_desc: 'Dotted only looks at where and when your photos were taken. It finds home, your trips and the stops, and a trip in progress picks up new photos on its own.',
+        way2_title: 'From Google Maps',
+        way2_desc: 'Share a list to Dotted. When you update the map, new places come in and removed ones leave, while your own edits stay.',
+        way3_title: 'Then make it yours',
+        way3_desc: 'Every trip has its image to share. Tap Customize to pick the format, the style and the framing, and show regions, place names, UNESCO sites, parks and peaks.',
+        img_photos: 'assets/screens/photos-intro-en.webp',
+        alt_photos: 'Dotted screen: Your trips, from your photos', alt_trips: 'My trips: a thumbnail map for every trip', alt_trip: 'A trip in Dotted: the map, the dates and the image to share',
+        world_title: "Open the app, and there's your world.",
+        world_lead: "The home is a paper map with a dot on every place and the countries you've been to colored in. Pull up the sheet for your passport and your trips.",
+        wtick1: 'Every trip counts its countries, regions and places.',
+        wtick2: 'The stamps it earned you, and the ones it brought closer.',
+        wtick3: 'Day by day: the places of each day, each with its own story.',
+        cap_home: 'The home', cap_days: 'A trip, day by day',
+        alt_home: 'Dotted home: the world map with the dots, the passport and my trips', alt_days: 'A trip: countries, regions and places, the stamps from this trip and the day by day list',
+        cap_passport: 'The cover and your next stamp', cap_stamps: 'One stamp for every country, and many more', cap_countries: 'Every country, region by region',
+        alt_passport: 'My passport: the cover with the map, countries, continents, regions and stamps, and the next stamp', alt_stamps: 'Stamps earned: countries, UNESCO sites, Dead Sea, national parks', alt_countries: 'Countries: the continents and, for every country, places, since when and regions visited',
+        stories_title: 'A story for every day of the trip.',
+        stories_lead: 'Each day gets its own 9:16 story: the places of the day, the times, and one of your photos as a polaroid.',
+        tick1: 'Times are local, wherever you are.',
+        tick2: 'Pick the photo from the ones of that day.',
+        tick3: 'Rename the day, then share it in a tap.',
+        stamps_title: "Every place you've been, in one passport.",
+        stamps_lead: "It fills up from your trips, your Google Maps lists and the places you add by hand. Collect stamps for countries, continents, capitals, UNESCO sites and the wonders of the world, see how close the next one is, and how many regions of each country you've seen.",
+        st1: 'Chichén Itzá', st2: '15 UNESCO sites', st3: 'Both hemispheres', st4: 'Dead Sea', st5: '5 US national parks', st6: 'Half of Sri Lanka', st7: '3 capitals', st8: 'Two weeks away',
+        formats_title: 'Story, sticker, poster.',
+        formats_lead: 'The same map in every shape you need, in four colorways: paper, mustard, lavender and forest.',
+        cap_landscape: 'Landscape, mustard', cap_story: 'Story 9:16, paper', cap_square: 'Square, forest', cap_sticker: 'Sticker, transparent',
+        alt_landscape: 'Landscape world map in mustard', alt_story: 'Story with the world map and visited countries', alt_square: 'Square map in forest green', alt_sticker: 'Transparent map sticker',
+        private_title: 'Your photos stay on your phone.',
+        private_desc: "Dotted reads only where and when they were taken. Nothing is uploaded, and there's no account to create.",
+        closing_title: 'Where have you been?',
+        closing_sub: 'Put a dot on every place and watch your world fill up.',
+        footer_by: 'An app by <a href="../">Tanabytes</a>',
+        contact: 'Contact',
+        store_get: 'Get it on', store_soon: 'Coming soon on'
+      },
+      it: {
+        page_title: 'Dotted – Un puntino per ogni posto che ami',
+        nav_cta: 'Scarica Dotted',
+        hero_title: 'Un puntino per ogni posto che ami.',
+        hero_lead: 'Un viaggio, un road trip o tutti i posti in cui sei stato: dalle tue foto o da una lista di Google Maps a una storia da condividere.',
+        hero_note: 'Per Android e iPhone, in italiano e in inglese.',
+        passport_alt: 'Il passaporto di Dotted: una mappa del mondo con un puntino su ogni posto visitato',
+        passport_kicker: 'Passaporto', passport_title: 'Tutti i miei posti',
+        stat_countries: 'Paesi', stat_continents: 'Continenti', stat_regions: 'Regioni', stat_stamps: 'Timbri',
+        mrz_name: 'TUTTI<I<MIEI<POSTI',
+        ways_title: 'I tuoi viaggi sono già nel telefono.',
+        ways_lead: 'Parti dalle tue foto, da una lista di Google Maps o da zero. Dotted fa la mappa con un tocco.',
+        way1_title: 'Dalle tue foto',
+        way1_desc: 'Dotted guarda solo dove e quando sono state scattate le foto. Trova casa, i viaggi e le soste, e un viaggio in corso prende da solo le foto nuove.',
+        way2_title: 'Da Google Maps',
+        way2_desc: 'Condividi una lista con Dotted. Quando aggiorni la mappa arrivano i posti nuovi ed escono quelli tolti, ma restano le modifiche fatte da te.',
+        way3_title: 'Poi falla tua',
+        way3_desc: "Ogni viaggio ha la sua immagine da condividere. Tocca Personalizza per scegliere formato, stile e inquadratura, e mostrare regioni, nomi dei posti, siti UNESCO, parchi e vette.",
+        img_photos: 'assets/screens/photos-intro-it.webp',
+        alt_photos: 'Schermata di Dotted: i tuoi viaggi, dalle tue foto', alt_trips: 'I miei viaggi: una mappa in miniatura per ogni viaggio', alt_trip: "Un viaggio in Dotted: la mappa, le date e l'immagine da condividere",
+        world_title: "Apri l'app, ed ecco il tuo mondo.",
+        world_lead: 'La home è una mappa di carta con un puntino su ogni posto e i paesi visitati colorati. Tira su il foglio per il passaporto e i tuoi viaggi.',
+        wtick1: 'Ogni viaggio conta i suoi paesi, le regioni e i posti.',
+        wtick2: 'I timbri che ti ha fatto prendere, e quelli che ha avvicinato.',
+        wtick3: 'Giorno per giorno: i posti di ogni giorno, ognuno con la sua storia.',
+        cap_home: 'La home', cap_days: 'Un viaggio, giorno per giorno',
+        alt_home: 'La home di Dotted: la mappa del mondo con i puntini, il passaporto e i miei viaggi', alt_days: 'Un viaggio: paesi, regioni e posti, i timbri del viaggio e il giorno per giorno',
+        cap_passport: 'La copertina e il prossimo timbro', cap_stamps: 'Un timbro per ogni paese, e molti altri', cap_countries: 'Ogni paese, regione per regione',
+        alt_passport: 'Il mio passaporto: la copertina con la mappa, paesi, continenti, regioni e timbri, e il prossimo timbro', alt_stamps: 'Timbri presi: paesi, siti UNESCO, Mar Morto, parchi nazionali', alt_countries: 'Paesi: i continenti e, per ogni paese, i posti, da quando e le regioni visitate',
+        stories_title: 'Una storia per ogni giorno del viaggio.',
+        stories_lead: 'Ogni giorno ha la sua storia 9:16: i posti del giorno, le ore e una delle tue foto come polaroid.',
+        tick1: 'Le ore sono quelle del posto, ovunque tu sia.',
+        tick2: 'Scegli la foto tra quelle di quel giorno.',
+        tick3: 'Cambia il titolo e condividila con un tocco.',
+        stamps_title: 'Tutti i posti in cui sei stato, in un passaporto.',
+        stamps_lead: 'Si riempie dai tuoi viaggi, dalle liste di Google Maps e dai posti aggiunti a mano. Colleziona timbri per paesi, continenti, capitali, siti UNESCO e meraviglie del mondo, guarda quanto manca al prossimo e quante regioni hai visto di ogni paese.',
+        st1: 'Chichén Itzá', st2: '15 siti UNESCO', st3: 'Due emisferi', st4: 'Mar Morto', st5: '5 parchi nazionali USA', st6: 'Metà di Sri Lanka', st7: '3 capitali', st8: 'Due settimane in viaggio',
+        formats_title: 'Storia, sticker, poster.',
+        formats_lead: 'La stessa mappa in tutte le forme che ti servono, in quattro colori: carta, senape, lavanda e bosco.',
+        cap_landscape: 'Orizzontale, senape', cap_story: 'Storia 9:16, carta', cap_square: 'Quadrato, bosco', cap_sticker: 'Sticker, trasparente',
+        alt_landscape: 'Mappa del mondo orizzontale color senape', alt_story: 'Storia con la mappa del mondo e i paesi visitati', alt_square: 'Mappa quadrata verde bosco', alt_sticker: 'Sticker trasparente della mappa',
+        private_title: 'Le tue foto restano sul telefono.',
+        private_desc: 'Dotted legge solo dove e quando sono state scattate. Non viene caricato niente e non serve creare un account.',
+        closing_title: 'Dove sei stato?',
+        closing_sub: 'Metti un puntino su ogni posto e guarda il tuo mondo riempirsi.',
+        footer_by: 'Un\'app di <a href="../">Tanabytes</a>',
+        contact: 'Contatti',
+        store_get: 'Disponibile su', store_soon: 'Presto su'
+      }
+    };
+
+    // Posti del passaporto di esempio: [nome EN, nome IT, lon, lat, paese, continente, regione]
+    var PLACES = [
+      ['Rome', 'Roma', 12.5, 41.9, 'ITA', 'EU', 'Lazio'],
+      ['Lisbon', 'Lisbona', -9.14, 38.72, 'PRT', 'EU', 'Lisboa'],
+      ['New York', 'New York', -74.0, 40.7, 'USA', 'NA', 'New York'],
+      ['Reykjavík', 'Reykjavík', -21.9, 64.1, 'ISL', 'EU', 'Höfuðborgarsvæði'],
+      ['Cusco', 'Cusco', -71.97, -13.53, 'PER', 'SA', 'Cusco'],
+      ['Barcelona', 'Barcellona', 2.17, 41.39, 'ESP', 'EU', 'Cataluña'],
+      ['Cape Town', 'Città del Capo', 18.42, -33.92, 'ZAF', 'AF', 'Western Cape'],
+      ['Tokyo', 'Tokyo', 139.69, 35.69, 'JPN', 'AS', 'Tokyo'],
+      ['Venice', 'Venezia', 12.33, 45.44, 'ITA', 'EU', 'Veneto'],
+      ['Sydney', 'Sydney', 151.2, -33.87, 'AUS', 'OC', 'New South Wales'],
+      ['Athens', 'Atene', 23.73, 37.98, 'GRC', 'EU', 'Attica'],
+      ['Milan', 'Milano', 9.19, 45.46, 'ITA', 'EU', 'Lombardia']
+    ];
+  </script>
+  <script src="../lang/i18n.js"></script>
+  <script>
+    (function () {
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function t() { return TB_I18N[tbLang.current()] || TB_I18N.en; }
+
+      /* ---------- Rosette come sulle storie dell'app ---------- */
+      document.querySelectorAll('[data-guilloche]').forEach(function (svg, n) {
+        var R = 90, r = n ? 37 : 53, d = R - r, pts = [];
+        for (var k = 0; k <= 3600; k++) {
+          var a = k / 3600 * Math.PI * 2 * (n ? 37 : 53);
+          var x = (R - r) * Math.cos(a) + d * Math.cos((R - r) / r * a);
+          var y = (R - r) * Math.sin(a) - d * Math.sin((R - r) / r * a);
+          pts.push((x * 0.62).toFixed(1) + ' ' + (y * 0.62).toFixed(1));
+        }
+        svg.innerHTML = '<path d="M' + pts.join('L') + '" fill="none" stroke="currentColor" stroke-width="0.25"/>';
+      });
+
+      /* ---------- Store ---------- */
+      var ICON_PLAY = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.6c0-.8.9-1.3 1.6-.9l14.6 8.4c.7.4.7 1.4 0 1.8L5.6 20.3c-.7.4-1.6-.1-1.6-.9V2.6Z"/></svg>';
+      var ICON_APPLE = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.6 1.3-.1 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.3 3-2.5 1-1.4 1.4-2.8 1.4-2.8 0-.1-2.6-1-2.4-4.2ZM13.9 4.9c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5Z"/></svg>';
+      function store(url, icon, name, primary) {
+        var d = t();
+        if (url) return '<a class="btn ' + (primary ? 'btn--primary' : 'btn--ghost') + '" href="' + url + '" target="_blank" rel="noopener">' + icon + d.store_get + ' ' + name + '</a>';
+        return '<span class="btn btn--ghost" style="opacity:.75;cursor:default">' + icon + d.store_soon + ' ' + name + '</span>';
+      }
+      function renderStores() {
+        var html = store(STORES.android, ICON_PLAY, 'Google Play', true) + store(STORES.ios, ICON_APPLE, 'App Store', !STORES.android);
+        document.querySelectorAll('[data-stores]').forEach(function (el) { el.innerHTML = html; });
+      }
+
+      /* ---------- Passaporto: i puntini arrivano uno alla volta ---------- */
+      var dotsSvg = document.querySelector('[data-dots]');
+      var label = document.querySelector('[data-dot-label]');
+      var map = document.querySelector('[data-map]');
+      var shown = 0;
+      function xy(p) { return [(p[2] + 180) * 3, (84 - p[3]) * 3]; }
+
+      // Come nell'app: un timbro d'ingresso per ogni paese, uno per ogni continente, più i traguardi dei posti
+      function counts(n) {
+        var c = {}, k = {}, r = {};
+        PLACES.slice(0, n).forEach(function (p) { c[p[4]] = 1; k[p[5]] = 1; r[p[4] + p[6]] = 1; });
+        var countries = Object.keys(c).length, continents = Object.keys(k).length;
+        var stamps = countries + continents + (n >= 10 ? 1 : 0) + (countries >= 5 ? 1 : 0);
+        return { countries: countries, continents: continents, regions: Object.keys(r).length, places: n, stamps: stamps };
+      }
+      function renderStats(n) {
+        var c = counts(n);
+        document.querySelectorAll('[data-count]').forEach(function (el) { el.textContent = c[el.getAttribute('data-count')]; });
+        var d = t();
+        var pad = function (v, w) { return ('00000' + v).slice(-(w || 3)); };
+        var fill = '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<';
+        // La stessa riga a macchina della copertina nell'app: P<DOT + nome, poi paesi, continenti, posti, anni e timbri
+        var l1 = ('P<DOT' + d.mrz_name + fill).slice(0, 44);
+        var l2 = (pad(c.countries) + '<' + c.continents + '<<' + pad(c.places, 5) + '<<2021<2026<<' + pad(c.stamps) + fill).slice(0, 44);
+        document.querySelector('[data-mrz]').textContent = l1 + '\n' + l2;
+      }
+      function showLabel(p) {
+        var q = xy(p);
+        label.textContent = p[tbLang.current() === 'it' ? 1 : 0];
+        label.style.left = (q[0] / 1080 * 100) + '%';
+        label.style.top = (q[1] / 423 * 100) + '%';
+        label.classList.add('is-on');
+      }
+      function addDot(i, animate) {
+        var p = PLACES[i], q = xy(p);
+        var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'dot' + (animate ? ' is-new' : ''));
+        g.innerHTML = '<circle class="halo" cx="' + q[0] + '" cy="' + q[1] + '" r="22"/><circle class="core" cx="' + q[0] + '" cy="' + q[1] + '" r="9.5"/>';
+        dotsSvg.appendChild(g);
+      }
+      function run() {
+        if (reduce) {
+          for (var i = 0; i < PLACES.length; i++) addDot(i, false);
+          shown = PLACES.length;
+          renderStats(shown);
+          return;
+        }
+        var step = function () {
+          if (shown >= PLACES.length) { setTimeout(function () { label.classList.remove('is-on'); }, 1200); return; }
+          addDot(shown, true);
+          showLabel(PLACES[shown]);
+          shown++;
+          renderStats(shown);
+          setTimeout(step, 420);
+        };
+        setTimeout(step, 450);
+      }
+
+      // Dopo l'animazione, passando sulla mappa compare il nome del posto più vicino
+      map.addEventListener('pointermove', function (e) {
+        if (shown < PLACES.length) return;
+        var r = map.getBoundingClientRect();
+        var mx = (e.clientX - r.left) / r.width * 1080, my = (e.clientY - r.top) / r.height * 423;
+        var best = null, bd = 30 * 30;
+        PLACES.forEach(function (p) { var q = xy(p), dd = (q[0] - mx) * (q[0] - mx) + (q[1] - my) * (q[1] - my); if (dd < bd) { bd = dd; best = p; } });
+        if (best) showLabel(best); else label.classList.remove('is-on');
+      });
+      map.addEventListener('pointerleave', function () { if (shown >= PLACES.length) label.classList.remove('is-on'); });
+
+      document.addEventListener('langchange', function () { renderStores(); renderStats(shown); });
+      renderStores();
+
+      // L'animazione parte quando almeno il 40% del passaporto è sullo schermo
+      var card = document.querySelector('.passport');
+      var started = false;
+      function start() { if (started) return; started = true; run(); }
+      renderStats(0);
+      if (reduce || !('IntersectionObserver' in window)) start();
+      else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) { if (e.isIntersecting && e.intersectionRatio >= 0.4) { io.disconnect(); start(); } });
+        }, { threshold: [0, 0.4, 0.6] });
+        io.observe(card);
+      }
+    })();
+  </script>
+</body>
+</html>

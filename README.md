@@ -9,15 +9,24 @@ At Tanabytes, we believe that software should not only work flawlessly but also 
 ## 🌟 Our Projects
 
 ### [Daygood](https://tanabytes.github.io/daygood/)
-*One phrase can change your day.*
+*A good phrase, every day.*
 
-Daygood is a beautifully designed, distraction-free app that delivers your daily dose of tailored positivity. Swipe away the bad vibes and explore thousands of curated quotes from philosophers, artists, and thought leaders. 
+Over 3,000 phrases in 17 topics, 32 themes with their own typeface, a home screen widget, a gentle daily reminder and a streak to keep. In Italian and English.
 
-- 🎨 **12 Custom Themes**: Match your mood with custom fonts, colors, and dark/light modes.
-- 📱 **Seamless UX**: Designed specifically for a premium, calming mobile experience.
-- 🌍 **Multilingual**: Fully localized for English and Italian users.
+### [Dotted](https://tanabytes.github.io/dotted/)
+*A dot for every place you love.*
 
-*Daygood is currently showcased on our portfolio.*
+From your photos or a Google Maps list to a map with a dot for every place, ready to share as a story, sticker or poster. Plus a passport with every place you've been.
+
+---
+
+## 🗂️ Site structure
+
+- `index.html` + `images/` – studio home page
+- `daygood/` – Daygood landing page and `privacy.html` (linked from the store listing)
+- `dotted/` – Dotted landing page
+- `lang/i18n.js` – tiny Italian/English switcher shared by the landing pages
+- `home/` – redirect kept for old links
 
 ---
 
