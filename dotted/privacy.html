@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dotted – Privacy Policy</title>
+  <link rel="canonical" href="https://tanabytes.github.io/dotted/privacy.html">
+  <meta name="theme-color" content="#F3E9D8">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Gli stessi colori di index.html */
+    :root {
+      --paper: #F3E9D8;
+      --surface: #FBF6EC;
+      --ink: #2A1E17;
+      --ink-2: #6E5E52;
+      --line: rgba(42, 30, 23, 0.14);
+      --terracotta: #C04A26;
+      --display: "Caprasimo", Georgia, serif;
+      --ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --gutter: clamp(16px, 4vw, 40px);
+      --ease: cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--ui); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, p, ul { margin: 0; padding: 0; }
+    a { color: inherit; }
+    button { font: inherit; color: inherit; }
+    :focus-visible { outline: 3px solid var(--terracotta); outline-offset: 3px; border-radius: 10px; }
+    .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 var(--gutter); }
+
+    .logo { display: inline-flex; align-items: center; gap: 0.42em; font-family: var(--display); font-size: 30px; line-height: 1; text-decoration: none; color: var(--ink); }
+    .logo-dot { width: 0.47em; height: 0.47em; border-radius: 50%; background: var(--terracotta); box-shadow: 0 0 0 0.17em rgba(192, 74, 38, 0.22); }
+
+    .topbar { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+    .topbar-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 16px; }
+    .seg { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(42, 30, 23, 0.08); }
+    .seg button {
+      border: 0; background: transparent; cursor: pointer;
+      min-width: 42px; height: 34px; padding: 0 12px; border-radius: 999px;
+      font-size: 14px; font-weight: 600; color: var(--ink-2);
+      transition: background 0.25s var(--ease), color 0.25s var(--ease);
+    }
+    .seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+
+    .doc { padding: 40px 0 24px; }
+    .back {
+      display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;
+      background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 2px var(--line);
+      margin-bottom: 28px; text-decoration: none;
+    }
+    .back svg { width: 22px; height: 22px; }
+    .doc h1 { font-family: var(--display); font-weight: 400; font-size: clamp(2.2rem, 6vw, 3.2rem); line-height: 1.05; }
+    .kicker { display: block; margin-top: 14px; font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--ink-2); }
+    .sheet { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+    .block { background: var(--surface); border-radius: 26px; padding: 26px 28px; box-shadow: inset 0 0 0 2px var(--line); }
+    .block h2 { font-family: var(--display); font-weight: 400; font-size: 1.3rem; line-height: 1.2; margin-bottom: 10px; }
+    .block .txt { color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+    .block .txt:empty, .block h2:empty { display: none; }
+    .block ul { margin: 10px 0; padding-left: 1.2em; }
+    .block li { margin: 6px 0; }
+    .block a { color: var(--terracotta); font-weight: 600; }
+    .block strong { color: var(--ink); }
+
+    .footer { padding: 32px 0 44px; }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; justify-content: space-between; border-top: 2px solid var(--line); padding-top: 28px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px; }
+    .footer-links a { color: var(--ink-2); text-decoration: none; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-by { font-size: 15px; color: var(--ink-2); }
+    .footer-by a { color: var(--terracotta); font-weight: 700; text-decoration: none; }
+
+    @media (max-width: 560px) {
+      .topbar-inner { height: 64px; }
+      .logo { font-size: 26px; }
+      .block { padding: 22px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo" href="./" aria-label="Dotted"><span class="logo-dot" aria-hidden="true"></span>dotted</a>
+      <div class="seg" role="group" aria-label="Language">
+        <button type="button" data-lang-set="it">IT</button>
+        <button type="button" data-lang-set="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="doc">
+    <div class="wrap">
+      <a class="back" href="./" aria-label="Dotted"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a>
+      <h1 data-i18n="privacy_title">Privacy Policy</h1>
+      <span class="kicker" data-i18n="privacy_subtitle">Last updated: October 6, 2026</span>
+
+      <div class="sheet">
+        <section class="block"><h2 data-i18n="privacy_sec1_title"></h2><div class="txt" data-i18n="privacy_sec1_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec2_title"></h2><div class="txt" data-i18n="privacy_sec2_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec3_title"></h2><div class="txt" data-i18n="privacy_sec3_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec4_title"></h2><div class="txt" data-i18n="privacy_sec4_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec5_title"></h2><div class="txt" data-i18n="privacy_sec5_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec6_title"></h2><div class="txt" data-i18n="privacy_sec6_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec7_title"></h2><div class="txt" data-i18n="privacy_sec7_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec8_title"></h2><div class="txt" data-i18n="privacy_sec8_desc"></div></section>
+        <section class="block"><h2 data-i18n="privacy_sec9_title"></h2><div class="txt" data-i18n="privacy_sec9_desc"></div></section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p class="footer-by" data-i18n="footer_by">An app by <a href="../">Tanabytes</a></p>
+      <nav class="footer-links">
+        <a href="./">Dotted</a>
+        <a href="mailto:tanabytes@gmail.com" data-i18n="contact">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="assets/privacy-text.js"></script>
+  <script src="../lang/i18n.js"></script>
+</body>
+</html>
