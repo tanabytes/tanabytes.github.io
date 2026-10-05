@@ -7,3 +7,5 @@
 .DS_Store
 Thumbs.db
 *.log
+# Configurazione locale di Claude Code
+.claude/

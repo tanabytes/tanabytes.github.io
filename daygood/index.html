@@ -1,96 +1,926 @@
-<!DOCTYPE html>
-<html lang="en" id="html-root">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title" data-i18n="page_title">Daygood - One phrase can change your day.</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Daygood – A good phrase, every day</title>
+  <meta name="description" content="Daygood brings you a good phrase every day: over 3,000 phrases in 17 topics, 32 themes, a home screen widget and a gentle daily reminder.">
+  <link rel="canonical" href="https://tanabytes.github.io/daygood/">
+  <meta name="theme-color" content="#E0F7F8">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tanabytes.github.io/daygood/">
+  <meta property="og:title" content="Daygood – A good phrase, every day">
+  <meta property="og:description" content="A few seconds a day to start on the right foot.">
 
-    <link rel="stylesheet" href="css/style_daygood.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Caveat:wght@600&family=Gilda+Display&family=Gloock&family=Instrument+Serif:ital@0;1&family=Marcellus&family=Newsreader:opsz,wght@6..72,500&family=Playfair+Display:ital,wght@1,500&family=Spectral:wght@500&family=Yeseva+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/daygood.css">
+
+  <style>
+    /* ---------- Hero ---------- */
+    .hero { background: linear-gradient(to bottom, var(--t-wash), var(--t-bg) 70%, var(--paper)); padding: 40px 0 72px; }
+    .hero-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; align-items: center; gap: 56px; }
+    .hero-copy { display: flex; flex-direction: column; gap: 28px; }
+    .hero h1 {
+      font-family: var(--display);
+      font-variation-settings: "opsz" 36;
+      font-weight: 600;
+      font-size: clamp(2.75rem, 6.4vw, 5.6rem);
+      line-height: 1;
+      letter-spacing: -0.025em;
+      text-wrap: balance;
+    }
+    .hero-lead { font-size: clamp(1.125rem, 1.6vw, 1.3rem); color: var(--ink-2); max-width: 30ch; }
+    .hero-note { font-size: 15px; color: var(--ink-2); }
+
+    .stage { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .deck-controls { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-size: 15px; }
+    .round-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+      display: grid; place-items: center;
+      background: var(--card); color: var(--t-primary);
+      box-shadow: 0 6px 18px color-mix(in srgb, var(--t-primary) 16%, transparent);
+      transition: transform 0.12s var(--curve);
+    }
+    .round-btn:active { transform: scale(0.9); }
+    .round-btn svg { width: 20px; height: 20px; }
+
+    /* ---------- Telefono (la home dell'app) ---------- */
+    .phone {
+      --w: min(320px, 80vw);
+      width: var(--w); aspect-ratio: 320 / 668;
+      border-radius: calc(var(--w) * 0.155);
+      padding: calc(var(--w) * 0.03);
+      background: #1C1C1E;
+      box-shadow: 0 50px 90px -40px color-mix(in srgb, var(--t-primary) 70%, transparent), 0 2px 0 1px rgba(255,255,255,0.08) inset;
+      flex: none;
+    }
+    .screen {
+      position: relative; height: 100%; overflow: hidden;
+      border-radius: calc(var(--w) * 0.125);
+      background: linear-gradient(to bottom, var(--t-wash), var(--t-bg));
+      display: flex; flex-direction: column;
+      container-type: inline-size;
+      user-select: none; -webkit-user-select: none;
+    }
+    .status { display: flex; justify-content: space-between; align-items: center; padding: 4.6cqw 8cqw 0; font-size: 4.4cqw; font-weight: 600; }
+    .status-icons { display: flex; gap: 1.6cqw; align-items: center; }
+    .status-icons i { display: block; background: var(--ink); border-radius: 1cqw; }
+    .island { position: absolute; top: 3cqw; left: 50%; width: 30cqw; height: 8.5cqw; margin-left: -15cqw; border-radius: 99px; background: #000; }
+
+    .app-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3cqw; padding: 6cqw 6.5cqw 0 7.5cqw; }
+    .app-date { font-size: 3.4cqw; font-weight: 700; letter-spacing: 0.09em; color: color-mix(in srgb, var(--t-primary) 75%, transparent); text-transform: uppercase; }
+    .app-greet { font-family: var(--display); font-weight: 500; font-size: 5.6cqw; color: var(--ink-2); margin-top: 1.4cqw; line-height: 1.1; }
+    .app-name { font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: 9.6cqw; line-height: 1.05; letter-spacing: -0.025em; color: var(--t-primary); }
+    .app-mood { font-size: 4.1cqw; color: var(--ink-2); margin-top: 1.4cqw; line-height: 1.3; }
+    .streak {
+      flex: none; margin-top: 3cqw; display: flex; align-items: center; gap: 2.2cqw;
+      height: 15cqw; padding: 0 4.6cqw 0 1.5cqw; border-radius: 99px; background: var(--card);
+      box-shadow: 0 1.8cqw 5.4cqw color-mix(in srgb, var(--t-primary) 14%, transparent);
+    }
+    .streak-ring { width: 12.4cqw; height: 12.4cqw; display: grid; place-items: center; position: relative; font-size: 5.6cqw; }
+    .streak-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+    .streak b { font-family: var(--display); font-weight: 600; font-size: 6cqw; color: var(--t-primary); }
+
+    .deck { position: relative; flex: 1; margin: 5cqw 4.5cqw 10cqw; touch-action: pan-y; }
+    .card {
+      position: absolute; inset: 0;
+      border-radius: 9.4cqw; overflow: hidden;
+      container-type: inline-size;
+      background: var(--bg);
+      color: var(--fg);
+      transform-origin: 50% 100%;
+      transition: transform 0.45s var(--spring), opacity 0.35s var(--curve), box-shadow 0.4s var(--curve);
+      will-change: transform;
+      cursor: grab;
+    }
+    .card.is-photo { box-shadow: 0 5cqw 9cqw rgba(0,0,0,0.32), 0 0.6cqw 2cqw rgba(0,0,0,0.16); }
+    .card:not(.is-photo) { box-shadow: 0 5cqw 10cqw color-mix(in srgb, var(--cp) 28%, transparent), 0 0.4cqw 1.2cqw rgba(0,0,0,0.08); }
+    .card.is-photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 0.8px rgba(255,255,255,0.28); pointer-events: none; }
+    .card[data-depth="1"] { transform: translateY(3.6cqw) scale(0.95); filter: brightness(0.94); }
+    .card[data-depth="2"] { transform: translateY(7cqw) scale(0.9); filter: brightness(0.88); }
+    .card[data-depth="3"] { transform: translateY(7cqw) scale(0.9); opacity: 0; }
+    .card.is-dragging { transition: none; cursor: grabbing; }
+    .card.is-flying { transition: transform 0.42s var(--decel), opacity 0.42s var(--curve); }
+    .veil { position: absolute; inset: 0; pointer-events: none; }
+    .card-inner { position: relative; height: 100%; display: flex; flex-direction: column; padding: 5.5cqw; }
+    .card-row { display: flex; align-items: center; justify-content: space-between; height: 15cqw; }
+    .glass {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 12.5cqw; min-width: 15cqw; padding: 0 4.5cqw; border-radius: 99px;
+      background: rgba(255,255,255,0.72); color: var(--ctl);
+      box-shadow: inset 0 0 0 0.6px rgba(255,255,255,0.55);
+      font-size: 4.9cqw; font-weight: 600; white-space: nowrap;
+    }
+    .glass--icon { width: 15cqw; min-width: 0; height: 15cqw; padding: 0; }
+    .glass svg { width: 6.2cqw; height: 6.2cqw; }
+    .card.is-dark .glass { background: rgba(0,0,0,0.22); box-shadow: inset 0 0 0 0.6px rgba(255,255,255,0.2); }
+    .phrase {
+      flex: 1; display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 6cqw 3cqw;
+      font-family: var(--pf); font-weight: var(--pw); font-style: var(--ps);
+      font-size: calc(9.6cqw * var(--scale, 1));
+      letter-spacing: var(--track, 0);
+      line-height: 1.3;
+      text-wrap: balance;
+    }
+    .card.is-photo.is-dark .phrase { text-shadow: 0 0.6cqw 5cqw rgba(0,0,0,0.35); }
+    .card.is-photo:not(.is-dark) .phrase { text-shadow: 0 0 5cqw rgba(255,255,255,0.5); }
+    .signature { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 5cqw; color: color-mix(in srgb, var(--ctl) 55%, transparent); }
+    .heart.is-on svg path { fill: currentColor; }
+
+    .toolbar {
+      align-self: center; display: flex; height: 18.5cqw; padding: 0 2.5cqw; margin-bottom: 7cqw;
+      border-radius: 99px; background: var(--card);
+      box-shadow: 0 3cqw 7.5cqw color-mix(in srgb, var(--t-primary) 16%, transparent);
+    }
+    .toolbar span { width: 19.5cqw; display: grid; place-items: center; color: var(--t-primary); }
+    .toolbar svg { width: 7.4cqw; height: 7.4cqw; }
+
+    /* ---------- Temi ---------- */
+    .section { padding: 88px 0; }
+    .section-head { display: flex; flex-direction: column; gap: 14px; max-width: 640px; margin-bottom: 40px; }
+    .h2 {
+      font-family: var(--display); font-variation-settings: "opsz" 30;
+      font-weight: 600; font-size: clamp(2rem, 4.2vw, 3.4rem); line-height: 1.05; letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .lead { font-size: clamp(1.0625rem, 1.4vw, 1.2rem); color: var(--ink-2); max-width: 56ch; }
+
+    .themes { padding-top: 24px; }
+    .theme-strip {
+      display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: calc(var(--gutter) + 6px);
+      padding: 10px calc(var(--gutter) + 6px) 24px; margin: 0 calc(var(--gutter) * -1);
+      scrollbar-width: none;
+    }
+    .theme-strip::-webkit-scrollbar { display: none; }
+    .swatch {
+      flex: none; scroll-snap-align: start;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      border: 0; background: transparent; padding: 0; cursor: pointer;
+    }
+    .swatch-card {
+      width: 104px; height: 148px; border-radius: 20px; position: relative; overflow: hidden;
+      display: grid; place-items: center;
+      background: var(--bg); color: var(--fg);
+      font-family: var(--pf); font-weight: var(--pw); font-style: var(--ps);
+      font-size: calc(34px * var(--scale, 1));
+      box-shadow: 0 10px 24px -12px rgba(0,0,0,0.35);
+      transition: transform 0.25s var(--spring), box-shadow 0.25s var(--curve);
+    }
+    .swatch-card span { position: relative; }
+    .swatch:hover .swatch-card { transform: translateY(-3px); }
+    .swatch[aria-pressed="true"] .swatch-card { box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--t-primary); }
+    .swatch-name { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+    .swatch[aria-pressed="true"] .swatch-name { color: var(--ink); }
+
+    /* ---------- Funzioni ---------- */
+    .features { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .feature {
+      background: var(--card); border-radius: var(--r-xl);
+      box-shadow: 0 10px 30px -12px rgba(28, 28, 30, 0.12);
+      padding: 32px; display: flex; flex-direction: column; gap: 24px;
+      overflow: hidden;
+    }
+    .feature h3 { font-family: var(--display); font-variation-settings: "opsz" 28; font-weight: 600; font-size: 1.6rem; line-height: 1.12; letter-spacing: -0.01em; }
+    .feature p { color: var(--ink-2); font-size: 16px; margin-top: 8px; max-width: 42ch; }
+    .f-widget { grid-column: span 3; grid-row: span 2; }
+    .f-remind { grid-column: span 3; }
+    .f-streak { grid-column: span 3; }
+    .f-topics { grid-column: span 4; }
+    .f-own { grid-column: span 2; }
+
+    /* widget sulla home del telefono */
+    .homescreen {
+      flex: 1; min-height: 340px; border-radius: 22px; padding: 22px;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-light) 70%, #fff), color-mix(in srgb, var(--t-primary) 55%, var(--t-light)));
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      align-content: start;
+    }
+    .w-app { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.25); }
+    .w-app i { width: 52px; height: 52px; border-radius: 14px; background: rgba(255,255,255,0.4); display: block; }
+    .w-app--dg i { background: var(--card); display: grid; place-items: center; }
+    .w-big, .w-small {
+      border-radius: 22px; overflow: hidden; position: relative; container-type: inline-size;
+      background: var(--bg); color: var(--fg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      box-shadow: 0 10px 22px -10px rgba(0,0,0,0.35);
+    }
+    .w-big { grid-column: span 4; aspect-ratio: 2.1 / 1; padding: 6cqw; gap: 3cqw; }
+    .w-small { grid-column: span 2; aspect-ratio: 1; padding: 16px; gap: 8px; background: var(--card); color: var(--ink); }
+    .w-apps { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; align-content: space-evenly; justify-items: center; gap: 12px; }
+    .w-big .w-phrase, .w-small .w-phrase { position: relative; font-family: var(--pf); font-weight: var(--pw); font-style: var(--ps); line-height: 1.2; text-wrap: balance; }
+    .w-big .w-phrase { font-size: calc(6.6cqw * var(--scale, 1)); }
+    .w-small .w-phrase { font-size: calc(10.5cqw * var(--scale, 1)); }
+    .w-label { position: relative; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+    .w-count { position: relative; font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: clamp(2.2rem, 7vw, 3.4rem); line-height: 1; color: var(--t-primary); }
+
+    /* notifica */
+    .notif {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 16px; border-radius: 22px;
+      background: color-mix(in srgb, var(--t-primary) 7%, #fff); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-primary) 10%, transparent);
+    }
+    .notif-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,0.08); display: grid; place-items: center; flex: none; }
+    .notif-body { flex: 1; min-width: 0; font-size: 15px; line-height: 1.35; }
+    .notif-head { display: flex; justify-content: space-between; font-size: 14px; }
+    .notif-head span { color: var(--ink-2); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      display: inline-flex; align-items: center; height: 36px; padding: 0 14px; border-radius: 99px;
+      font-size: 15px; font-weight: 600;
+      background: color-mix(in srgb, var(--t-primary) 9%, #fff); color: var(--t-primary);
+    }
+    .chip.is-on { background: var(--t-primary); color: #fff; }
+
+    /* serie */
+    .streak-big { display: flex; align-items: center; gap: 20px; }
+    .streak-num { font-family: var(--display); font-variation-settings: "opsz" 36; font-weight: 600; font-size: 5.5rem; line-height: 0.9; letter-spacing: -0.03em; color: var(--t-primary); }
+    .streak-txt { font-family: var(--display); font-weight: 500; font-size: 1.25rem; line-height: 1.2; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* righe raggruppate come nelle impostazioni dell'app */
+    .group { border-radius: 16px; background: color-mix(in srgb, var(--t-light) 22%, #F2F2F7); overflow: hidden; }
+    .row { display: flex; align-items: center; gap: 12px; padding: 13px 16px; font-size: 16px; }
+    .row + .row { border-top: 1px solid var(--sep); }
+    .row-icon { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--t-primary) 10%, #fff); color: var(--t-primary); flex: none; }
+    .row-icon svg { width: 20px; height: 20px; }
+    .row-text { flex: 1; min-width: 0; }
+    .row-text small { display: block; color: var(--ink-2); font-size: 13px; }
+    .row-chev { color: var(--ink-3); }
+
+
+    /* Card a gradiente come "La mia dedizione" */
+    .dedication {
+      border-radius: 26px; padding: 22px 24px 20px; color: #fff;
+      background: linear-gradient(120deg, var(--t-primary), color-mix(in srgb, var(--t-primary) 62%, #fff));
+      box-shadow: 0 16px 30px -18px var(--t-primary);
+    }
+    .dedication-top { display: flex; justify-content: space-between; align-items: flex-start; }
+    .dedication-num { font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: 4.2rem; line-height: 1; }
+    .dedication-flame { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.18); display: grid; place-items: center; font-size: 34px; }
+    .dedication-next { display: flex; justify-content: space-between; margin-top: 18px; font-size: 15px; font-weight: 500; }
+    .dedication-bar { height: 7px; border-radius: 9px; background: rgba(255,255,255,0.25); margin: 12px auto 0; width: 60%; overflow: hidden; }
+    .dedication-bar i { display: block; width: 50%; height: 100%; border-radius: inherit; background: rgba(255,255,255,0.75); }
+
+    /* Riquadri del profilo */
+    .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .tile { border-radius: 22px; padding: 16px; background: var(--card); box-shadow: inset 0 0 0 1px var(--sep); display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+    .tile b { font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: 2.2rem; line-height: 1.1; color: var(--t-primary); margin-top: 14px; }
+
+    /* ---------- Privacy ---------- */
+    .private { display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: start; padding: 40px; border-radius: var(--r-xl); background: color-mix(in srgb, var(--t-primary) 7%, #fff); }
+    .private-mark { width: 64px; height: 64px; border-radius: 18px; background: var(--card); box-shadow: 0 4px 12px -6px rgba(0,0,0,0.2); display: grid; place-items: center; color: var(--t-primary); }
+    .private-mark svg { width: 30px; height: 30px; }
+    .private h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.1; }
+    .private p { color: var(--ink-2); margin-top: 10px; max-width: 60ch; }
+    .private a { display: inline-block; margin-top: 14px; color: var(--t-primary); font-weight: 600; }
+
+    /* ---------- Chiusura ---------- */
+    .closing { padding: 96px 0 40px; text-align: center; }
+    .closing-quote {
+      font-family: var(--display); font-style: italic; font-weight: 500;
+      font-variation-settings: "opsz" 40;
+      font-size: clamp(2.1rem, 5.6vw, 4.6rem); line-height: 1.08; letter-spacing: -0.02em;
+      color: var(--t-primary); max-width: 18ch; margin: 0 auto; text-wrap: balance;
+    }
+    .closing-sub { margin: 28px auto 32px; color: var(--ink-2); font-size: 1.15rem; }
+    .closing .stores { justify-content: center; }
+
+    /* ---------- Tablet ---------- */
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+      .hero-copy { align-items: center; text-align: center; }
+      .hero-lead { margin: 0 auto; }
+      .stores { justify-content: center; }
+      .features { grid-template-columns: repeat(2, 1fr); }
+      .f-widget, .f-remind, .f-streak, .f-topics, .f-own { grid-column: span 1; grid-row: auto; }
+      .f-widget, .f-topics { grid-column: span 2; }
+    }
+
+    /* ---------- Telefono ---------- */
+    @media (max-width: 640px) {
+      .hero { padding: 24px 0 48px; }
+      .section { padding: 64px 0; }
+      .features { grid-template-columns: 1fr; }
+      .f-widget, .f-topics { grid-column: span 1; }
+      .feature { padding: 24px; }
+      .homescreen { padding: 16px; gap: 12px; min-height: 0; }
+      .w-app i { width: 44px; height: 44px; }
+      .private { grid-template-columns: 1fr; padding: 28px 24px; }
+      .store { height: 56px; }
+    }
+  </style>
 </head>
 <body>
 
-    <div id="header-container"></div>
-
-    <header class="hero">
-        <h1 data-i18n="hero_title">One phrase can<br>change your day.</h1>
-        <p class="hero-sub" data-i18n="hero_sub">Swipe away the bad vibes. Get your daily dose of dopamine, tailored just for you.</p>
-        
-        <div class="store-buttons" id="download">
-            <a href="#" class="store-btn" id="btn-hero-ios">
-                <span class="store-icon" style="background: url('https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg') no-repeat center/contain; background-color:transparent; filter: invert(1);"></span>
-                <span data-i18n="btn_ios">Download on iOS</span>
-            </a>
-            
-            <a href="#" class="store-btn" id="btn-hero-android">
-                <span class="store-icon" style="background: url('https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg') no-repeat center/contain; background-color:transparent;"></span>
-                <span data-i18n="btn_android">Get on Android</span>
-            </a>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="./" aria-label="Daygood"><span class="brand-logo"></span></a>
+      <div class="topbar-actions">
+        <div class="lang" role="group" aria-label="Language">
+          <button type="button" data-lang-set="it">IT</button>
+          <button type="button" data-lang-set="en">EN</button>
         </div>
-    </header>
+        <a class="pill" href="#download" data-i18n="nav_cta">Get the app</a>
+      </div>
+    </div>
+  </header>
 
-    <section class="grid-section">
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1 data-i18n="hero_title">A good phrase,<br>every day.</h1>
+          <p class="hero-lead" data-i18n="hero_lead">A few seconds a day to start on the right foot. Swipe, keep the ones that speak to you, share the rest.</p>
+          <div class="stores" data-stores></div>
+          <p class="hero-note" data-i18n="hero_note">Free and without ads, in Italian and English.</p>
+        </div>
 
-        <div class="card card-dark grid-item-1">
-            <div>
-                <h3 data-i18n="card1_title">Infinite Motivation.</h3>
-                <p data-i18n="card1_desc">Just keep swiping. Endless quotes to light up your brain.</p>
+        <div class="stage">
+          <div class="phone">
+            <div class="screen" aria-roledescription="app preview">
+              <div class="island" aria-hidden="true"></div>
+              <div class="status" aria-hidden="true">
+                <span>9:41</span>
+                <span class="status-icons"><i style="width:4.4cqw;height:3cqw"></i><i style="width:4cqw;height:3cqw"></i><i style="width:6.6cqw;height:3.2cqw"></i></span>
+              </div>
+              <div class="app-top">
+                <div>
+                  <div class="app-date" data-date></div>
+                  <div class="app-greet" data-greet>Good morning,</div>
+                  <div class="app-name">Giulia</div>
+                  <div class="app-mood" data-mood>3 more phrases to reach today's goal</div>
+                </div>
+                <div class="streak" aria-hidden="true">
+                  <span class="streak-ring">
+                    <svg viewBox="0 0 42 42"><circle cx="21" cy="21" r="18" fill="none" stroke="color-mix(in srgb, var(--t-light) 45%, transparent)" stroke-width="3.5"/><circle data-ring cx="21" cy="21" r="18" fill="none" stroke="var(--t-primary)" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="67.9" style="transition: stroke-dashoffset .7s var(--curve)"/></svg>
+                    🔥
+                  </span>
+                  <b>7</b>
+                </div>
+              </div>
+
+              <div class="deck" data-deck aria-live="polite"></div>
+
+              <div class="toolbar" aria-hidden="true">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4.5 20.5c1.2-3.6 4-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></svg></span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.6"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.6"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.6"/></svg></span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 3.5 10 13"/><path d="M10.2 12.8c-2.6-.6-4.6 1-4.8 3.4-.2 1.8-1 2.8-2.4 3.4 3.6 1.4 7.6.4 8.6-2.4.6-1.6-.1-3.6-1.4-4.4Z"/></svg></span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg></span>
+              </div>
             </div>
-            <div style="margin-top: 20px; display: flex; gap: 10px; opacity: 0.5;">
-                <div style="height: 100px; width: 60px; background: #6c5ce7; border-radius: 10px;"></div>
-                <div style="height: 100px; width: 60px; background: #8b5cf6; border-radius: 10px;"></div>
-                <div style="height: 100px; width: 60px; background: #a78bfa; border-radius: 10px;"></div>
-            </div>
-            <div class="card-extra" data-i18n="card1_extra">✨ Over 10,000 curated quotes from philosophers, artists, and thought leaders — refreshed daily.</div>
-        </div>
+          </div>
 
-        <div class="card card-pop grid-item-2">
-            <h3 data-i18n="card2_title">Your Vibe. Your Rules.</h3>
-            <p style="margin-top:10px" data-i18n="card2_desc">Customize themes & quotes.</p>
-            <div class="card-extra" data-i18n="card2_extra">🎨 Choose from 12 themes, custom fonts, and dark/light modes to match your style.</div>
+          <div class="deck-controls">
+            <button class="round-btn" type="button" data-prev data-i18n-attr="aria-label:prev_label" aria-label="Previous phrase">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <span data-i18n="swipe_hint">Swipe the card</span>
+            <button class="round-btn" type="button" data-next data-i18n-attr="aria-label:next_label" aria-label="Next phrase">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
-
-        <div class="card card-image grid-item-3">
-            <img src="../../img/screen1.png" alt="App Screenshot" onerror="this.style.display='none'; this.parentElement.querySelector('.card-extra').style.display='none';">
-            <div class="card-extra" data-i18n="card3_extra">📱 Swipe through a beautiful, distraction-free interface designed for your daily ritual.</div>
-        </div>
-
-        <div class="card card-lilac grid-item-4">
-            <h3 data-i18n="card4_title">Bad day?<br>Not anymore.</h3>
-            <div class="card-extra" data-i18n="card4_extra">💜 Smart algorithm learns what lifts you up and delivers the right words at the right time.</div>
-        </div>
-
-        <div class="card card-image grid-item-5">
-            <img src="../../img/screen2.png" alt="Lifestyle Shot" onerror="this.style.display='none'; this.parentElement.querySelector('.card-extra').style.display='none';">
-            
-            <div style="position:absolute; bottom:20px; left:20px; background:rgba(0,0,0,0.6); padding:10px 20px; border-radius:20px;">
-                <p style="color:white; margin:0;" data-i18n="card5_badge">100% Free. 100% Uplifting.</p>
-            </div>
-            <div class="card-extra" data-i18n="card5_extra">🌟 No ads, no subscriptions, no hidden costs. Just pure positivity in your pocket.</div>
-        </div>
-
+      </div>
     </section>
 
-    <div id="footer-container"></div>
-    <script src="js/constants.js"></script>
-    <script src="js/header.js"></script>
-    <script src="js/footer.js"></script>
-    <script>
-        if (document.getElementById('btn-hero-ios')) {
-            document.getElementById('btn-hero-ios').href = DAYGOOD_CONSTANTS.iosLink;
-        }
-        if (document.getElementById('btn-hero-android')) {
-            document.getElementById('btn-hero-android').href = DAYGOOD_CONSTANTS.androidLink;
-        }
-    </script>
+    <!-- ===== Temi ===== -->
+    <section class="section themes" aria-labelledby="themes-title">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="h2" id="themes-title" data-i18n="themes_title">32 themes, one for every mood.</h2>
+          <p class="lead" data-i18n="themes_lead">Soft colors, night skies, flowers and the sea. Every theme has its own typeface, chosen so the phrase reads well. Try one on the card above.</p>
+        </div>
+        <div class="theme-strip" data-strip role="group" data-i18n-attr="aria-label:themes_title"></div>
+      </div>
+    </section>
 
-    <!-- ========================================
-         i18n TRANSLATION ENGINE
-         ======================================== -->
-    <script src="../lang/engine.js"></script>
+    <!-- ===== Funzioni ===== -->
+    <section class="section" aria-labelledby="features-title" style="padding-top: 24px">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 class="h2" id="features-title" data-i18n="features_title">Small habits, built in.</h2>
+        </div>
 
+        <div class="features">
+          <article class="feature f-widget">
+            <div>
+              <h3 data-i18n="widget_title">Your phrase on the home screen</h3>
+              <p data-i18n="widget_desc">A new phrase every day on the widget, without opening the app. Tap it for another one, or keep count of the phrases you've read.</p>
+            </div>
+            <div class="homescreen" aria-hidden="true">
+              <div class="w-big" data-widget>
+                <div class="veil"></div>
+                <div class="w-label" data-i18n="widget_label">Phrase of the day</div>
+                <div class="w-phrase" data-widget-phrase></div>
+              </div>
+              <div class="w-small" data-widget-small>
+                <div class="w-count">248</div>
+                <div class="w-label" data-i18n="widget_read">Phrases read</div>
+              </div>
+              <div class="w-apps">
+                <div class="w-app"><i></i>Mail</div>
+                <div class="w-app"><i></i><span data-i18n="app_photos">Photos</span></div>
+                <div class="w-app w-app--dg"><i><svg width="22" height="22" viewBox="0 0 22 22"><circle cx="11" cy="6" r="3.2" fill="var(--t-primary)"/><circle cx="11" cy="16" r="3.2" fill="var(--t-primary)"/></svg></i>Daygood</div>
+                <div class="w-app"><i></i><span data-i18n="app_maps">Maps</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="feature f-remind">
+            <div>
+              <h3 data-i18n="remind_title">A gentle reminder</h3>
+              <p data-i18n="remind_desc">One a day, at the time you prefer. Add more if you like: up to ten.</p>
+            </div>
+            <div class="notif" aria-hidden="true">
+              <div class="notif-icon"><svg width="18" height="18" viewBox="0 0 22 22"><circle cx="11" cy="6" r="3.2" fill="var(--t-primary)"/><circle cx="11" cy="16" r="3.2" fill="var(--t-primary)"/></svg></div>
+              <div class="notif-body">
+                <div class="notif-head"><strong>Daygood</strong><span data-i18n="now">now</span></div>
+                <div data-i18n="notif_text">Begin slowly, the day is long enough</div>
+              </div>
+            </div>
+            <div class="chips" aria-hidden="true">
+              <span class="chip is-on" data-i18n="ob_morning">In the morning</span>
+              <span class="chip" data-i18n="ob_lunch">At lunch</span>
+              <span class="chip" data-i18n="ob_evening">In the evening</span>
+            </div>
+          </article>
+
+          <article class="feature f-streak">
+            <div class="dedication" aria-hidden="true">
+              <div class="dedication-top">
+                <div><div class="dedication-num">7</div><div data-i18n="streak_days">days in a row</div></div>
+                <span class="dedication-flame">🔥</span>
+              </div>
+              <div class="dedication-next"><span data-i18n="streak_next">Next milestone: 14 days</span><span>7/14</span></div>
+              <div class="dedication-bar"><i></i></div>
+            </div>
+            <div>
+              <h3 data-i18n="streak_title">Watch your streak grow</h3>
+              <p data-i18n="streak_desc">Read five phrases a day to reach your goal. Badges mark the milestones along the way.</p>
+            </div>
+            <div class="badges" aria-hidden="true">
+              <span class="chip" data-i18n="badge_streak_7">One week</span>
+              <span class="chip" data-i18n="badge_read_50">50 phrases read</span>
+              <span class="chip" data-i18n="badge_rare_1">First rare phrase</span>
+            </div>
+          </article>
+
+          <article class="feature f-topics">
+            <div>
+              <h3 data-i18n="topics_title">Over 3,000 phrases, 17 topics</h3>
+              <p data-i18n="topics_desc">From Stoicism to Good Morning, from Anxiety to Sport. Pick what you need right now and change it whenever you want.</p>
+            </div>
+            <div class="chips" data-topics aria-hidden="true"></div>
+          </article>
+
+          <article class="feature f-own">
+            <div>
+              <h3 data-i18n="own_title">Make it yours</h3>
+              <p data-i18n="own_desc">Save your favorites with a double tap and write phrases of your own.</p>
+            </div>
+            <div class="tiles" aria-hidden="true">
+              <div class="tile">
+                <span class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19l1-4L16 5l3 3L9 18l-4 1Z"/></svg></span>
+                <b>3</b><span data-i18n="tile_own">My phrases</span>
+              </div>
+              <div class="tile">
+                <span class="row-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 20.6s-7.8-4.6-7.8-10.3A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 7.8 2.7c0 5.7-7.8 10.3-7.8 10.3Z"/></svg></span>
+                <b>32</b><span data-i18n="tile_fav">Favorite phrases</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Privacy ===== -->
+    <section class="section" style="padding-top: 0">
+      <div class="wrap">
+        <div class="private">
+          <div class="private-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="3"/><path d="M10 18h4"/></svg></div>
+          <div>
+            <h2 data-i18n="private_title">Your phrases stay on your phone.</h2>
+            <p data-i18n="private_desc">Favorites, your own phrases and settings are saved on your device. No account, no sign-up.</p>
+            <a href="privacy.html" data-i18n="private_link">Read the privacy policy</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Chiusura ===== -->
+    <section class="closing" id="download">
+      <div class="wrap">
+        <p class="closing-quote" data-i18n="closing_quote">Today, try to be someone's good morning.</p>
+        <p class="closing-sub" data-i18n="closing_sub">Download Daygood and read your first phrase.</p>
+        <div class="stores" data-stores></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p class="footer-by" data-i18n="footer_by">An app by <a href="../">Tanabytes</a></p>
+      <nav class="footer-links">
+        <a href="privacy.html" data-i18n="privacy">Privacy policy</a>
+        <a href="mailto:tanabytes@gmail.com" data-i18n="contact">Contact</a>
+        <a href="../dotted/">Dotted</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Link agli store: lascia vuoto quello non ancora pubblicato e comparirà "in arrivo".
+    var STORES = {
+      android: 'https://play.google.com/store/apps/details?id=com.tekkista.tanabytes.daygood',
+      ios: ''
+    };
+
+    window.TB_I18N = {
+      en: {
+        page_title: 'Daygood – A good phrase, every day',
+        nav_cta: 'Get the app',
+        hero_title: 'A good phrase,<br>every day.',
+        hero_lead: 'A few seconds a day to start on the right foot. Swipe, keep the ones that speak to you, share the rest.',
+        hero_note: 'Free and without ads, in Italian and English.',
+        swipe_hint: 'Swipe the card',
+        prev_label: 'Previous phrase', next_label: 'Next phrase',
+        themes_title: '32 themes, one for every mood.',
+        themes_lead: 'Soft colors, night skies, flowers and the sea. Every theme has its own typeface, chosen so the phrase reads well. Try one on the card above.',
+        features_title: 'Small habits, built in.',
+        widget_title: 'Your phrase on the home screen',
+        widget_desc: "A new phrase every day on the widget, without opening the app. Tap it for another one, or keep count of the phrases you've read.",
+        widget_label: 'Phrase of the day', widget_read: 'Phrases read',
+        remind_title: 'A gentle reminder',
+        remind_desc: 'One a day, at the time you prefer. Add more if you like: up to ten.',
+        now: 'now', notif_text: 'Begin slowly, the day is long enough',
+        ob_morning: 'In the morning', ob_lunch: 'At lunch', ob_evening: 'In the evening',
+        streak_days: 'days in a row', streak_next: 'Next milestone: 14 days', tile_own: 'My phrases', tile_fav: 'Favorite phrases',
+        streak_title: 'Watch your streak grow',
+        streak_desc: 'Read five phrases a day to reach your goal. Badges mark the milestones along the way.',
+        badge_streak_7: 'One week', badge_read_50: '50 phrases read', badge_rare_1: 'First rare phrase',
+        topics_title: 'Over 3,000 phrases, 17 topics',
+        topics_desc: 'From Stoicism to Good Morning, from Anxiety to Sport. Pick what you need right now and change it whenever you want.',
+        own_title: 'Make it yours',
+        own_desc: 'Save your favorites with a double tap and write phrases of your own.',
+        row_fav: 'Favorite phrases<small>32 phrases</small>',
+        row_own: 'My phrases<small>Write your own phrases</small>',
+        private_title: 'Your phrases stay on your phone.',
+        private_desc: 'Favorites, your own phrases and settings are saved on your device. No account, no sign-up.',
+        private_link: 'Read the privacy policy',
+        closing_quote: "Today, try to be someone's good morning.",
+        closing_sub: 'Download Daygood and read your first phrase.',
+        footer_by: 'An app by <a href="../">Tanabytes</a>',
+        privacy: 'Privacy policy', contact: 'Contact',
+        store_get: 'Get it on', store_soon: 'Coming soon on',
+        greet_m: 'Good morning,', greet_a: 'Good afternoon,', greet_e: 'Good evening,',
+        mood_n: '{x} more phrases to reach today\'s goal', mood_1: 'One more phrase to reach today\'s goal', mood_done: 'Today\'s goal reached ✨',
+        theme_label: 'Theme', app_photos: 'Photos', app_maps: 'Maps'
+      },
+      it: {
+        page_title: 'Daygood – Una frase buona, ogni giorno',
+        nav_cta: "Scarica l'app",
+        hero_title: 'Una frase buona,<br>ogni giorno.',
+        hero_lead: 'Pochi secondi al giorno per partire con il piede giusto. Scorri, tieni quelle che ti parlano, condividi le altre.',
+        hero_note: 'Gratis e senza pubblicità, in italiano e in inglese.',
+        swipe_hint: 'Scorri la card',
+        prev_label: 'Frase precedente', next_label: 'Frase successiva',
+        themes_title: '32 temi, uno per ogni umore.',
+        themes_lead: 'Colori tenui, cieli notturni, fiori e mare. Ogni tema ha il suo carattere tipografico, scelto perché la frase si legga bene. Provane uno sulla card qui sopra.',
+        features_title: 'Piccole abitudini, già pronte.',
+        widget_title: 'La tua frase nella schermata Home',
+        widget_desc: 'Una frase nuova ogni giorno nel widget, senza aprire l\'app. Toccalo per averne un\'altra, o tieni il conto delle frasi lette.',
+        widget_label: 'Frase del giorno', widget_read: 'Frasi lette',
+        remind_title: 'Un promemoria gentile',
+        remind_desc: 'Uno al giorno, all\'ora che preferisci. Se vuoi puoi aggiungerne altri: fino a dieci.',
+        now: 'ora', notif_text: 'Comincia piano, la giornata è abbastanza lunga',
+        ob_morning: 'Al mattino', ob_lunch: 'A pranzo', ob_evening: 'La sera',
+        streak_days: 'giorni di fila', streak_next: 'Prossimo traguardo: 14 giorni', tile_own: 'Le mie frasi', tile_fav: 'Frasi preferite',
+        streak_title: 'Guarda crescere la tua serie',
+        streak_desc: 'Leggi cinque frasi al giorno per raggiungere l\'obiettivo. I traguardi lungo la strada diventano badge.',
+        badge_streak_7: 'Una settimana', badge_read_50: '50 frasi lette', badge_rare_1: 'Prima frase rara',
+        topics_title: 'Oltre 3.000 frasi, 17 argomenti',
+        topics_desc: 'Dallo Stoicismo al Buongiorno, dall\'Ansia allo Sport. Scegli quello che ti serve in questo periodo e cambialo quando vuoi.',
+        own_title: 'Rendila tua',
+        own_desc: 'Salva le preferite con un doppio tocco e scrivi le tue frasi.',
+        row_fav: 'Frasi preferite<small>32 frasi</small>',
+        row_own: 'Le mie frasi<small>Scrivi le tue frasi</small>',
+        private_title: 'Le tue frasi restano sul telefono.',
+        private_desc: 'Preferiti, frasi scritte da te e impostazioni sono salvati sul tuo dispositivo. Nessun account, nessuna registrazione.',
+        private_link: 'Leggi l\'informativa sulla privacy',
+        closing_quote: 'Oggi prova a essere il buongiorno di qualcuno.',
+        closing_sub: 'Scarica Daygood e leggi la tua prima frase.',
+        footer_by: 'Un\'app di <a href="../">Tanabytes</a>',
+        privacy: 'Privacy', contact: 'Contatti',
+        store_get: 'Disponibile su', store_soon: 'Presto su',
+        greet_m: 'Buongiorno,', greet_a: 'Buon pomeriggio,', greet_e: 'Buonasera,',
+        mood_n: 'Ancora {x} frasi per l\'obiettivo di oggi', mood_1: 'Ancora una frase per l\'obiettivo di oggi', mood_done: 'Obiettivo di oggi raggiunto ✨',
+        theme_label: 'Tema', app_photos: 'Foto', app_maps: 'Mappe'
+      }
+    };
+
+    // Categorie dell'app (tabella Categories di phrasedb.db)
+    var CATEGORIES = {
+      MOT: ['Motivational', 'Motivazionale'], BUS: ['Business', 'Business'], UNL: ['Unrequited Love', 'Amore Irrequieto'],
+      BUK: ['Bukowski', 'Bukowski'], ANX: ['Anxiety', 'Ansia'], SLF: ['Self-love', 'Amor proprio'], CON: ['Confidence', 'Autostima'],
+      GRA: ['Gratitude', 'Gratitudine'], HAP: ['Happiness', 'Felicità'], STO: ['Stoicism', 'Stoicismo'], DIS: ['Discipline', 'Disciplina'],
+      LOV: ['Love', 'Amore'], FRI: ['Friendship', 'Amicizia'], MOR: ['Good Morning', 'Buongiorno'], RES: ['Resilience', 'Resilienza'],
+      STU: ['Study', 'Studio'], SPO: ['Sport', 'Sport']
+    };
+
+    // Frasi vere dal database dell'app
+    var PHRASES = [
+      ['MOR', "Today, try to be someone's good morning", 'Oggi prova a essere il buongiorno di qualcuno'],
+      ['MOR', 'Mornings are small rebirths', 'Ogni mattina è una piccola rinascita'],
+      ['RES', 'Fragile is not the same as weak', 'Fragile non vuol dire debole'],
+      ['STO', 'The greatest remedy for anger is delay', "Il miglior rimedio contro l'ira è aspettare"],
+      ['SLF', 'Some days, getting out of bed is the victory. Count it', 'Certi giorni alzarsi dal letto è già una vittoria. Contala'],
+      ['HAP', 'Open the window. Let in the air, the noise, the life', "Apri la finestra. Fai entrare l'aria, i rumori, la vita"],
+      ['CON', 'You are the author, not a side character', "Sei l'autore, non un personaggio secondario"],
+      ['LOV', 'Love is choosing each other again, every ordinary morning', 'Amare è sceglierci ancora, ogni mattina qualunque'],
+      ['MOR', 'The day is still soft, shape it kindly', 'La giornata è ancora morbida: modellala con gentilezza'],
+      ['FRI', 'Friendship is a door that never needs a key', "L'amicizia è una porta che non ha bisogno di chiavi"],
+      ['RES', 'Sometimes courage is simply trying again tomorrow', 'A volte il coraggio è solo riprovarci domani'],
+      ['GRA', 'End the day by naming one person who made it better', "Chiudi la giornata pensando a una persona che l'ha resa migliore"],
+      ['STO', 'Ask of each worry: is this mine to carry?', 'Chiedi a ogni preoccupazione: tocca a me portarla?'],
+      ['HAP', 'Being happy is a small rebellion against a gray day', 'Essere felici è una piccola ribellione contro una giornata grigia']
+    ];
+
+    // Temi dell'app (lib/core/classes/theme.dart): font della frase, sfondo, colori
+    function radial(a, b, at, r) { return 'radial-gradient(circle ' + (r || 130) + 'cqw at ' + (at || '100% 100%') + ', ' + a + ' 0%, ' + b + ' 100%) ' + b; }
+    function photo(n) { return 'url(assets/themes/' + n + '.jpg) center / cover #888'; }
+    var THEMES = [
+      { name: 'Original', pf: 'Fraunces', pw: 500, fg: '#1C1C1E', track: '-0.012em', bg: radial('#F7F4EA', '#E4BDEA'), p: '#9B71A1', l: '#E4BDEA', b: '#E0F7F8' },
+      { name: 'Peach', pf: 'Fraunces', pw: 500, ps: 'italic', fg: '#5A2C1D', bg: radial('#FFEDE2', '#FFC2A2'), p: '#B85A3A', l: '#FFD3BD', b: '#FFF6F0' },
+      { name: 'Cloud', pf: 'Playfair Display', pw: 500, ps: 'italic', fg: '#FFFFFF', dark: true, bg: photo('nuvole'), photo: true, veil: 0.12, p: '#2F6378', l: '#A0C8DB', b: '#F0F6F9' },
+      { name: 'Midnight', pf: 'Instrument Serif', pw: 400, fg: '#F3EBDD', dark: true, scale: 1.16, bg: radial('#2E3A68', '#0E1330', '50% 0%', 140), p: '#3A4785', l: '#C6CCEB', b: '#F0F1F8' },
+      { name: 'Daisies', pf: 'Newsreader', pw: 500, fg: '#223232', bg: photo('margherite'), photo: true, veil: 0.3, p: '#4E6E6E', l: '#CFE0E0', b: '#F1F6F6' },
+      { name: 'Sky', pf: 'Marcellus', pw: 400, fg: '#1C3854', bg: 'linear-gradient(to bottom, #BFDDF0, #F4F9FC)', p: '#2F5F8A', l: '#C2DDEF', b: '#F2F7FA' },
+      { name: 'Journal', pf: 'Caveat', pw: 600, fg: '#2B4C8C', scale: 1.28, bg: radial('#FFFCF3', '#F1EADA', '0% 0%', 160), p: '#2B4C8C', l: '#D0DBF0', b: '#FBF8F0' },
+      { name: 'Sunset Clouds', pf: 'Fraunces', pw: 600, ps: 'italic', fg: '#FFFFFF', dark: true, bg: photo('nuvole_rosa'), photo: true, veil: 0.12, p: '#8F4B4E', l: '#F69A6E', b: '#F4EEF7' },
+      { name: 'Peacock', pf: 'Gloock', pw: 400, fg: '#F4E3BF', dark: true, scale: 0.94, bg: radial('#167079', '#0A333A', '0% 100%', 150), p: '#0F535E', l: '#A6D3D5', b: '#EEF6F6' },
+      { name: 'Pink Moon', pf: 'Instrument Serif', pw: 400, ps: 'italic', fg: '#3B1F2B', scale: 1.16, bg: photo('luna_rosa'), photo: true, veil: 0.2, p: '#8C3B5A', l: '#F4C6D2', b: '#FCEFF3' },
+      { name: 'Sorbet', pf: 'Yeseva One', pw: 400, fg: '#4A1530', scale: 0.9, bg: 'linear-gradient(135deg, #FFD0A8, #FFA3C0, #CDB0FF)', p: '#BE3F6C', l: '#FFC9D9', b: '#FFF4F7' },
+      { name: 'Beach', pf: 'Gilda Display', pw: 400, fg: '#05343A', bg: photo('spiaggia'), photo: true, veil: 0.5, p: '#0E6E73', l: '#A8DCD9', b: '#EAF6F5' },
+      { name: 'Forest', pf: 'Spectral', pw: 500, fg: '#EDF2E4', dark: true, scale: 0.98, bg: radial('#35584A', '#172A23', '0% 0%', 150), p: '#2F5A49', l: '#B9D4C5', b: '#F1F6F3' },
+      { name: 'Horizon', pf: 'Instrument Serif', pw: 400, fg: '#1C3754', scale: 1.16, bg: photo('orizzonte'), photo: true, veil: 0.2, p: '#4175A9', l: '#A7C5DD', b: '#F8E5E0' }
+    ];
+
+    function themeVars(el, t) {
+      el.style.setProperty('--bg', t.bg);
+      el.style.setProperty('--fg', t.fg);
+      el.style.setProperty('--pf', "'" + t.pf + "', Georgia, serif");
+      el.style.setProperty('--pw', t.pw);
+      el.style.setProperty('--ps', t.ps || 'normal');
+      el.style.setProperty('--scale', t.scale || 1);
+      el.style.setProperty('--track', t.track || '0');
+      el.style.setProperty('--cp', t.p);
+      el.style.setProperty('--ctl', t.dark ? '#FFFFFF' : t.p);
+    }
+    function veilCss(t) {
+      if (!t.veil) return '';
+      var c = t.dark ? '0,0,0' : '255,255,255';
+      return 'radial-gradient(ellipse 80% 55% at 50% 50%, rgba(' + c + ',' + t.veil + ') 0%, rgba(' + c + ',' + (t.veil * 0.55) + ') 50%, rgba(' + c + ',0) 100%)';
+    }
+    function li() { return (window.tbLang && tbLang.current() === 'it') ? 2 : 1; }
+
+    /* ---------- Store ---------- */
+    var ICON_PLAY = '<svg viewBox="0 0 24 24"><path fill="#34A853" d="M3.6 2.2 13.4 12l-9.8 9.8c-.4-.2-.6-.7-.6-1.2V3.4c0-.5.2-1 .6-1.2Z"/><path fill="#FBBC04" d="m16.7 15.3-3.3-3.3 3.3-3.3 3.8 2.2c.9.5.9 1.7 0 2.2l-3.8 2.2Z"/><path fill="#EA4335" d="M13.4 12 3.6 21.8c.3.2.8.2 1.2 0l11.9-6.5-3.3-3.3Z"/><path fill="#4285F4" d="M13.4 12 16.7 8.7 4.8 2.2c-.4-.2-.9-.2-1.2 0L13.4 12Z"/></svg>';
+    var ICON_APPLE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.6 1.3-.1 1.7-.8 3.3-.8 1.5 0 1.9.8 3.3.8 1.4 0 2.2-1.3 3-2.5 1-1.4 1.4-2.8 1.4-2.8 0-.1-2.6-1-2.4-4.2ZM13.9 4.9c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5Z"/></svg>';
+    function renderStores() {
+      var t = TB_I18N[tbLang.current()] || TB_I18N.en;
+      var html = '';
+      html += STORES.android
+        ? '<a class="store" href="' + STORES.android + '" target="_blank" rel="noopener">' + ICON_PLAY + '<span><small>' + t.store_get + '</small><strong>Google Play</strong></span></a>'
+        : '<span class="store store--soon">' + ICON_PLAY + '<span><small>' + t.store_soon + '</small><strong>Google Play</strong></span></span>';
+      html += STORES.ios
+        ? '<a class="store" href="' + STORES.ios + '" target="_blank" rel="noopener">' + ICON_APPLE + '<span><small>' + t.store_get + '</small><strong>App Store</strong></span></a>'
+        : '<span class="store store--soon">' + ICON_APPLE + '<span><small>' + t.store_soon + '</small><strong>App Store</strong></span></span>';
+      document.querySelectorAll('[data-stores]').forEach(function (el) { el.innerHTML = html; });
+    }
+
+    /* ---------- Mazzo ---------- */
+    var deck = document.querySelector('[data-deck]');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var state = { i: 0, themeOf: {}, liked: {}, read: 2 };
+
+    function themeIndexFor(i) { return state.themeOf[i] != null ? state.themeOf[i] : i % THEMES.length; }
+    function phraseFor(i) { return PHRASES[((i % PHRASES.length) + PHRASES.length) % PHRASES.length]; }
+
+    var ICON_SHARE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5"/><path d="M8 11H6.5A1.5 1.5 0 0 0 5 12.5v7A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-7a1.5 1.5 0 0 0-1.5-1.5H16"/></svg>';
+    var ICON_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 20.6s-7.8-4.6-7.8-10.3A4.4 4.4 0 0 1 12 7.6a4.4 4.4 0 0 1 7.8 2.7c0 5.7-7.8 10.3-7.8 10.3Z"/></svg>';
+    var ICON_UNDO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v5h5"/><path d="M4.6 10A8 8 0 1 1 6 16.5"/></svg>';
+    var ICON_PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l-1 6 3 3H7l3-3-1-6Z"/><path d="M12 12v9"/></svg>';
+
+    function buildCard(i) {
+      var t = THEMES[themeIndexFor(i)];
+      var p = phraseFor(i);
+      var el = document.createElement('div');
+      el.className = 'card' + (t.photo ? ' is-photo' : '') + (t.dark ? ' is-dark' : '');
+      el.dataset.index = i;
+      themeVars(el, t);
+      el.innerHTML =
+        '<div class="veil" style="background:' + veilCss(t) + '"></div>' +
+        '<div class="card-inner">' +
+          '<div class="card-row"><span class="glass glass--icon" style="opacity:' + (i > 0 ? 1 : 0.35) + '">' + ICON_UNDO + '</span>' +
+          '<span class="glass">' + CATEGORIES[p[0]][li() - 1] + '</span>' +
+          '<span class="glass glass--icon">' + ICON_PIN + '</span></div>' +
+          '<div class="phrase">' + p[li()] + '</div>' +
+          '<div class="card-row"><span class="glass glass--icon">' + ICON_SHARE + '</span>' +
+          '<span class="signature">daygood</span>' +
+          '<span class="glass glass--icon heart' + (state.liked[i] ? ' is-on' : '') + '">' + ICON_HEART + '</span></div>' +
+        '</div>';
+      return el;
+    }
+
+    function render() {
+      deck.innerHTML = '';
+      for (var d = 3; d >= 0; d--) {
+        var c = buildCard(state.i + d);
+        c.dataset.depth = d;
+        if (d > 0) c.setAttribute('aria-hidden', 'true');
+        deck.appendChild(c);
+      }
+      applyTheme();
+    }
+
+    function topCard() { return deck.querySelector('.card[data-depth="0"]'); }
+
+    function applyTheme() {
+      var t = THEMES[themeIndexFor(state.i)];
+      var r = document.documentElement.style;
+      r.setProperty('--t-primary', t.p);
+      r.setProperty('--t-light', t.l);
+      r.setProperty('--t-bg', t.b);
+      var meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', t.b);
+      document.querySelectorAll('.swatch').forEach(function (s) { s.setAttribute('aria-pressed', String(+s.dataset.theme === themeIndexFor(state.i))); });
+      // Widget della home con lo stesso tema e la stessa frase
+      var w = document.querySelector('[data-widget]');
+      themeVars(w, t);
+      w.querySelector('.veil').style.background = veilCss(t);
+      w.querySelector('[data-widget-phrase]').textContent = phraseFor(state.i)[li()];
+      updateMood();
+    }
+
+    function updateMood() {
+      var dict = TB_I18N[tbLang.current()] || TB_I18N.en;
+      var left = 5 - state.read;
+      var txt = left <= 0 ? dict.mood_done : left === 1 ? dict.mood_1 : dict.mood_n.replace('{x}', left);
+      document.querySelector('[data-mood]').textContent = txt;
+      document.querySelector('[data-ring]').style.strokeDashoffset = String(113.1 * (1 - Math.min(1, state.read / 5)));
+    }
+
+    // Avanza di una card: quella in cima vola via e le altre salgono di un posto
+    function advance(dir) {
+      var card = topCard();
+      if (!card || card.classList.contains('is-flying')) return;
+      dir = dir || 1;
+      card.classList.remove('is-dragging');
+      card.classList.add('is-flying');
+      card.style.transform = 'translateX(' + (dir * 140) + '%) rotate(' + (dir * 18) + 'deg)';
+      card.style.opacity = '0';
+      state.i++;
+      state.read = Math.min(5, state.read + 1);
+      deck.querySelectorAll('.card').forEach(function (c) { if (c !== card) c.dataset.depth = +c.dataset.depth - 1; });
+      var back = buildCard(state.i + 3);
+      back.dataset.depth = 3;
+      back.setAttribute('aria-hidden', 'true');
+      deck.insertBefore(back, deck.firstChild);
+      var front = topCard();
+      if (front) front.removeAttribute('aria-hidden');
+      deck.querySelectorAll('.card[data-depth="1"],.card[data-depth="2"]').forEach(function (c) { c.setAttribute('aria-hidden', 'true'); });
+      applyTheme();
+      setTimeout(function () { card.remove(); }, reduce ? 0 : 450);
+    }
+
+    // Torna alla frase precedente (come "annulla" nell'app)
+    function goBack() {
+      if (state.i === 0) return;
+      state.i--;
+      render();
+    }
+
+    /* Trascinamento della card in cima */
+    var drag = null;
+    deck.addEventListener('pointerdown', function (e) {
+      var card = e.target.closest('.card[data-depth="0"]');
+      if (!card || card.classList.contains('is-flying')) return;
+      if (e.target.closest('.heart')) return;
+      drag = { card: card, x: e.clientX, y: e.clientY, dx: 0, t: performance.now(), moved: false };
+      card.setPointerCapture(e.pointerId);
+    });
+    deck.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      drag.dx = e.clientX - drag.x;
+      var dy = e.clientY - drag.y;
+      if (!drag.moved && Math.abs(drag.dx) < 6) return;
+      drag.moved = true;
+      drag.card.classList.add('is-dragging');
+      drag.card.style.transform = 'translate(' + drag.dx + 'px,' + (dy * 0.25) + 'px) rotate(' + (drag.dx / 14) + 'deg)';
+    });
+    function endDrag() {
+      if (!drag) return;
+      var d = drag; drag = null;
+      var w = deck.clientWidth;
+      var v = Math.abs(d.dx) / Math.max(1, performance.now() - d.t);
+      if (d.moved && (Math.abs(d.dx) > w * 0.28 || v > 0.6)) {
+        advance(d.dx > 0 ? 1 : -1);
+      } else {
+        d.card.classList.remove('is-dragging');
+        d.card.style.transform = '';
+      }
+    }
+    deck.addEventListener('pointerup', endDrag);
+    deck.addEventListener('pointercancel', endDrag);
+
+    // Doppio tocco sul cuore o sulla frase: preferito
+    deck.addEventListener('click', function (e) {
+      var h = e.target.closest('.heart');
+      if (!h) return;
+      var c = h.closest('.card');
+      state.liked[c.dataset.index] = !state.liked[c.dataset.index];
+      h.classList.toggle('is-on');
+    });
+    deck.addEventListener('dblclick', function (e) {
+      var c = e.target.closest('.card[data-depth="0"]');
+      if (!c) return;
+      state.liked[c.dataset.index] = true;
+      c.querySelector('.heart').classList.add('is-on');
+    });
+
+    document.querySelector('[data-next]').addEventListener('click', function () { advance(1); });
+    document.querySelector('[data-prev]').addEventListener("click", goBack);
+
+    /* ---------- Striscia dei temi ---------- */
+    var strip = document.querySelector('[data-strip]');
+    THEMES.forEach(function (t, k) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'swatch';
+      b.dataset.theme = k;
+      b.innerHTML = '<span class="swatch-card"><span class="veil" style="background:' + veilCss(t) + '"></span><span>Aa</span></span><span class="swatch-name">' + t.name + '</span>';
+      themeVars(b.firstChild, t);
+      b.addEventListener('click', function () {
+        state.themeOf[state.i] = k;
+        // la card in cima cambia tema sul posto
+        var old = topCard();
+        var fresh = buildCard(state.i);
+        fresh.dataset.depth = 0;
+        deck.replaceChild(fresh, old);
+        applyTheme();
+      });
+      strip.appendChild(b);
+    });
+
+    /* ---------- Argomenti ---------- */
+    function renderTopics() {
+      var on = { MOR: 1, STO: 1, SLF: 1, RES: 1, HAP: 1 };
+      document.querySelector('[data-topics]').innerHTML = Object.keys(CATEGORIES).map(function (k) {
+        return '<span class="chip' + (on[k] ? ' is-on' : '') + '">' + CATEGORIES[k][li() - 1] + '</span>';
+      }).join('');
+    }
+
+    /* ---------- Data e saluto, come nella barra in alto dell'app ---------- */
+    function renderTopbar() {
+      var lang = tbLang.current();
+      var dict = TB_I18N[lang] || TB_I18N.en;
+      var now = new Date();
+      var h = now.getHours();
+      document.querySelector('[data-greet]').textContent = h < 12 ? dict.greet_m : h < 18 ? dict.greet_a : dict.greet_e;
+      try {
+        document.querySelector('[data-date]').textContent = now.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      } catch (e) {}
+    }
+
+    function onLang() {
+      renderStores();
+      renderTopics();
+      renderTopbar();
+      if (deck.children.length) {
+        var i = state.i;
+        render();
+        state.i = i;
+      }
+    }
+    document.addEventListener('langchange', onLang);
+  </script>
+  <script src="../lang/i18n.js"></script>
+  <script>
+    render();
+    // Un solo accenno di movimento per far capire che la card si scorre
+    if (!reduce) {
+      setTimeout(function () {
+        var c = topCard();
+        if (!c || drag) return;
+        c.style.transform = 'translateX(-9%) rotate(-3deg)';
+        setTimeout(function () { if (!drag) c.style.transform = ''; }, 420);
+      }, 1600);
+    }
+  </script>
 </body>
 </html>
