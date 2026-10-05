@@ -47,97 +47,108 @@
     .round-btn:active { transform: scale(0.9); }
     .round-btn svg { width: 20px; height: 20px; }
 
-    /* ---------- Telefono (la home dell'app) ---------- */
+    /* ---------- Telefono (la home dell'app) ----------
+       Misure prese da uno screenshot reale 720x1600: 1cqw = 7,2px dello schermo del telefono */
     .phone {
-      --w: min(320px, 80vw);
-      width: var(--w); aspect-ratio: 320 / 668;
-      border-radius: calc(var(--w) * 0.155);
-      padding: calc(var(--w) * 0.03);
+      --w: min(340px, 84vw);
+      width: var(--w);
+      border-radius: calc(var(--w) * 0.12);
+      padding: calc(var(--w) * 0.026);
       background: #1C1C1E;
       box-shadow: 0 50px 90px -40px color-mix(in srgb, var(--t-primary) 70%, transparent), 0 2px 0 1px rgba(255,255,255,0.08) inset;
       flex: none;
     }
     .screen {
-      position: relative; height: 100%; overflow: hidden;
-      border-radius: calc(var(--w) * 0.125);
+      position: relative; aspect-ratio: 720 / 1600; overflow: hidden;
+      border-radius: calc(var(--w) * 0.095);
       background: linear-gradient(to bottom, var(--t-wash), var(--t-bg));
-      display: flex; flex-direction: column;
       container-type: inline-size;
       user-select: none; -webkit-user-select: none;
     }
-    .status { display: flex; justify-content: space-between; align-items: center; padding: 4.6cqw 8cqw 0; font-size: 4.4cqw; font-weight: 600; }
-    .status-icons { display: flex; gap: 1.6cqw; align-items: center; }
-    .status-icons i { display: block; background: var(--ink); border-radius: 1cqw; }
-    .island { position: absolute; top: 3cqw; left: 50%; width: 30cqw; height: 8.5cqw; margin-left: -15cqw; border-radius: 99px; background: #000; }
+    .status { position: absolute; top: 0; left: 0; right: 0; height: 11cqw; display: flex; justify-content: space-between; align-items: center; padding: 0 4.9cqw; font-size: 3.2cqw; font-weight: 500; color: rgba(28,28,30,0.75); }
+    .status-icons { display: flex; gap: 1.4cqw; align-items: center; }
+    .status-icons i { display: block; background: rgba(28,28,30,0.7); border-radius: 0.6cqw; }
+    .punch { position: absolute; top: 3.6cqw; left: 50%; width: 3.6cqw; height: 3.6cqw; margin-left: -1.8cqw; border-radius: 50%; background: #0B0B0C; }
 
-    .app-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 3cqw; padding: 6cqw 6.5cqw 0 7.5cqw; }
-    .app-date { font-size: 3.4cqw; font-weight: 700; letter-spacing: 0.09em; color: color-mix(in srgb, var(--t-primary) 75%, transparent); text-transform: uppercase; }
-    .app-greet { font-family: var(--display); font-weight: 500; font-size: 5.6cqw; color: var(--ink-2); margin-top: 1.4cqw; line-height: 1.1; }
-    .app-name { font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: 9.6cqw; line-height: 1.05; letter-spacing: -0.025em; color: var(--t-primary); }
-    .app-mood { font-size: 4.1cqw; color: var(--ink-2); margin-top: 1.4cqw; line-height: 1.3; }
+    .app-top { position: absolute; top: 13.4cqw; left: 5.6cqw; right: 4.7cqw; display: flex; justify-content: space-between; align-items: flex-start; gap: 3cqw; }
+    .app-top > div:first-child { min-width: 0; }
+    .app-date { display: none; }
+    .app-greet { font-family: var(--display); font-variation-settings: "opsz" 24; font-weight: 600; font-size: 4.7cqw; color: rgba(60,60,67,0.6); line-height: 1.15; }
+    .app-name { font-family: var(--display); font-variation-settings: "opsz" 30; font-weight: 600; font-size: 8.9cqw; line-height: 1.08; letter-spacing: -0.02em; color: var(--t-primary); }
+    .app-mood { font-size: 3.6cqw; color: var(--ink-2); margin-top: 0.6cqw; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .streak {
-      flex: none; margin-top: 3cqw; display: flex; align-items: center; gap: 2.2cqw;
-      height: 15cqw; padding: 0 4.6cqw 0 1.5cqw; border-radius: 99px; background: var(--card);
+      flex: none; margin-top: 2.6cqw; display: flex; align-items: center; gap: 2cqw;
+      height: 12cqw; padding: 0 3.6cqw 0 1cqw; border-radius: 99px; background: var(--card);
       box-shadow: 0 1.8cqw 5.4cqw color-mix(in srgb, var(--t-primary) 14%, transparent);
     }
-    .streak-ring { width: 12.4cqw; height: 12.4cqw; display: grid; place-items: center; position: relative; font-size: 5.6cqw; }
+    .streak-ring { width: 10.2cqw; height: 10.2cqw; display: grid; place-items: center; position: relative; font-size: 4.6cqw; }
     .streak-ring svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-    .streak b { font-family: var(--display); font-weight: 600; font-size: 6cqw; color: var(--t-primary); }
+    .streak b { font-family: var(--display); font-variation-settings: "opsz" 24; font-weight: 600; font-size: 5.4cqw; color: var(--t-primary); }
 
-    .deck { position: relative; flex: 1; margin: 5cqw 4.5cqw 10cqw; touch-action: pan-y; }
+    /* Il mazzo: card 90,5cqw x 148cqw, le due card sotto sporgono di 4,2cqw ciascuna */
+    .deck { position: absolute; top: 35.8cqw; left: 4.7cqw; right: 4.7cqw; height: 148.2cqw; touch-action: pan-y; }
     .card {
       position: absolute; inset: 0;
-      border-radius: 9.4cqw; overflow: hidden;
-      container-type: inline-size;
+      border-radius: 7.8cqw; overflow: hidden;
       background: var(--bg);
       color: var(--fg);
       transform-origin: 50% 100%;
-      transition: transform 0.45s var(--spring), opacity 0.35s var(--curve), box-shadow 0.4s var(--curve);
+      transition: transform 0.45s var(--spring), opacity 0.35s var(--curve), box-shadow 0.4s var(--curve), filter 0.4s var(--curve);
       will-change: transform;
       cursor: grab;
     }
-    .card.is-photo { box-shadow: 0 5cqw 9cqw rgba(0,0,0,0.32), 0 0.6cqw 2cqw rgba(0,0,0,0.16); }
-    .card:not(.is-photo) { box-shadow: 0 5cqw 10cqw color-mix(in srgb, var(--cp) 28%, transparent), 0 0.4cqw 1.2cqw rgba(0,0,0,0.08); }
+    .card.is-photo { box-shadow: 0 3.5cqw 7cqw rgba(0,0,0,0.28), 0 0.4cqw 1.4cqw rgba(0,0,0,0.14); }
+    .card:not(.is-photo) { box-shadow: 0 3.5cqw 7cqw color-mix(in srgb, var(--cp) 22%, transparent), 0 0.3cqw 1cqw rgba(0,0,0,0.07); }
     .card.is-photo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 0.8px rgba(255,255,255,0.28); pointer-events: none; }
-    .card[data-depth="1"] { transform: translateY(3.6cqw) scale(0.95); filter: brightness(0.94); }
-    .card[data-depth="2"] { transform: translateY(7cqw) scale(0.9); filter: brightness(0.88); }
-    .card[data-depth="3"] { transform: translateY(7cqw) scale(0.9); opacity: 0; }
+    .card[data-depth="1"] { transform: translateY(4.2cqw) scale(0.945); filter: brightness(0.93) saturate(0.8); }
+    .card[data-depth="2"] { transform: translateY(8.4cqw) scale(0.89); filter: brightness(0.87) saturate(0.7); }
+    .card[data-depth="3"] { transform: translateY(8.4cqw) scale(0.89); opacity: 0; }
+    /* Come nell'app, le card sotto hanno il tema di quella in cima */
+    .card[data-depth="1"], .card[data-depth="2"], .card[data-depth="3"] { background: var(--front-bg, var(--bg)); box-shadow: 0 2cqw 5cqw color-mix(in srgb, var(--t-primary) 16%, transparent); }
+    .card[data-depth="1"] .veil, .card[data-depth="2"] .veil { display: none; }
+    .card[data-depth="1"] .card-inner, .card[data-depth="2"] .card-inner, .card[data-depth="3"] .card-inner { visibility: hidden; }
     .card.is-dragging { transition: none; cursor: grabbing; }
     .card.is-flying { transition: transform 0.42s var(--decel), opacity 0.42s var(--curve); }
     .veil { position: absolute; inset: 0; pointer-events: none; }
-    .card-inner { position: relative; height: 100%; display: flex; flex-direction: column; padding: 5.5cqw; }
-    .card-row { display: flex; align-items: center; justify-content: space-between; height: 15cqw; }
+    .card-inner { position: relative; height: 100%; display: flex; flex-direction: column; padding: 3.6cqw 3.6cqw 4.2cqw; }
+    .card-row { display: flex; align-items: center; justify-content: space-between; min-height: 10.3cqw; }
     .glass {
       display: inline-flex; align-items: center; justify-content: center;
-      height: 12.5cqw; min-width: 15cqw; padding: 0 4.5cqw; border-radius: 99px;
-      background: rgba(255,255,255,0.72); color: var(--ctl);
-      box-shadow: inset 0 0 0 0.6px rgba(255,255,255,0.55);
-      font-size: 4.9cqw; font-weight: 600; white-space: nowrap;
+      height: 8.4cqw; padding: 0 3.9cqw; border-radius: 99px;
+      background: rgba(255,255,255,0.62); color: var(--ctl);
+      font-size: 3.4cqw; font-weight: 600; white-space: nowrap;
     }
-    .glass--icon { width: 15cqw; min-width: 0; height: 15cqw; padding: 0; }
-    .glass svg { width: 6.2cqw; height: 6.2cqw; }
-    .card.is-dark .glass { background: rgba(0,0,0,0.22); box-shadow: inset 0 0 0 0.6px rgba(255,255,255,0.2); }
+    .glass--icon { width: 10.3cqw; height: 10.3cqw; padding: 0; }
+    .glass--big { width: 12cqw; height: 12cqw; }
+    .glass--heart { width: 13.9cqw; height: 13.9cqw; }
+    .glass svg { width: 4.6cqw; height: 4.6cqw; }
+    .glass--big svg { width: 5cqw; height: 5cqw; }
+    .glass--heart svg { width: 6cqw; height: 6cqw; }
+    .card.is-dark .glass { background: rgba(0,0,0,0.22); }
     .phrase {
       flex: 1; display: flex; align-items: center; justify-content: center; text-align: center;
-      padding: 6cqw 3cqw;
+      padding: 4cqw 4cqw;
       font-family: var(--pf); font-weight: var(--pw); font-style: var(--ps);
-      font-size: calc(9.6cqw * var(--scale, 1));
+      font-size: calc(8cqw * var(--scale, 1));
       letter-spacing: var(--track, 0);
       line-height: 1.3;
       text-wrap: balance;
     }
     .card.is-photo.is-dark .phrase { text-shadow: 0 0.6cqw 5cqw rgba(0,0,0,0.35); }
     .card.is-photo:not(.is-dark) .phrase { text-shadow: 0 0 5cqw rgba(255,255,255,0.5); }
-    .signature { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 5cqw; color: color-mix(in srgb, var(--ctl) 55%, transparent); }
+    .signature { font-family: var(--display); font-style: italic; font-weight: 500; font-size: 3.9cqw; color: color-mix(in srgb, var(--ctl) 55%, transparent); }
     .heart.is-on svg path { fill: currentColor; }
 
     .toolbar {
-      align-self: center; display: flex; height: 18.5cqw; padding: 0 2.5cqw; margin-bottom: 7cqw;
+      position: absolute; top: 194.4cqw; left: 18.6cqw; width: 62.8cqw; height: 13.9cqw;
+      display: flex; justify-content: space-around; align-items: center; padding: 0 3cqw;
       border-radius: 99px; background: var(--card);
-      box-shadow: 0 3cqw 7.5cqw color-mix(in srgb, var(--t-primary) 16%, transparent);
+      box-shadow: 0 2.4cqw 6cqw color-mix(in srgb, var(--t-primary) 18%, transparent);
     }
-    .toolbar span { width: 19.5cqw; display: grid; place-items: center; color: var(--t-primary); }
-    .toolbar svg { width: 7.4cqw; height: 7.4cqw; }
+    .toolbar span { display: grid; place-items: center; color: var(--t-primary); }
+    .toolbar svg { width: 5.4cqw; height: 5.4cqw; }
+    .navbar { position: absolute; bottom: 0; left: 0; right: 0; height: 11cqw; display: flex; justify-content: center; align-items: center; }
+    .navbar i { width: 30cqw; height: 1.1cqw; border-radius: 9px; background: rgba(28,28,30,0.25); }
 
     /* ---------- Temi ---------- */
     .section { padding: 88px 0; }
@@ -343,10 +354,10 @@
         <div class="stage">
           <div class="phone">
             <div class="screen" aria-roledescription="app preview">
-              <div class="island" aria-hidden="true"></div>
+              <div class="punch" aria-hidden="true"></div>
               <div class="status" aria-hidden="true">
-                <span>9:41</span>
-                <span class="status-icons"><i style="width:4.4cqw;height:3cqw"></i><i style="width:4cqw;height:3cqw"></i><i style="width:6.6cqw;height:3.2cqw"></i></span>
+                <span data-clock>9:41</span>
+                <span class="status-icons"><i style="width:3.2cqw;height:2.6cqw"></i><i style="width:2.8cqw;height:2.8cqw;border-radius:0"></i><i style="width:4.4cqw;height:2.6cqw"></i></span>
               </div>
               <div class="app-top">
                 <div>
@@ -372,6 +383,7 @@
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19.5 3.5 10 13"/><path d="M10.2 12.8c-2.6-.6-4.6 1-4.8 3.4-.2 1.8-1 2.8-2.4 3.4 3.6 1.4 7.6.4 8.6-2.4.6-1.6-.1-3.6-1.4-4.4Z"/></svg></span>
                 <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/></svg></span>
               </div>
+              <div class="navbar" aria-hidden="true"><i></i></div>
             </div>
           </div>
 
@@ -730,9 +742,9 @@
           '<span class="glass">' + CATEGORIES[p[0]][li() - 1] + '</span>' +
           '<span class="glass glass--icon">' + ICON_PIN + '</span></div>' +
           '<div class="phrase">' + p[li()] + '</div>' +
-          '<div class="card-row"><span class="glass glass--icon">' + ICON_SHARE + '</span>' +
+          '<div class="card-row"><span class="glass glass--icon glass--big">' + ICON_SHARE + '</span>' +
           '<span class="signature">daygood</span>' +
-          '<span class="glass glass--icon heart' + (state.liked[i] ? ' is-on' : '') + '">' + ICON_HEART + '</span></div>' +
+          '<span class="glass glass--icon glass--heart heart' + (state.liked[i] ? ' is-on' : '') + '">' + ICON_HEART + '</span></div>' +
         '</div>';
       return el;
     }
@@ -752,6 +764,7 @@
 
     function applyTheme() {
       var t = THEMES[themeIndexFor(state.i)];
+      deck.style.setProperty('--front-bg', t.bg);
       var r = document.documentElement.style;
       r.setProperty('--t-primary', t.p);
       r.setProperty('--t-light', t.l);
@@ -891,6 +904,8 @@
       var dict = TB_I18N[lang] || TB_I18N.en;
       var now = new Date();
       var h = now.getHours();
+      var clock = document.querySelector('[data-clock]');
+      if (clock) clock.textContent = now.getHours() + ':' + ('0' + now.getMinutes()).slice(-2);
       document.querySelector('[data-greet]').textContent = h < 12 ? dict.greet_m : h < 18 ? dict.greet_a : dict.greet_e;
       try {
         document.querySelector('[data-date]').textContent = now.toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-US', { weekday: 'long', month: 'long', day: 'numeric' });
