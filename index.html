@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-time="night">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Tanabytes</title>
-  <meta name="description" content="Three friends with day jobs, building apps in the evenings. Meet Daygood and Dotted.">
+  <meta name="description" content="By day, three friends with three jobs. By night, a den where we build apps. Meet Daygood and Dotted.">
   <link rel="canonical" href="https://tanabytes.github.io/">
-  <meta name="theme-color" content="#0d0d0d">
+  <meta name="theme-color" content="#15172E">
 
   <link rel="icon" href="images/favicon-light.png" media="(prefers-color-scheme: light)">
   <link rel="icon" href="images/favicon-dark.png" media="(prefers-color-scheme: dark)">
@@ -15,24 +15,32 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tanabytes.github.io/">
   <meta property="og:title" content="Tanabytes">
-  <meta property="og:description" content="Three friends with day jobs, building apps in the evenings. Meet Daygood and Dotted.">
+  <meta property="og:description" content="By day, three friends with three jobs. By night, a den where we build apps.">
   <meta name="twitter:card" content="summary">
+
+  <!-- Il sito segue l'ora di chi lo guarda: di giorno chiaro, dalle 18 la notte della tana -->
+  <script>
+    (function () {
+      var h = new Date().getHours();
+      var forced = (location.search.match(/[?&]time=(day|night)/) || [])[1];
+      document.documentElement.setAttribute('data-time', forced || (h >= 7 && h < 18 ? 'day' : 'night'));
+    })();
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Libre+Baskerville:ital@1&family=Fraunces:opsz,wght@9..144,600&family=Caprasimo&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..700&family=Instrument+Serif:ital@1&family=Fraunces:opsz,wght@9..144,600&family=Caprasimo&display=swap" rel="stylesheet">
 
   <style>
+    /* Notte: la tana dopo le 18. Giorno: il mattino in ufficio. */
     :root {
-      --bg: #0d0d0d;
-      --surface: #141414;
-      --white: #ffffff;
-      --muted: #a8a8a8;
-      --accent: #ff520e;
-      --border: rgba(255, 255, 255, 0.1);
+      --night: #15172E;
+      --lamp: #FFB547;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
       --gutter: clamp(16px, 5vw, 64px);
-      --max: 1160px;
+      --max: 1180px;
+      --display: "Bricolage Grotesque", system-ui, sans-serif;
+      --serif: "Instrument Serif", Georgia, serif;
 
       /* I colori delle due app, presi dalle loro landing */
       --dg-cream: #F7F4EA;
@@ -47,78 +55,133 @@
       --dt-mustard: #F0B13F;
       --dt-sea: #A2A5E2;
     }
+    [data-time="night"] {
+      --bg: #15172E;
+      --surface: #1D2040;
+      --surface-2: #262A50;
+      --text: #F2EFE8;
+      --muted: #A3A6C4;
+      --line: rgba(242, 239, 232, 0.12);
+      --accent: #FFB547;
+      --accent-ink: #15172E;
+      --job: #3A3E66;
+      --sleep: rgba(242, 239, 232, 0.16);
+      --fb-bg: #23264A;
+    }
+    [data-time="day"] {
+      --bg: #E9ECF4;
+      --surface: #FFFFFF;
+      --surface-2: #F3F5FA;
+      --text: #15172E;
+      --muted: #5A5E80;
+      --line: rgba(21, 23, 46, 0.12);
+      --accent: #15172E;
+      --accent-ink: #FFFFFF;
+      --job: #C9CEE0;
+      --sleep: rgba(21, 23, 46, 0.14);
+      --fb-bg: #15172E;
+    }
 
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: "Inter", Arial, sans-serif;
-      font-size: 17px;
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      background: var(--bg); color: var(--text);
+      font-family: var(--display); font-variation-settings: "wdth" 100;
+      font-size: 17px; line-height: 1.55;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      transition: background 0.6s var(--ease), color 0.6s var(--ease);
     }
     h1, h2, h3, p { margin: 0; }
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
+    img { display: block; max-width: 100%; height: auto; }
     button { font: inherit; color: inherit; }
-    :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 10px; }
-    em.tana { font-family: "Libre Baskerville", "Times New Roman", serif; font-style: italic; font-weight: 400; letter-spacing: -0.02em; }
-
+    :focus-visible { outline: 2px solid var(--lamp); outline-offset: 4px; border-radius: 10px; }
     .wrap { width: 100%; max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+    em.tana { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+    [data-time="night"] em.tana { color: var(--lamp); }
 
-    /* ---------- Link con il testo che scorre (dal design originale) ---------- */
-    .roll { display: inline-block; height: 1.25em; overflow: hidden; vertical-align: bottom; }
-    .roll-inner { display: flex; flex-direction: column; transition: transform 0.4s var(--ease); }
-    .roll-inner span { display: block; height: 1.25em; line-height: 1.25em; }
-    .roll-inner span:last-child { color: var(--accent); }
-    a:hover .roll-inner, a:focus-visible .roll-inner { transform: translateY(-1.25em); }
-
-    /* ---------- Bagliore arancione ---------- */
-    .glow { position: absolute; background: var(--accent); filter: blur(110px); opacity: 0.45; pointer-events: none; border-radius: 50%; }
+    /* Il gufo del logo, colorato dal tema */
+    .owl { display: inline-block; background: currentColor; -webkit-mask: url(images/logo-icon.png) center / contain no-repeat; mask: url(images/logo-icon.png) center / contain no-repeat; }
 
     /* ---------- Barra in alto ---------- */
-    .header { position: fixed; top: 0; left: 0; right: 0; z-index: 10; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background: rgba(13, 13, 13, 0.4); }
+    .header { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .header-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 20px; }
-    .brand img { width: 30px; height: 30px; }
-    .nav { display: flex; align-items: center; gap: 28px; font-size: 15px; }
-    .lang { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; border: 1px solid var(--border); }
-    .lang button { border: 0; background: transparent; cursor: pointer; height: 28px; min-width: 36px; padding: 0 8px; border-radius: 999px; font-size: 13px; font-weight: 500; color: var(--muted); }
-    .lang button[aria-pressed="true"] { background: var(--white); color: var(--bg); }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; }
+    .brand .owl { width: 28px; height: 28px; }
+    .nav { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
+    .nav a { color: var(--muted); transition: color 0.2s var(--ease); }
+    .nav a:hover { color: var(--text); }
+    .seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+    .seg button { border: 0; background: transparent; cursor: pointer; height: 30px; min-width: 38px; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--muted); }
+    .seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
 
     /* ---------- Hero ---------- */
-    .hero { position: relative; padding: 168px 0 88px; overflow: hidden; }
-    .hero .glow { width: 900px; height: 260px; top: -60px; right: -180px; }
+    .hero { padding: 72px 0 96px; }
     .hero h1 {
-      position: relative;
-      font-weight: 400;
-      font-size: clamp(2.6rem, 5.5vw, 5.6rem);
-      line-height: 1.02;
-      letter-spacing: -0.045em;
+      font-weight: 500; font-variation-settings: "opsz" 96, "wdth" 82;
+      font-size: clamp(2.9rem, 7.2vw, 6.6rem); line-height: 0.96; letter-spacing: -0.035em;
     }
-    .hero h1 .line { display: block; }
-    .hero-sub { position: relative; display: grid; grid-template-columns: minmax(0, 34rem) auto; justify-content: space-between; align-items: end; gap: 32px; margin-top: 48px; }
-    .hero-sub p { font-size: clamp(1.1rem, 1.7vw, 1.35rem); font-weight: 300; color: #d6d6d6; line-height: 1.5; }
-    .to-apps { display: inline-flex; align-items: center; gap: 12px; font-size: 15px; color: var(--white); white-space: nowrap; }
-    .to-apps svg { width: 18px; height: 18px; color: var(--accent); }
+    .hero h1 span { display: block; }
+    .hero h1 em.tana { font-size: 1.1em; line-height: 0.8; }
+    .punch {
+      margin-top: 36px; max-width: 30ch;
+      font-weight: 400; font-variation-settings: "opsz" 40, "wdth" 92;
+      font-size: clamp(1.35rem, 2.6vw, 2.05rem); line-height: 1.22; letter-spacing: -0.015em;
+      color: var(--muted);
+    }
+    .punch b { font-weight: 500; color: var(--text); }
 
-    /* ---------- Le due app ---------- */
-    .apps { padding: 24px 0 120px; }
+    /* La giornata: 24 ore, il lavoro di giorno e la tana di sera, con il gufo sull'ora di adesso */
+    .day { margin-top: 72px; }
+    .day-now { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; margin-bottom: 18px; min-height: 26px; }
+    .day-now .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--lamp); box-shadow: 0 0 0 5px color-mix(in srgb, var(--lamp) 25%, transparent); flex: none; }
+    .day-bar { position: relative; height: 54px; }
+    .seg-hour { position: absolute; top: 18px; height: 18px; border-radius: 999px; }
+    .seg-sleep { background: repeating-linear-gradient(90deg, var(--sleep) 0 6px, transparent 6px 12px); height: 4px; top: 25px; }
+    .seg-job { background: var(--job); }
+    .seg-den { background: var(--lamp); box-shadow: 0 0 28px color-mix(in srgb, var(--lamp) 45%, transparent); }
+    [data-time="day"] .seg-den { box-shadow: none; }
+    .marker {
+      position: absolute; top: 0; left: 0; width: 54px; height: 54px; margin-left: -27px;
+      border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 1px var(--line), 0 8px 20px rgba(0,0,0,0.18);
+      display: grid; place-items: center; color: var(--text);
+      transition: left 1.6s var(--ease);
+    }
+    .marker .owl { width: 30px; height: 30px; }
+    .day-labels { position: relative; height: 44px; margin-top: 10px; font-size: 14px; color: var(--muted); }
+    .day-labels span { position: absolute; top: 0; white-space: nowrap; }
+    .day-labels .lbl-den { color: var(--text); font-weight: 600; }
+    .day-hours { position: relative; height: 20px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .day-hours span { position: absolute; transform: translateX(-50%); }
+    .day-hours span:first-child { transform: none; }
+    .day-hours span:last-child { transform: translateX(-100%); }
+
+    /* ---------- Le due app, ognuna nei suoi colori ---------- */
+    .apps { padding: 24px 0 112px; }
     .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    /* Cornice del sito attorno a ogni app: stessa superficie e stesso bordo del resto della pagina */
+    .app-frame {
+      display: flex; flex-direction: column;
+      padding: 8px; border-radius: 34px;
+      background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+    }
     .app {
       position: relative; display: flex; flex-direction: column; overflow: hidden;
-      min-height: 640px; border-radius: 28px; padding: clamp(28px, 3.4vw, 44px);
-      transition: transform 0.5s var(--ease);
+      flex: 1; min-height: 580px; border-radius: 26px; padding: clamp(26px, 3vw, 40px);
     }
-    .app:hover { transform: translateY(-4px); }
+    .frame-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px 18px; flex-wrap: wrap; padding: 14px 8px 6px 14px; }
+    .frame-status { font-size: 15px; color: var(--muted); }
+    .frame-status::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 9px; background: var(--st); vertical-align: 1px; }
+    .frame-cta {
+      display: inline-flex; align-items: center; height: 48px; padding: 0 22px; border-radius: 999px;
+      background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 15px;
+      transition: transform 0.15s var(--ease);
+    }
+    .frame-cta:active { transform: scale(0.97); }
     .app-head { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 18px; max-width: 26rem; }
     .app-lead { font-size: 16px; line-height: 1.55; }
-    .app-foot { position: relative; z-index: 1; margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .app-status { font-size: 14px; font-weight: 500; }
-    .app-cta { display: inline-flex; align-items: center; height: 48px; padding: 0 22px; border-radius: 999px; font-size: 15px; font-weight: 600; }
     .app-visual { position: relative; flex: 1; min-height: 300px; display: grid; place-items: center; margin: 24px 0; }
 
     /* Daygood: la crema e il lilla del tema Original, con il mazzo di frasi */
@@ -126,10 +189,8 @@
     .dg-logo { width: 140px; height: 32px; background: var(--dg-plum); -webkit-mask: url(daygood/assets/logo.png) left center / contain no-repeat; mask: url(daygood/assets/logo.png) left center / contain no-repeat; }
     .app--daygood h3 { font-family: "Fraunces", Georgia, serif; font-variation-settings: "opsz" 36; font-weight: 600; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.05; letter-spacing: -0.02em; }
     .app--daygood .app-lead { color: rgba(60, 60, 67, 0.75); }
-    .app--daygood .app-status { color: rgba(60, 60, 67, 0.75); }
-    .app--daygood .app-cta { background: var(--dg-plum); color: #fff; }
     .deck { position: relative; width: min(250px, 62%); aspect-ratio: 0.62; transform: rotate(-4deg); transition: transform 0.6s var(--ease); }
-    .app--daygood:hover .deck { transform: rotate(-1deg) translateY(-6px); }
+    .app-frame:hover .deck { transform: rotate(-1deg) translateY(-6px); }
     .deck i, .deck .phrase-card { position: absolute; inset: 0; border-radius: 26px; }
     .deck i:nth-child(1) { background: #D9BEDF; transform: translateY(26px) scale(0.89); }
     .deck i:nth-child(2) { background: #E6D1E8; transform: translateY(13px) scale(0.945); }
@@ -147,14 +208,13 @@
     .dt-logo { display: inline-flex; align-items: center; gap: 0.42em; font-family: "Caprasimo", Georgia, serif; font-size: 30px; line-height: 1; }
     .dt-logo i { width: 0.47em; height: 0.47em; border-radius: 50%; background: var(--dt-terracotta); box-shadow: 0 0 0 0.17em rgba(192, 74, 38, 0.22); }
     .app--dotted h3 { font-family: "Caprasimo", Georgia, serif; font-weight: 400; font-size: clamp(1.9rem, 3vw, 2.6rem); line-height: 1.04; }
-    .app--dotted .app-lead, .app--dotted .app-status { color: var(--dt-ink-2); }
-    .app--dotted .app-cta { background: var(--dt-terracotta); color: #FBF6EC; }
+    .app--dotted .app-lead { color: var(--dt-ink-2); }
     .passport {
       width: min(400px, 96%); border-radius: 26px; padding: 7px; background: var(--dt-bordeaux); color: #F3E9D8;
       transform: rotate(3deg); transition: transform 0.6s var(--ease);
       box-shadow: 0 30px 50px -26px rgba(90, 29, 42, 0.7);
     }
-    .app--dotted:hover .passport { transform: rotate(1deg) translateY(-6px); }
+    .app-frame:hover .passport { transform: rotate(1deg) translateY(-6px); }
     .passport-inner { border-radius: 20px; padding: 18px 18px 16px; box-shadow: inset 0 0 0 1.5px rgba(240, 177, 63, 0.45); display: flex; flex-direction: column; gap: 12px; }
     .passport-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dt-mustard); }
     .passport-title { font-family: "Caprasimo", Georgia, serif; font-size: 1.5rem; line-height: 1; margin-top: 4px; }
@@ -164,63 +224,65 @@
     .passport-stats small { display: block; font-size: 8.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(243, 233, 216, 0.6); }
     .passport-stats b { display: block; font-family: "Caprasimo", Georgia, serif; font-weight: 400; font-size: 1.6rem; line-height: 1.1; color: var(--dt-mustard); }
 
-    /* ---------- Chi siamo ---------- */
-    .about { position: relative; padding: 40px 0 120px; }
-    .about-grid { display: grid; grid-template-columns: 1fr minmax(0, 0.42fr); gap: clamp(32px, 6vw, 96px); align-items: end; border-top: 1px solid var(--border); padding-top: 72px; }
-    .about-text { font-size: clamp(1.5rem, 3.1vw, 2.5rem); font-weight: 300; line-height: 1.25; letter-spacing: -0.02em; color: #ececec; }
-    .about-side { display: flex; flex-direction: column; gap: 22px; color: var(--muted); font-size: 16px; }
-    .owls { display: flex; gap: 10px; }
-    .owls img { width: 44px; height: 44px; opacity: 0.9; }
-    .owls img:nth-child(2) { opacity: 0.6; }
-    .owls img:nth-child(3) { opacity: 0.35; }
+    .apps-title { font-weight: 500; font-variation-settings: "opsz" 72, "wdth" 85; font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1; letter-spacing: -0.03em; margin-bottom: 36px; }
 
     /* ---------- Feedback ---------- */
-    .feedback { position: relative; overflow: hidden; padding: 112px 0 96px; text-align: center; }
-    .feedback .glow { width: 760px; height: 220px; left: 50%; bottom: -150px; margin-left: -380px; opacity: 0.5; }
-    .feedback h2 { position: relative; font-weight: 400; font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -0.035em; max-width: 16ch; margin: 0 auto; }
-    .feedback p { position: relative; color: var(--muted); max-width: 40ch; margin: 20px auto 36px; font-size: 1.1rem; font-weight: 300; }
-    .mail {
-      position: relative; display: inline-flex; align-items: center; gap: 12px;
-      font-size: clamp(1.15rem, 2.6vw, 1.6rem); font-weight: 400;
-      padding-bottom: 6px; border-bottom: 1.5px solid var(--accent);
+    .feedback { padding: 0 0 104px; }
+    .feedback-box {
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: end;
+      padding: clamp(32px, 5vw, 64px); border-radius: 34px;
+      background: var(--fb-bg); color: #F2EFE8; position: relative; overflow: hidden;
     }
+    .feedback-box::after { content: ""; position: absolute; width: 420px; height: 420px; right: -120px; top: -200px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--lamp) 45%, transparent), transparent 70%); pointer-events: none; }
+    .feedback h2 { position: relative; font-weight: 500; font-variation-settings: "opsz" 72, "wdth" 85; font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1; letter-spacing: -0.03em; max-width: 14ch; }
+    .feedback p { position: relative; margin-top: 18px; color: #A3A6C4; max-width: 44ch; font-size: 1.08rem; }
+    .mail {
+      position: relative; display: inline-flex; align-items: center; height: 56px; padding: 0 26px; border-radius: 999px;
+      background: var(--lamp); color: #15172E; font-weight: 600; font-size: 17px; white-space: nowrap;
+      transition: transform 0.15s var(--ease);
+    }
+    .mail:active { transform: scale(0.97); }
 
     /* ---------- Footer ---------- */
-    .footer { position: relative; padding: 40px 0 48px; border-top: 1px solid var(--border); }
-    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
-    .footer-logo { width: 140px; height: auto; }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 15px; color: #d6d6d6; }
-    .footer-copy { width: 100%; font-size: 13px; color: #6f6f6f; }
+    .footer { padding: 0 0 48px; }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; padding-top: 28px; box-shadow: 0 -1px 0 var(--line); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 15px; color: var(--muted); }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 14px; color: var(--muted); }
 
-    /* ---------- Il titolo entra una riga alla volta ---------- */
-    .rise { opacity: 0; transform: translateY(24px); animation: rise 1.1s var(--ease) forwards; animation-delay: var(--d, 0.2s); }
+    /* ---------- Un solo movimento all'apertura: il titolo, poi il gufo che va all'ora di adesso ---------- */
+    .rise { opacity: 0; transform: translateY(22px); animation: rise 1s var(--ease) forwards; animation-delay: var(--d, 0.1s); }
     @keyframes rise { to { opacity: 1; transform: none; } }
-
     @media (prefers-reduced-motion: reduce) {
       .rise { opacity: 1; transform: none; animation: none; }
-      .app, .deck, .passport, .roll-inner { transition: none !important; }
+      .marker, .deck, .passport, body { transition: none !important; }
     }
 
     /* ---------- Tablet ---------- */
     @media (max-width: 900px) {
       .apps-grid { grid-template-columns: 1fr; }
       .app { min-height: 0; }
-      .about-grid { grid-template-columns: 1fr; align-items: start; }
+      .feedback-box { grid-template-columns: 1fr; align-items: start; }
     }
 
     /* ---------- Telefono ---------- */
     @media (max-width: 640px) {
       .nav .nav-app { display: none; }
-      .hero { padding: 128px 0 56px; }
-      .hero .glow { width: 360px; height: 300px; right: -120px; }
-      .hero-sub { grid-template-columns: 1fr; margin-top: 32px; }
+      .hero { padding: 48px 0 72px; }
+      .hero h1 { letter-spacing: -0.02em; font-variation-settings: "opsz" 72, "wdth" 88; }
+      .apps-title, .app h3, .feedback h2 { letter-spacing: -0.015em; }
+      .punch { margin-top: 28px; }
+      .day { margin-top: 52px; }
+      .day-labels { font-size: 13px; }
+      .day-labels .lbl-job span.long, .day-labels .lbl-den span.long { display: none; }
       .apps { padding-bottom: 80px; }
-      .app { border-radius: 24px; padding: 26px 22px; }
+      .app-frame { border-radius: 30px; padding: 7px; }
+      .app { border-radius: 23px; padding: 26px 22px; }
+      .frame-cta { flex: 1 1 auto; justify-content: center; }
       .app-visual { min-height: 260px; margin: 28px 0; }
-      .about { padding-bottom: 80px; }
-      .about-grid { padding-top: 56px; }
-      .feedback { padding: 88px 0 80px; }
-      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .feedback { padding-bottom: 72px; }
+      .feedback-box { border-radius: 26px; }
+      .mail { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -228,11 +290,11 @@
 
   <header class="header">
     <div class="wrap header-inner">
-      <a class="brand" href="./" aria-label="Tanabytes"><img src="images/logo-icon.png" alt="Tanabytes" width="30" height="30"></a>
+      <a class="brand" href="./"><span class="owl" aria-hidden="true"></span>Tanabytes</a>
       <nav class="nav">
-        <a class="nav-app" href="daygood/"><span class="roll"><span class="roll-inner"><span>Daygood</span><span aria-hidden="true">Daygood</span></span></span></a>
-        <a class="nav-app" href="dotted/"><span class="roll"><span class="roll-inner"><span>Dotted</span><span aria-hidden="true">Dotted</span></span></span></a>
-        <div class="lang" role="group" aria-label="Language">
+        <a class="nav-app" href="daygood/">Daygood</a>
+        <a class="nav-app" href="dotted/">Dotted</a>
+        <div class="seg" role="group" aria-label="Language">
           <button type="button" data-lang-set="it">IT</button>
           <button type="button" data-lang-set="en">EN</button>
         </div>
@@ -243,127 +305,145 @@
   <main>
     <!-- ===== Hero ===== -->
     <section class="hero">
-      <div class="glow" aria-hidden="true"></div>
       <div class="wrap">
         <h1>
-          <span class="line rise" style="--d:.15s">Coded at the speed of AI.</span>
-          <span class="line rise" style="--d:.35s">Crafted with <em class="tana">tana</em> obsession.</span>
+          <span class="rise" style="--d:.1s">Coded at the speed of AI.</span>
+          <span class="rise" style="--d:.25s">Crafted with <em class="tana">tana</em> obsession.</span>
         </h1>
-        <div class="hero-sub rise" style="--d:.7s">
-          <p data-i18n="hero_sub">We're three friends with day jobs, building apps in the evenings and on weekends. Here are the first two.</p>
-          <a class="to-apps" href="#apps"><span class="roll"><span class="roll-inner"><span data-i18n="to_apps">See the apps</span><span aria-hidden="true" data-i18n="to_apps">See the apps</span></span></span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+        <p class="punch rise" style="--d:.5s" data-i18n="punch">By day, three friends with three jobs. <b>By night, a den where apps are born.</b></p>
+
+        <div class="day rise" style="--d:.7s">
+          <p class="day-now" aria-live="polite"><span class="dot" aria-hidden="true"></span><span data-now></span></p>
+          <div class="day-bar" aria-hidden="true">
+            <span class="seg-hour seg-sleep" style="left:0;width:37.5%"></span>
+            <span class="seg-hour seg-job" style="left:37.5%;width:37.5%"></span>
+            <span class="seg-hour seg-den" style="left:75%;width:25%"></span>
+            <span class="marker" data-marker style="left:0"><span class="owl"></span></span>
+          </div>
+          <div class="day-labels" aria-hidden="true">
+            <span style="left:0" data-i18n="lbl_sleep">Sleep</span>
+            <span class="lbl-job" style="left:37.5%" data-i18n="lbl_job">Day jobs</span>
+            <span class="lbl-den" style="left:75%" data-i18n="lbl_den">Tanabytes</span>
+          </div>
+          <div class="day-hours" aria-hidden="true">
+            <span style="left:0">00</span><span style="left:25%">06</span><span style="left:50%">12</span><span style="left:75%">18</span><span style="left:100%">24</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ===== Le app ===== -->
-    <section class="apps" id="apps" aria-label="Apps">
-      <div class="wrap apps-grid">
-        <a class="app app--daygood" href="daygood/">
-          <div class="app-head">
-            <span class="dg-logo" role="img" aria-label="Daygood"></span>
-            <h3 data-i18n="dg_title">A good phrase, every day.</h3>
-            <p class="app-lead" data-i18n="dg_lead">Over 3,000 phrases in 17 topics, 32 themes, a home screen widget and a gentle daily reminder.</p>
-          </div>
-          <div class="app-visual" aria-hidden="true">
-            <div class="deck">
-              <i></i><i></i>
-              <div class="phrase-card">
-                <span class="phrase-chip" data-i18n="dg_chip">Good Morning</span>
-                <span class="phrase-text" data-i18n="dg_phrase">Today, try to be someone's good morning</span>
-                <span class="phrase-sign">daygood</span>
+    <section class="apps" id="apps" aria-labelledby="apps-title">
+      <div class="wrap">
+        <h2 class="apps-title" id="apps-title" data-i18n="apps_title">What came out of the den.</h2>
+        <div class="apps-grid">
+        <article class="app-frame">
+          <a class="app app--daygood" href="daygood/">
+            <div class="app-head">
+              <span class="dg-logo" role="img" aria-label="Daygood"></span>
+              <h3 data-i18n="dg_title">A good phrase, every day.</h3>
+              <p class="app-lead" data-i18n="dg_lead">Over 3,000 phrases in 17 topics, 32 themes, a home screen widget and a gentle daily reminder.</p>
+            </div>
+            <div class="app-visual" aria-hidden="true">
+              <div class="deck">
+                <i></i><i></i>
+                <div class="phrase-card">
+                  <span class="phrase-chip" data-i18n="dg_chip">Good Morning</span>
+                  <span class="phrase-text" data-i18n="dg_phrase">Today, try to be someone's good morning</span>
+                  <span class="phrase-sign">daygood</span>
+                </div>
               </div>
             </div>
+          </a>
+          <div class="frame-foot">
+            <span class="frame-status" style="--st:#3DBE6B" data-i18n="dg_status">Free on Google Play</span>
+            <a class="frame-cta" href="daygood/" data-i18n="dg_cta">Discover Daygood</a>
           </div>
-          <div class="app-foot">
-            <span class="app-status" data-i18n="dg_status">Free on Google Play</span>
-            <span class="app-cta" data-i18n="dg_cta">Discover Daygood</span>
-          </div>
-        </a>
+        </article>
 
-        <a class="app app--dotted" href="dotted/">
-          <div class="app-head">
-            <span class="dt-logo" aria-label="Dotted"><i aria-hidden="true"></i>dotted</span>
-            <h3 data-i18n="dt_title">A dot for every place you love.</h3>
-            <p class="app-lead" data-i18n="dt_lead">From your photos or a Google Maps list to a map to share, and a passport with every place you've been.</p>
-          </div>
-          <div class="app-visual" aria-hidden="true">
-            <div class="passport">
-              <div class="passport-inner">
-                <div>
-                  <div class="passport-kicker" data-i18n="dt_kicker">Passport</div>
-                  <div class="passport-title" data-i18n="dt_ptitle">All my places</div>
-                </div>
-                <div class="passport-map">
-                  <img src="dotted/assets/world-passport.svg" alt="" width="1080" height="423">
-                  <svg viewBox="0 0 1080 423">
-                    <g fill="#2A1E17" stroke="#FBF6EC" stroke-width="3">
-                      <circle cx="577" cy="127" r="9"/><circle cx="513" cy="136" r="9"/><circle cx="318" cy="130" r="9"/>
-                      <circle cx="474" cy="59" r="9"/><circle cx="324" cy="293" r="9"/><circle cx="546" cy="128" r="9"/>
-                      <circle cx="595" cy="354" r="9"/><circle cx="959" cy="145" r="9"/><circle cx="994" cy="354" r="9"/>
-                      <circle cx="611" cy="138" r="9"/>
-                    </g>
-                  </svg>
-                </div>
-                <div class="passport-stats">
-                  <div><small data-i18n="dt_countries">Countries</small><b>10</b></div>
-                  <div><small data-i18n="dt_continents">Continents</small><b>6</b></div>
-                  <div><small data-i18n="dt_regions">Regions</small><b>12</b></div>
-                  <div><small data-i18n="dt_stamps">Stamps</small><b>18</b></div>
+        <article class="app-frame">
+          <a class="app app--dotted" href="dotted/">
+            <div class="app-head">
+              <span class="dt-logo" aria-label="Dotted"><i aria-hidden="true"></i>dotted</span>
+              <h3 data-i18n="dt_title">A dot for every place you love.</h3>
+              <p class="app-lead" data-i18n="dt_lead">From your photos or a Google Maps list to a map to share, and a passport with every place you've been.</p>
+            </div>
+            <div class="app-visual" aria-hidden="true">
+              <div class="passport">
+                <div class="passport-inner">
+                  <div>
+                    <div class="passport-kicker" data-i18n="dt_kicker">Passport</div>
+                    <div class="passport-title" data-i18n="dt_ptitle">All my places</div>
+                  </div>
+                  <div class="passport-map">
+                    <img src="dotted/assets/world-passport.svg" alt="" width="1080" height="423">
+                    <svg viewBox="0 0 1080 423">
+                      <g fill="#2A1E17" stroke="#FBF6EC" stroke-width="3">
+                        <circle cx="577" cy="127" r="9"/><circle cx="513" cy="136" r="9"/><circle cx="318" cy="130" r="9"/>
+                        <circle cx="474" cy="59" r="9"/><circle cx="324" cy="293" r="9"/><circle cx="546" cy="128" r="9"/>
+                        <circle cx="595" cy="354" r="9"/><circle cx="959" cy="145" r="9"/><circle cx="994" cy="354" r="9"/>
+                        <circle cx="611" cy="138" r="9"/>
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="passport-stats">
+                    <div><small data-i18n="dt_countries">Countries</small><b>10</b></div>
+                    <div><small data-i18n="dt_continents">Continents</small><b>6</b></div>
+                    <div><small data-i18n="dt_regions">Regions</small><b>12</b></div>
+                    <div><small data-i18n="dt_stamps">Stamps</small><b>18</b></div>
+                  </div>
                 </div>
               </div>
             </div>
+          </a>
+          <div class="frame-foot">
+            <span class="frame-status" style="--st:var(--lamp)" data-i18n="dt_status">Coming soon on Android and iPhone</span>
+            <a class="frame-cta" href="dotted/" data-i18n="dt_cta">Discover Dotted</a>
           </div>
-          <div class="app-foot">
-            <span class="app-status" data-i18n="dt_status">Coming soon on Android and iPhone</span>
-            <span class="app-cta" data-i18n="dt_cta">Discover Dotted</span>
-          </div>
-        </a>
+        </article>
+      </div>
       </div>
     </section>
 
-    <!-- ===== Chi siamo ===== -->
-    <section class="about" aria-label="About us">
-      <div class="wrap"><div class="about-grid">
-        <p class="about-text" data-i18n="about_text">Three friends, three day jobs. Tanabytes is what we make after hours: small apps we wanted on our own phones, built fast with AI and finished by hand, one detail at a time.</p>
-        <div class="about-side">
-          <div class="owls" aria-hidden="true"><img src="images/logo-icon.png" alt=""><img src="images/logo-icon.png" alt=""><img src="images/logo-icon.png" alt=""></div>
-          <p data-i18n="about_side">“Tana” is Italian for den. This one is ours.</p>
-        </div>
-      </div></div>
-    </section>
 
     <!-- ===== Feedback ===== -->
     <section class="feedback" aria-labelledby="fb-title">
-      <div class="glow" aria-hidden="true"></div>
       <div class="wrap">
-        <h2 id="fb-title" data-i18n="fb_title">Using our apps? Tell us what you think.</h2>
-        <p data-i18n="fb_text">A bug, an idea, a phrase you'd like to read, a place that's missing: we read every message.</p>
-        <a class="mail" href="mailto:tanabytes@gmail.com"><span class="roll"><span class="roll-inner"><span>tanabytes@gmail.com</span><span aria-hidden="true">tanabytes@gmail.com</span></span></span></a>
+        <div class="feedback-box">
+          <div>
+            <h2 id="fb-title" data-i18n="fb_title">Using our apps? Tell us what you think.</h2>
+            <p data-i18n="fb_text">A bug, an idea, a phrase you'd like to read, a place that's missing. We read every message, usually after 6 pm.</p>
+          </div>
+          <a class="mail" href="mailto:tanabytes@gmail.com">tanabytes@gmail.com</a>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap footer-inner">
-      <img class="footer-logo" src="images/footer-logo.png" alt="Tanabytes" width="896" height="178" loading="lazy">
+    <div class="wrap"><div class="footer-inner">
+      <a class="brand" href="./"><span class="owl" aria-hidden="true"></span>Tanabytes</a>
       <nav class="footer-links">
-        <a href="daygood/"><span class="roll"><span class="roll-inner"><span>Daygood</span><span aria-hidden="true">Daygood</span></span></span></a>
-        <a href="dotted/"><span class="roll"><span class="roll-inner"><span>Dotted</span><span aria-hidden="true">Dotted</span></span></span></a>
-        <a href="daygood/privacy.html"><span class="roll"><span class="roll-inner"><span data-i18n="privacy">Daygood privacy</span><span aria-hidden="true" data-i18n="privacy">Daygood privacy</span></span></span></a>
-        <a href="mailto:tanabytes@gmail.com"><span class="roll"><span class="roll-inner"><span>E-mail</span><span aria-hidden="true">E-mail</span></span></span></a>
+        <a href="daygood/">Daygood</a>
+        <a href="dotted/">Dotted</a>
+        <a href="daygood/privacy.html" data-i18n="privacy_dg">Daygood privacy</a>
+        <a href="dotted/privacy.html" data-i18n="privacy_dt">Dotted privacy</a>
+        <a href="mailto:tanabytes@gmail.com">E-mail</a>
       </nav>
       <p class="footer-copy">© 2026 Tanabytes</p>
-    </div>
+    </div></div>
   </footer>
 
   <script>
     window.TB_I18N = {
       en: {
         page_title: 'Tanabytes',
-        hero_sub: "We're three friends with day jobs, building apps in the evenings and on weekends. Here are the first two.",
-        to_apps: 'See the apps',
+        punch: 'By day, three friends with three jobs. <b>By night, a den where apps are born.</b>',
+        lbl_sleep: 'Sleep', lbl_job: 'Day jobs', lbl_den: 'Tanabytes',
+        now_job: "It's {t}. We're at our day jobs.",
+        now_den: "It's {t}. We're in the den.",
+        now_sleep: "It's {t}. Even owls sleep.",
+        apps_title: 'What came out of the den.',
         dg_title: 'A good phrase, every day.',
         dg_lead: 'Over 3,000 phrases in 17 topics, 32 themes, a home screen widget and a gentle daily reminder.',
         dg_chip: 'Good Morning', dg_phrase: "Today, try to be someone's good morning",
@@ -373,16 +453,18 @@
         dt_kicker: 'Passport', dt_ptitle: 'All my places',
         dt_countries: 'Countries', dt_continents: 'Continents', dt_regions: 'Regions', dt_stamps: 'Stamps',
         dt_status: 'Coming soon on Android and iPhone', dt_cta: 'Discover Dotted',
-        about_text: 'Three friends, three day jobs. Tanabytes is what we make after hours: small apps we wanted on our own phones, built fast with AI and finished by hand, one detail at a time.',
-        about_side: '“Tana” is Italian for den. This one is ours.',
         fb_title: 'Using our apps? Tell us what you think.',
-        fb_text: "A bug, an idea, a phrase you'd like to read, a place that's missing: we read every message.",
-        privacy: 'Daygood privacy'
+        fb_text: "A bug, an idea, a phrase you'd like to read, a place that's missing. We read every message, usually after 6 pm.",
+        privacy_dg: 'Daygood privacy', privacy_dt: 'Dotted privacy'
       },
       it: {
         page_title: 'Tanabytes',
-        hero_sub: 'Siamo tre amici con un lavoro, e la sera e nel weekend facciamo app. Ecco le prime due.',
-        to_apps: 'Guarda le app',
+        punch: 'Di giorno, tre amici con tre lavori. <b>Di sera, una tana dove nascono app.</b>',
+        lbl_sleep: 'Sonno', lbl_job: 'Lavoro', lbl_den: 'Tanabytes',
+        now_job: 'Sono le {t}: siamo al lavoro.',
+        now_den: 'Sono le {t}: siamo in tana.',
+        now_sleep: 'Sono le {t}: dormono anche i gufi.',
+        apps_title: 'Uscito dalla tana.',
         dg_title: 'Una frase buona, ogni giorno.',
         dg_lead: 'Oltre 3.000 frasi in 17 argomenti, 32 temi, un widget per la Home e un promemoria gentile ogni giorno.',
         dg_chip: 'Buongiorno', dg_phrase: 'Oggi prova a essere il buongiorno di qualcuno',
@@ -392,14 +474,30 @@
         dt_kicker: 'Passaporto', dt_ptitle: 'Tutti i miei posti',
         dt_countries: 'Paesi', dt_continents: 'Continenti', dt_regions: 'Regioni', dt_stamps: 'Timbri',
         dt_status: 'Presto su Android e iPhone', dt_cta: 'Scopri Dotted',
-        about_text: 'Tre amici, tre lavori. Tanabytes è quello che facciamo fuori orario: piccole app che volevamo sui nostri telefoni, costruite in fretta con l\'AI e rifinite a mano, un dettaglio alla volta.',
-        about_side: 'La tana è dove si torna. Questa è la nostra.',
         fb_title: 'Usi le nostre app? Dicci cosa ne pensi.',
-        fb_text: 'Un bug, un\'idea, una frase che vorresti leggere, un posto che manca: leggiamo ogni messaggio.',
-        privacy: 'Privacy di Daygood'
+        fb_text: 'Un bug, un\'idea, una frase che vorresti leggere, un posto che manca. Leggiamo ogni messaggio, di solito dopo le 18.',
+        privacy_dg: 'Privacy di Daygood', privacy_dt: 'Privacy di Dotted'
       }
     };
   </script>
   <script src="lang/i18n.js"></script>
+  <script>
+    // La giornata: il gufo va all'ora di adesso e la frase dice dove siamo
+    (function () {
+      var marker = document.querySelector('[data-marker]');
+      var nowEl = document.querySelector('[data-now]');
+      function render() {
+        var d = new Date(), h = d.getHours(), m = d.getMinutes();
+        var t = TB_I18N[tbLang.current()] || TB_I18N.en;
+        var time = h + ':' + ('0' + m).slice(-2);
+        var key = h >= 18 || h < 1 ? 'now_den' : h >= 9 ? 'now_job' : 'now_sleep';
+        nowEl.textContent = t[key].replace('{t}', time);
+        marker.style.left = ((h + m / 60) / 24 * 100) + '%';
+      }
+      document.addEventListener('langchange', render);
+      setTimeout(render, 700);
+      setInterval(render, 60000);
+    })();
+  </script>
 </body>
 </html>
